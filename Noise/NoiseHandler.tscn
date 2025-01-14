@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bro5jjxdt6y85"]
+
+[ext_resource type="Script" path="res://Noise/noise_handler.gd" id="1_8c6n4"]
+
+[node name="NoiseHandler" type="Node"]
+script = ExtResource("1_8c6n4")

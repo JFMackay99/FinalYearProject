@@ -1,0 +1,3 @@
+extends Node
+
+enum DUNGEON_TILES {ROCK = 0, ROOM = 1, UP_STAIRS = 2, DOWN_STAIRS = 3, FORBIDDEN = 4, DUAL_STAIRS = 5}

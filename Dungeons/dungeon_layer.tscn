@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://w1ak7v5vdxom"]
+
+[ext_resource type="Script" path="res://Dungeons/dungeon_layer.gd" id="1_e3qek"]
+
+[node name="DungeonLayer" type="Node"]
+script = ExtResource("1_e3qek")

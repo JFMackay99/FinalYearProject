@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://g6rra3eo5euv"]
+
+[ext_resource type="PackedScene" uid="uid://chuuk0ln5akne" path="res://Overworld/Viewer.tscn" id="1_tib8x"]
+[ext_resource type="PackedScene" uid="uid://jqekjtjyovq8" path="res://Dungeons/dungeon_viewer.tscn" id="2_7l8aw"]
+
+[node name="Main" type="Node"]
+
+[node name="OverworldViewer" parent="." instance=ExtResource("1_tib8x")]
+position = Vector2(-2, 1)
+
+[node name="DungeonViewer" parent="." instance=ExtResource("2_7l8aw")]
