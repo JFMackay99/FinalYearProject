@@ -100,7 +100,6 @@ func GenerateDungeonLayers(entrances: Array):
 	var processedEntrances: Array[Vector3i]
 	for entrance in entrances:
 		var z = floor(entrance.z)
-		var dungeonEntrance = GetCentralPointFromOverWorldVect(entrance)
 		processedEntrances.append(Vector3i(entrance.x, entrance.y, z))
 		layers[z].addEntrance(GetCentralPointFromOverWorldVect(entrance))
 
