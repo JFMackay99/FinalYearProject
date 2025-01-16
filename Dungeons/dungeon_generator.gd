@@ -11,12 +11,18 @@ var maxHeightLevels = 8
 var maxMapWidth
 var maxMapHeight
 
+# Pathfinding weight factor for lower levels: cost is Weight*(maxHeights+1-layerHeight)
+var heightLayerWeightFactor = 10
+
+# Pathfinding weight factor for changing height layers
+var heightChangeCostFactor = 10
+
 # Room numbers. Currently unused.
 var minRooms = 0
 var maxRooms = 0
 
 # Pathfinding algorithm for getting path between entrances
-var pathfinder: AStar3D
+var pathfinder: modifiedAStar3D
 
 # Stores the heights of the overworld map
 var OverworldHeights : Array
@@ -141,7 +147,7 @@ func GenerateDungeonLayers(entrances: Array):
 # Intialise the pathfinder
 func InitialisePathfinderFromOverworld(overworld):
 	if pathfinder == null:
-		pathfinder = AStar3D.new()
+		pathfinder = modifiedAStar3D.new()
 	pathfinder.clear()
 	var maxOverworldWidth = overworld.size()
 	var maxOverworldHeight = overworld[0].size()
@@ -149,22 +155,29 @@ func InitialisePathfinderFromOverworld(overworld):
 	
 	# For each HeightLevel, add cells that would not be Outside
 	for z in maxHeightLevels:
+		var cost = heightLayerWeightFactor*(maxHeightLevels-z)#(maxHeightLevels+1-z)*heightLayerWeightFactor 
 		for y in maxOverworldHeight:
 			for x in maxOverworldWidth:
 				var cellHeight = overworld[x][y]
+				if x == 63:
+						var foo = 1
 				if cellHeight >= z:
 					var location = Vector3(x,y,z)
 					var id =CellVectToAStarID(location)
-					pathfinder.add_point(id, location)
+					pathfinder.add_point(id, location, cost)
 
 # Connect the points of the pathfinder
 func ConnectPathfinderFromOverworld():
+	var maxOverworldWidth = OverworldHeights.size()
+	var maxOverworldHeight = OverworldHeights[0].size()
 	# Go through each cell that has a point in the pathfinder
 	for z in maxHeightLevels:
-		for y in maxMapHeight:
-			for x in maxMapWidth:
+		for y in maxOverworldHeight:
+			for x in maxOverworldWidth:
 				var locationId = CellCoordsToAStarID(x,y,z)
 				if pathfinder.has_point(locationId):
+					if x == 63:
+						var foo = 1
 					# Connect adjacent points that will not have been added already
 					for neighbourVector in [Vector3(x+1, y, z), Vector3(x,y+1,z), Vector3(x,y,z+1)]:
 						var neighbourId = CellVectToAStarID(neighbourVector)
@@ -367,7 +380,7 @@ func GenerateRectangleRoom(layer: DungeonLayer, xStart: int, yStart: int, width:
 
 # For a given point in a dungeon layer, gets the central point of the corresponding overworld coordinate
 func GetCentralPointFromDungeonPoint(x,y):
-	var owVect = GetOverworldCoordsFromDungeonPoint(x,y)
+	var owVect = GetOverworldCellCoordsFromDungeonPoint(x,y)
 	return GetCentralPointFromOverWorldVect(owVect)
 
 # Gets an area of the dungeon layer that corresponds to the given overworld coordinates
@@ -383,7 +396,9 @@ func GetDungeonAreaFromOverworldCoords(owCoords):
 # coordinates
 func GetCentralPointFromOverWorldVect(cellVect):
 	return GetCentralPointFromOverWorldCoords(cellVect.x, cellVect.y)
-	
+
+# Gets the central point of an area of the dungeon layers that correspond to the given overworld
+# coordinates
 func GetCentralPointFromOverWorldCoords(cellX, cellY):
 	var x = cellX * dungeonToOverworldScale + (dungeonToOverworldScale/2)
 	var y = cellY * dungeonToOverworldScale + (dungeonToOverworldScale/2)
@@ -392,7 +407,7 @@ func GetCentralPointFromOverWorldCoords(cellX, cellY):
 
 
 # Gets the overworld coordinates corresponding to a given point in a dungeon layer
-func GetOverworldCoordsFromDungeonPoint(x,y):
+func GetOverworldCellCoordsFromDungeonPoint(x,y):
 	return Vector2(x/dungeonToOverworldScale, y/dungeonToOverworldScale)
 
 # Updates the seed buffer
@@ -422,4 +437,37 @@ func CellVectToAStarID(vector : Vector3):
 	return CellCoordsToAStarID(vector.x, vector.y, vector.z)
 
 func CellCoordsToAStarID(x: int, y: int, z: int):
-	return floor(z)*(OverworldHeights.size()*OverworldHeights[0].size())+y*OverworldHeights.size() +x
+	return floor(z)*(100*OverworldHeights.size()*OverworldHeights[0].size())+10*y*OverworldHeights.size() +x
+
+
+func UpdateHeightLayerWeightFactor(value):
+	heightLayerWeightFactor = value
+	
+func UpdateHeightChangeCostFactor(value):
+	heightChangeCostFactor = value
+	pathfinder.heightChangeCostFactor = value
+
+
+# Modification of the pathfinding heuristic to allow changing height layers to have a different cost
+# in order to discourage unnecessary changes in heights
+class modifiedAStar3D extends AStar3D:
+	var heightChangeCostFactor = 10
+	
+	func _compute_cost(from_id: int, to_id: int) -> float:
+		var fromVector = get_point_position(from_id)
+		var toVector = get_point_position(to_id)
+		var dx = abs(fromVector.x - toVector.x)
+		var dy = abs(fromVector.y - toVector.y)
+		var dz = heightChangeCostFactor * abs(fromVector.z - toVector.z)
+		
+		return sqrt(dx*dx+dy*dy+dz*dz)
+
+	func _estimate_cost(from_id: int, to_id: int) -> float:
+		var fromVector = get_point_position(from_id)
+		var toVector = get_point_position(to_id)
+		var dx = abs(fromVector.x - toVector.x)
+		var dy = abs(fromVector.y - toVector.y)
+		var dz = heightChangeCostFactor * abs(fromVector.z - toVector.z)
+		
+		return sqrt(dx*dx+dy*dy+dz*dz)
+		
