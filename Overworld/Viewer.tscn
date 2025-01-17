@@ -562,9 +562,18 @@ text = "100%
 "
 script = ExtResource("13_ijeq1")
 
+[connection signal="item_selected" from="HeightNoiseControl/TypeDropDown" to="GenerationManager" method="UpdateHeightNoiseType"]
+[connection signal="value_changed" from="HeightNoiseControl/SeedEdit" to="GenerationManager" method="UpdateHeightNoiseSeed"]
+[connection signal="value_changed" from="HeightNoiseControl/FrequencyEdit" to="GenerationManager" method="UpdateHeightNoiseFrequency"]
 [connection signal="value_changed" from="HeightNoiseControl/FrequencyEdit" to="HeightNoiseControl/HFreqValue" method="_on_frequency_edit_value_changed"]
 [connection signal="pressed" from="HeightNoiseControl/RegenerateButton" to="." method="GenerateMap"]
+[connection signal="value_changed" from="DungeonControl/DSeedEdit" to="GenerationManager" method="UpdateDungeonSeed"]
+[connection signal="value_changed" from="DungeonControl/OverworldToDungeonScaleBox" to="GenerationManager" method="UpdateScale"]
 [connection signal="pressed" from="DungeonControl/DRegenerateButton" to="." method="RegenerateDungeon"]
+[connection signal="value_changed" from="DungeonControl/MinRoomSelect" to="GenerationManager" method="UpdateMinRooms"]
+[connection signal="value_changed" from="DungeonControl/MaxRoomSelect" to="GenerationManager" method="UpdateMaxRooms"]
+[connection signal="value_changed" from="DungeonControl/HeightLayerWeightSelector" to="GenerationManager" method="UpdateHeightLayerWeightSelector"]
+[connection signal="value_changed" from="DungeonControl/HeightChangeWeightSelector" to="GenerationManager" method="UpdateHeightChangeWeightSelector"]
 [connection signal="item_selected" from="ViewControls/LayerSelect" to="." method="ChangeView"]
 [connection signal="value_changed" from="ViewControls/SpeedSlider" to="MapViewContainer/MapSubViewport/MapViewCamera" method="UpdateSpeed"]
 [connection signal="value_changed" from="ViewControls/SpeedSlider" to="ViewControls/SpeedSlider/CameraSpeedLabel" method="UpdateValue"]

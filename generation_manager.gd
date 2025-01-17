@@ -43,3 +43,32 @@ func _GenerateDungeon() -> void:
 	var generateDungeonTime = endGenerateDungeon-startGenerateDungeon
 	var dungeonLayers = layers
 	map.dungeon = layers
+
+
+func UpdateHeightChangeWeightSelector(value: float) -> void:
+	$DungeonGenerator.UpdateHeightChangeCostFactor(value)
+
+func UpdateHeightLayerWeightSelector(value: float) -> void:
+	$DungeonGenerator.UpdateHeightLayerWeightFactor(value)
+
+func UpdateMaxRooms(value: float) -> void:
+	$DungeonGenerator.UpdateMaxRooms(value)
+
+func UpdateMinRooms(value: float) -> void:
+	$DungeonGenerator.UpdateMinRooms(value)
+
+func UpdateScale(value: float) -> void:
+	$DungeonGenerator.UpdateScale(value)
+
+func UpdateDungeonSeed(value: float) -> void:
+	$DungeonGenerator.UpdateSeedValue(value)
+
+
+func UpdateHeightNoiseFrequency(value: float) -> void:
+	$OverworldMapGenerator.UpdateHeightNoiseFrequency(value)
+
+func UpdateHeightNoiseSeed(value: float) -> void:
+	$OverworldMapGenerator.UpdateHeightNoiseSeed(value)
+
+func UpdateHeightNoiseType(index: int) -> void:
+	$OverworldMapGenerator.UpdateHeightNoiseType(index)
