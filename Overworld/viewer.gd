@@ -36,48 +36,6 @@ func _ready() -> void:
 	for z in maxHeightLevels:
 		$ViewControls/LayerSelect.add_item("Dungeon Layer "+ str(z), z+1)
 	GenerateMap()
-
-# Generate the overworld
-func GenerateOverworld():
-	var startOverworldGeneration = Time.get_ticks_msec()
-	# Generate Map
-	overworld = $OverworldMapGenerator.GenerateMap()
-	var endOverworldGeneration = Time.get_ticks_msec()
-	var overworldGenerationTime = endOverworldGeneration - startOverworldGeneration
-	var startOverworldUpdateTime = Time.get_ticks_msec()
-	# Load new overworld to viewer
-	$MapViewContainer/MapSubViewport/OverworldViewer/OverworldTileMapLayer.Regenerate(overworld)
-	var endOverworldUpdateTime  = Time.get_ticks_msec()
-	var overworldUpdateTime = endOverworldUpdateTime-startOverworldUpdateTime
-	print("Generate Overworld Map: " + str(overworldGenerationTime)+ "ms") 
-	print("Updating Overworld Viewer: " + str(overworldUpdateTime) + "ms")
-		
-#Generates the Dungeon Layers
-func GenerateDungeons():
-	# Generate dungeon entrances and load to viewer
-	GenerateDungeonEntrances(overworld)
-	$MapViewContainer/MapSubViewport/OverworldViewer/DungeonEntrances.AddDungeonEntrances(DungeonEntrances)
-	var startGenerateDungeon = Time.get_ticks_msec()
-	# Generate the layers of the dungeon and load to viewer
-	var layers = $DungeonGenerator.GenerateDungeonLayers(DungeonEntrances)
-	var endGenerateDungeon  = Time.get_ticks_msec()
-	var generateDungeonTime = endGenerateDungeon-startGenerateDungeon
-	dungeonLayers = layers
-	var startDungeonViewerUpdate = Time.get_ticks_msec()
-	$MapViewContainer/MapSubViewport/DungeonViewer/DungeonTileMapLayer.updateDungeonLayer(layers[0])
-	ChangeView($ViewControls/LayerSelect.get_selected_id())
-	var endDungeonViewerUpdate = Time.get_ticks_msec()
-	var dungeonViewerUpdateTime = endDungeonViewerUpdate - startDungeonViewerUpdate
-	# Update the labels showing dungeon entrance coordinates
-	UpdateLabels()
-	print("Dungeon Generation: " + str(generateDungeonTime) + "ms")
-	print("Dungeon Viewer Update: " + str(dungeonViewerUpdateTime) +"ms")
-	
-# Generates Dungeon Entrances
-func GenerateDungeonEntrances(map: Array):
-	DungeonEntrances.clear()
-	$DungeonGenerator.RegenerateDungeons(map, maxHeightLevels, 64, 64)
-	DungeonEntrances = $DungeonGenerator.DungeonEntrances
 	
 # Update labels showing information about the generated overworld
 func UpdateLabels():
@@ -94,8 +52,18 @@ func UpdateLabels():
 # Generate the full overworld. This is also called when the "pressed" signal is emmitted when the 
 # regenerate overworld button is pressed.
 func GenerateMap() -> void:
+	
+	var startMapGeneration = Time.get_ticks_msec()
 	map = $GenerationManager.Generate()
+	var endMapGeneration = Time.get_ticks_msec()
+	var mapGenerationTime = endMapGeneration - startMapGeneration
+	print("Overall Map Generation Time: " + str(mapGenerationTime)+ "ms")
+	
+	var startViewerUpdate = Time.get_ticks_msec()
 	_UpdateViewers()
+	var endViewerUpdate = Time.get_ticks_msec()
+	var viewerUpdateTime = endViewerUpdate - startViewerUpdate
+	print("Viewer Update Time: " + str(viewerUpdateTime)+ "ms")
 
 func RegenerateDungeon() -> void:
 	map = $GenerationManager.RegenerateDungeon()

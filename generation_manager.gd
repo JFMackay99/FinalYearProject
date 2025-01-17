@@ -7,8 +7,17 @@ func _init() -> void:
 	map = Map.new()
 
 func Generate() -> Map:
+	var startOverworldGeneration = Time.get_ticks_msec()
 	_GenerateOverworld()
+	var endOverworldGeneration = Time.get_ticks_msec()
+	var overworldGenerationTime = endOverworldGeneration - startOverworldGeneration
+	print("Overworld Map Generation Time: " + str(overworldGenerationTime)+ "ms")
+	
+	var startDungeonGeneration = Time.get_ticks_msec()
 	_GenerateDungeon()
+	var endDungeonGeneration = Time.get_ticks_msec()
+	var dungeonGenerationTime = endDungeonGeneration - startDungeonGeneration
+	print("Dungeon Map Generation Time: " + str(dungeonGenerationTime)+ "ms")
 	return map
 
 func RegenerateDungeon() -> Map:
