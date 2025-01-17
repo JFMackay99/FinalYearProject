@@ -1,7 +1,7 @@
 [gd_scene load_steps=19 format=4 uid="uid://chuuk0ln5akne"]
 
 [ext_resource type="Script" path="res://Overworld/viewer.gd" id="1_ym85i"]
-[ext_resource type="PackedScene" uid="uid://boyixitiaafid" path="res://generation_manager.tscn" id="2_64vac"]
+[ext_resource type="PackedScene" uid="uid://cwe7mcniutae2" path="res://generation_manager.tscn" id="2_64vac"]
 [ext_resource type="Script" path="res://Overworld/overworld_tile_map_layer.gd" id="3_d6v2q"]
 [ext_resource type="Texture2D" uid="uid://jlailtbm1jyw" path="res://Assets/DungeonEntrance.png" id="4_4klgm"]
 [ext_resource type="Texture2D" uid="uid://cw8651iaotyns" path="res://Assets/HeightGradient8Options.bmp" id="4_7nemx"]

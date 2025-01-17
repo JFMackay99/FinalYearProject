@@ -72,42 +72,15 @@ func GenerateDungeonEntrance():
 	return Vector3(x,y, z)
 
 # Generate dungeon layers between entrances
-func GenerateDungeonLayers(entrances: Array):
-	# For now assume only two entrances
-	
-	# Initialise array holding layers
-	var layers = Array()
-	layers.resize(maxHeightLevels+1)
-
-	var startLayerConstrunction  = Time.get_ticks_msec()
-	
-	# Create the first top dungeon layer layer
-	var startLayer = DungeonLayer.new(maxHeightLevels, maxMapWidth, maxMapHeight)
-	layers[maxHeightLevels] =startLayer
-	
-	# Mark the areas of the layer that represents areas of the overworld map that have lower
-	# heights than the start layers height
-	startLayer.markHeights(OverworldHeights, dungeonToOverworldScale)
-	
-	var currentLayer :DungeonLayer
-	var prevLayer = startLayer
-	#Add layers for levels down to 0
-	for z in range (maxHeightLevels-1,-1,-1):
-		currentLayer = DungeonLayer.new(z, maxMapWidth, maxMapHeight, prevLayer)
-		currentLayer.markHeights(OverworldHeights, dungeonToOverworldScale)
-		layers[z] = currentLayer
-		prevLayer = currentLayer
-	
-	var endLayerConstruction = Time.get_ticks_msec()
-	var layerConstructionTime = endLayerConstruction-startLayerConstrunction
-	print("Layer Construction Time: " +  str(layerConstructionTime) +"ms")
-	
+func GenerateDungeonLayers(map: Map):
 	#Add entrances
+	var entrances = map.entrances
+	
 	var processedEntrances: Array[Vector3i]
 	for entrance in entrances:
 		var z = floor(entrance.z)
 		processedEntrances.append(Vector3i(entrance.x, entrance.y, z))
-		layers[z].addEntrance(GetCentralPointFromOverWorldVect(entrance))
+		map.dungeon[z].addEntrance(GetCentralPointFromOverWorldVect(entrance))
 
 	var startPathfindingInitialisation  = Time.get_ticks_msec()
 	#Initialise pathfinder
@@ -126,7 +99,7 @@ func GenerateDungeonLayers(entrances: Array):
 
 	var startPathConstruction = Time.get_ticks_msec()
 	#Add generated path to layers
-	ConstructCellPathBetweenEntrancesInDungeon(path, layers)
+	ConstructCellPathBetweenEntrancesInDungeon(path, map.dungeon)
 	var endPathConstruction  = Time.get_ticks_msec()
 	var pathConstructionTime = endPathConstruction - startPathConstruction
 	print("Path Construction Time: " + str(pathConstructionTime) + "ms")
@@ -135,14 +108,12 @@ func GenerateDungeonLayers(entrances: Array):
 	var startStairwells = Time.get_ticks_msec()
 	#Stairwells
 	var sections = ProcessPathIntoHeightSections(path)
-	AddConnectingStairwellsFromOverworldSections(layers, sections)
+	AddConnectingStairwellsFromOverworldSections(map.dungeon, sections)
 	
 	var endStairwells = Time.get_ticks_msec()
 	var stairwellTime = endStairwells-startStairwells
 	print("Stairwell construction: " +str(stairwellTime) + "ms")
 
-	
-	return layers
 
 # Intialise the pathfinder
 func InitialisePathfinderFromOverworld(overworld):
@@ -159,8 +130,6 @@ func InitialisePathfinderFromOverworld(overworld):
 		for y in maxOverworldHeight:
 			for x in maxOverworldWidth:
 				var cellHeight = overworld[x][y]
-				if x == 63:
-						var foo = 1
 				if cellHeight >= z:
 					var location = Vector3(x,y,z)
 					var id =CellVectToAStarID(location)
@@ -176,8 +145,6 @@ func ConnectPathfinderFromOverworld():
 			for x in maxOverworldWidth:
 				var locationId = CellCoordsToAStarID(x,y,z)
 				if pathfinder.has_point(locationId):
-					if x == 63:
-						var foo = 1
 					# Connect adjacent points that will not have been added already
 					for neighbourVector in [Vector3(x+1, y, z), Vector3(x,y+1,z), Vector3(x,y,z+1)]:
 						var neighbourId = CellVectToAStarID(neighbourVector)

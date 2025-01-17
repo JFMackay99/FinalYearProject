@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://3y372txewf84"]
+
+[ext_resource type="Script" path="res://underground_generator.gd" id="1_2hql7"]
+
+[node name="UndergroundGenerator" type="Node"]
+script = ExtResource("1_2hql7")

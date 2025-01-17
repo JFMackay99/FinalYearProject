@@ -12,6 +12,7 @@ func _init() -> void:
 ## Generate Map 
 func Generate() -> Map:
 	_GenerateOverworld()
+	_GenerateUnderground()
 	_GenerateDungeon()
 	return map
 
@@ -28,6 +29,14 @@ func _GenerateOverworld() -> void:
 	var overworldGenerationTime = endOverworldGeneration - startOverworldGeneration
 	print("Overworld Map Generation Time: " + str(overworldGenerationTime)+ "ms")
 
+## Generate the Underground Layers
+func _GenerateUnderground() -> void:
+	var startUndergroundGeneration = Time.get_ticks_msec()
+	$UndergroundGenerator.GenerateUnderground(map)
+	var endUndergroundGeneration = Time.get_ticks_msec()
+	var undergroundGenerationTime = endUndergroundGeneration - startUndergroundGeneration
+	print("Underground Genration Time: " + str(undergroundGenerationTime) + "ms")
+
 ## Generate the Dungeon Layers
 func _GenerateDungeon() -> void:
 	var startDungeonGeneration = Time.get_ticks_msec()
@@ -35,8 +44,7 @@ func _GenerateDungeon() -> void:
 	$DungeonGenerator.RegenerateDungeons(map.overworld.heights, maxHeightLevels, map.overworld.maxX, map.overworld.maxY) # This is just the entrances
 	map.entrances = $DungeonGenerator.DungeonEntrances
 	# Generate the layers
-	var layers = $DungeonGenerator.GenerateDungeonLayers(map.entrances)
-	map.dungeon = layers
+	var layers = $DungeonGenerator.GenerateDungeonLayers(map)
 	
 	var endDungeonGeneration = Time.get_ticks_msec()
 	var dungeonGenerationTime = endDungeonGeneration - startDungeonGeneration
@@ -48,6 +56,7 @@ func UpdateMaxHeightLevels(value) -> void:
 	maxHeightLevels = value
 	$OverworldMapGenerator.maxHeightLevels = value
 	$DungeonGenerator.maxHeightLevels = value
+	$UndergroundGenerator.maxHeightLayers = value
 
 func UpdateHeightChangeWeightSelector(value: float) -> void:
 	$DungeonGenerator.UpdateHeightChangeCostFactor(value)
@@ -63,6 +72,7 @@ func UpdateMinRooms(value: float) -> void:
 
 func UpdateScale(value: float) -> void:
 	$DungeonGenerator.UpdateScale(value)
+	$UndergroundGenerator.UpdateScale(value)
 
 func UpdateDungeonSeed(value: float) -> void:
 	$DungeonGenerator.UpdateSeedValue(value)
