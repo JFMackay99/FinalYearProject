@@ -1,49 +1,53 @@
 extends Node
 
+## Overall Map
 var map: Map
+## Maximum number of height layers
 var maxHeightLevels: int
 
+## Constructor
 func _init() -> void:
 	map = Map.new()
 
+## Generate Map 
 func Generate() -> Map:
-	var startOverworldGeneration = Time.get_ticks_msec()
 	_GenerateOverworld()
-	var endOverworldGeneration = Time.get_ticks_msec()
-	var overworldGenerationTime = endOverworldGeneration - startOverworldGeneration
-	print("Overworld Map Generation Time: " + str(overworldGenerationTime)+ "ms")
-	
-	var startDungeonGeneration = Time.get_ticks_msec()
 	_GenerateDungeon()
-	var endDungeonGeneration = Time.get_ticks_msec()
-	var dungeonGenerationTime = endDungeonGeneration - startDungeonGeneration
-	print("Dungeon Map Generation Time: " + str(dungeonGenerationTime)+ "ms")
 	return map
 
+## Regenerate Dungeon layer
 func RegenerateDungeon() -> Map:
 	_GenerateDungeon()
 	return map
 
+## Generate the Overworld layer
+func _GenerateOverworld() -> void:
+	var startOverworldGeneration = Time.get_ticks_msec()
+	map.overworld.heights = $OverworldMapGenerator.GenerateMap()
+	var endOverworldGeneration = Time.get_ticks_msec()
+	var overworldGenerationTime = endOverworldGeneration - startOverworldGeneration
+	print("Overworld Map Generation Time: " + str(overworldGenerationTime)+ "ms")
+
+## Generate the Dungeon Layers
+func _GenerateDungeon() -> void:
+	var startDungeonGeneration = Time.get_ticks_msec()
+	# Generate dungeon entrances
+	$DungeonGenerator.RegenerateDungeons(map.overworld.heights, maxHeightLevels, map.overworld.maxX, map.overworld.maxY) # This is just the entrances
+	map.entrances = $DungeonGenerator.DungeonEntrances
+	# Generate the layers
+	var layers = $DungeonGenerator.GenerateDungeonLayers(map.entrances)
+	map.dungeon = layers
+	
+	var endDungeonGeneration = Time.get_ticks_msec()
+	var dungeonGenerationTime = endDungeonGeneration - startDungeonGeneration
+	print("Dungeon Map Generation Time: " + str(dungeonGenerationTime)+ "ms")
+
+
+#region Parameter Update
 func UpdateMaxHeightLevels(value) -> void:
 	maxHeightLevels = value
 	$OverworldMapGenerator.maxHeightLevels = value
 	$DungeonGenerator.maxHeightLevels = value
-
-func _GenerateOverworld() -> void:
-	map.overworld.heights = $OverworldMapGenerator.GenerateMap()
-	
-func _GenerateDungeon() -> void:
-	# Generate dungeon entrances
-	$DungeonGenerator.RegenerateDungeons(map.overworld.heights, maxHeightLevels, map.overworld.maxX, map.overworld.maxY) # This is just the entrances
-	map.entrances = $DungeonGenerator.DungeonEntrances
-	var startGenerateDungeon = Time.get_ticks_msec()
-	# Generate the layers
-	var layers = $DungeonGenerator.GenerateDungeonLayers(map.entrances)
-	var endGenerateDungeon  = Time.get_ticks_msec()
-	var generateDungeonTime = endGenerateDungeon-startGenerateDungeon
-	var dungeonLayers = layers
-	map.dungeon = layers
-
 
 func UpdateHeightChangeWeightSelector(value: float) -> void:
 	$DungeonGenerator.UpdateHeightChangeCostFactor(value)
@@ -72,3 +76,4 @@ func UpdateHeightNoiseSeed(value: float) -> void:
 
 func UpdateHeightNoiseType(index: int) -> void:
 	$OverworldMapGenerator.UpdateHeightNoiseType(index)
+#endregion

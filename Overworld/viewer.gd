@@ -3,20 +3,12 @@ extends Node2D
 @export var numberOfDungeons:int = 1
 @export var maxHeightLevels = 8
 
-# An array of three dimensional vectors representing the location of dungeon entrances
-var DungeonEntrances : Array[Vector3]
-
 # Available views to display to the user
 var views : Array[Control]
 var ActiveView: Control
 
 # The overall Map
 var map: Map
-
-# The Overworld Map
-var overworld
-#The dungeon layers
-var dungeonLayers
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -52,7 +44,6 @@ func UpdateLabels():
 # Generate the full overworld. This is also called when the "pressed" signal is emmitted when the 
 # regenerate overworld button is pressed.
 func GenerateMap() -> void:
-	
 	var startMapGeneration = Time.get_ticks_msec()
 	map = $GenerationManager.Generate()
 	var endMapGeneration = Time.get_ticks_msec()
@@ -68,14 +59,12 @@ func GenerateMap() -> void:
 func RegenerateDungeon() -> void:
 	map = $GenerationManager.RegenerateDungeon()
 	_UpdateViewers()
-	
 
 func _UpdateViewers():
 	$MapViewContainer/MapSubViewport/OverworldViewer/OverworldTileMapLayer.Regenerate(map.overworld.heights)
 	$MapViewContainer/MapSubViewport/OverworldViewer/DungeonEntrances.AddDungeonEntrances(map.entrances)
 	ChangeView($ViewControls/LayerSelect.get_selected_id())
 	UpdateLabels()
-	
 
 # Change the view shown to the user. This is also called when the "itemSelect" signal is emmited
 # when the layer view dropdown has its value changed
