@@ -36,13 +36,13 @@ func normaliseNoiseValue(noiseValue: float):
 
 
 # Update noise handlers buffered frequency
-func _on_frequency_edit_value_changed(value: float) -> void:
+func UpdateHeightNoiseFrequency(value: float) -> void:
 	$HeightNoiseHandler.NoiseFrequencyBuffer = value
 
 # Update noise handlers buffered seef
-func _on_seed_edit_value_changed(value: float) -> void:
+func UpdateHeightNoiseSeed(value: float) -> void:
 	$HeightNoiseHandler.SeedBuffer = value
 
 # Update noise handlers buffered type
-func _on_type_drop_down_item_selected(index: int) -> void:
+func UpdateHeightNoiseType(index: int) -> void:
 	$HeightNoiseHandler.NoiseTypeBuffer = index

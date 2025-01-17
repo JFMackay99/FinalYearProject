@@ -1,14 +1,13 @@
-[gd_scene load_steps=20 format=4 uid="uid://chuuk0ln5akne"]
+[gd_scene load_steps=19 format=4 uid="uid://chuuk0ln5akne"]
 
-[ext_resource type="PackedScene" uid="uid://ubux5mgtain3" path="res://Overworld/overworld_map_generator.tscn" id="1_6oima"]
 [ext_resource type="Script" path="res://Overworld/viewer.gd" id="1_ym85i"]
+[ext_resource type="PackedScene" uid="uid://boyixitiaafid" path="res://generation_manager.tscn" id="2_64vac"]
 [ext_resource type="Script" path="res://Overworld/overworld_tile_map_layer.gd" id="3_d6v2q"]
 [ext_resource type="Texture2D" uid="uid://jlailtbm1jyw" path="res://Assets/DungeonEntrance.png" id="4_4klgm"]
 [ext_resource type="Texture2D" uid="uid://cw8651iaotyns" path="res://Assets/HeightGradient8Options.bmp" id="4_7nemx"]
 [ext_resource type="Script" path="res://Overworld/map_view_camera.gd" id="4_n1wxl"]
 [ext_resource type="Script" path="res://Overworld/dungeon_entrances.gd" id="5_0i3j2"]
 [ext_resource type="Script" path="res://Overworld/h_freq_value.gd" id="5_r1ukx"]
-[ext_resource type="PackedScene" uid="uid://pylp6qc2flnm" path="res://Dungeons/dungeon_generator.tscn" id="7_veehc"]
 [ext_resource type="Texture2D" uid="uid://ci0fos2rlwcqw" path="res://Assets/dungeonTiles.png" id="8_vdyky"]
 [ext_resource type="Script" path="res://Overworld/dungeon_tile_map_layer.gd" id="9_4rfbe"]
 [ext_resource type="Script" path="res://Overworld/camera_speed_label.gd" id="12_jt3o4"]
@@ -113,9 +112,7 @@ sources/0 = SubResource("TileSetAtlasSource_r0lwi")
 script = ExtResource("1_ym85i")
 metadata/_edit_lock_ = true
 
-[node name="OverworldMapGenerator" parent="." instance=ExtResource("1_6oima")]
-
-[node name="DungeonGenerator" parent="." instance=ExtResource("7_veehc")]
+[node name="GenerationManager" parent="." instance=ExtResource("2_64vac")]
 
 [node name="MapViewContainer" type="SubViewportContainer" parent="."]
 offset_left = 34.0
@@ -385,6 +382,7 @@ offset_bottom = 28.0
 text = "Height Layer Weight"
 
 [node name="HeightChangeWeightSelector" type="SpinBox" parent="DungeonControl"]
+layout_mode = 0
 offset_left = 254.0
 offset_top = 192.0
 offset_right = 337.063
@@ -564,18 +562,18 @@ text = "100%
 "
 script = ExtResource("13_ijeq1")
 
-[connection signal="item_selected" from="HeightNoiseControl/TypeDropDown" to="OverworldMapGenerator" method="_on_type_drop_down_item_selected"]
-[connection signal="value_changed" from="HeightNoiseControl/SeedEdit" to="OverworldMapGenerator" method="_on_seed_edit_value_changed"]
-[connection signal="value_changed" from="HeightNoiseControl/FrequencyEdit" to="OverworldMapGenerator" method="_on_frequency_edit_value_changed"]
+[connection signal="item_selected" from="HeightNoiseControl/TypeDropDown" to="GenerationManager" method="UpdateHeightNoiseType"]
+[connection signal="value_changed" from="HeightNoiseControl/SeedEdit" to="GenerationManager" method="UpdateHeightNoiseSeed"]
+[connection signal="value_changed" from="HeightNoiseControl/FrequencyEdit" to="GenerationManager" method="UpdateHeightNoiseFrequency"]
 [connection signal="value_changed" from="HeightNoiseControl/FrequencyEdit" to="HeightNoiseControl/HFreqValue" method="_on_frequency_edit_value_changed"]
 [connection signal="pressed" from="HeightNoiseControl/RegenerateButton" to="." method="GenerateMap"]
-[connection signal="value_changed" from="DungeonControl/DSeedEdit" to="DungeonGenerator" method="UpdateSeedValue"]
-[connection signal="value_changed" from="DungeonControl/OverworldToDungeonScaleBox" to="DungeonGenerator" method="UpdateScale"]
-[connection signal="pressed" from="DungeonControl/DRegenerateButton" to="." method="GenerateDungeons"]
-[connection signal="value_changed" from="DungeonControl/MinRoomSelect" to="DungeonGenerator" method="UpdateMinRooms"]
-[connection signal="value_changed" from="DungeonControl/MaxRoomSelect" to="DungeonGenerator" method="UpdateMaxRooms"]
-[connection signal="value_changed" from="DungeonControl/HeightLayerWeightSelector" to="DungeonGenerator" method="UpdateHeightLayerWeightFactor"]
-[connection signal="value_changed" from="DungeonControl/HeightChangeWeightSelector" to="DungeonGenerator" method="UpdateHeightChangeCostFactor"]
+[connection signal="value_changed" from="DungeonControl/DSeedEdit" to="GenerationManager" method="UpdateDungeonSeed"]
+[connection signal="value_changed" from="DungeonControl/OverworldToDungeonScaleBox" to="GenerationManager" method="UpdateScale"]
+[connection signal="pressed" from="DungeonControl/DRegenerateButton" to="." method="RegenerateDungeon"]
+[connection signal="value_changed" from="DungeonControl/MinRoomSelect" to="GenerationManager" method="UpdateMinRooms"]
+[connection signal="value_changed" from="DungeonControl/MaxRoomSelect" to="GenerationManager" method="UpdateMaxRooms"]
+[connection signal="value_changed" from="DungeonControl/HeightLayerWeightSelector" to="GenerationManager" method="UpdateHeightLayerWeightSelector"]
+[connection signal="value_changed" from="DungeonControl/HeightChangeWeightSelector" to="GenerationManager" method="UpdateHeightChangeWeightSelector"]
 [connection signal="item_selected" from="ViewControls/LayerSelect" to="." method="ChangeView"]
 [connection signal="value_changed" from="ViewControls/SpeedSlider" to="MapViewContainer/MapSubViewport/MapViewCamera" method="UpdateSpeed"]
 [connection signal="value_changed" from="ViewControls/SpeedSlider" to="ViewControls/SpeedSlider/CameraSpeedLabel" method="UpdateValue"]
