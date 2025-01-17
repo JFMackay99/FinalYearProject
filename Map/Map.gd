@@ -6,6 +6,10 @@ var overworld: OverworldMap
 var entrances: Array
 var dungeon
 
+func _init():
+	overworld = OverworldMap.new()
+	entrances = []
+
 func GetOverworld():
 	return overworld
 
