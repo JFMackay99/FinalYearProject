@@ -6,7 +6,7 @@ extends Node2D
 # An array of three dimensional vectors representing the location of dungeon entrances
 var DungeonEntrances : Array[Vector3]
 # The Overworld Map
-var Map
+var map
 
 # Available views to display to the user
 var views : Array[Control]
@@ -39,12 +39,12 @@ func _ready() -> void:
 func GenerateOverworld():
 	var startOverworldGeneration = Time.get_ticks_msec()
 	# Generate Map
-	Map = $OverworldMapGenerator.GenerateMap()
+	map = $OverworldMapGenerator.GenerateMap()
 	var endOverworldGeneration = Time.get_ticks_msec()
 	var overworldGenerationTime = endOverworldGeneration - startOverworldGeneration
 	var startOverworldUpdateTime = Time.get_ticks_msec()
 	# Load new map to viewer
-	$MapViewContainer/MapSubViewport/OverworldViewer/OverworldTileMapLayer.Regenerate(Map)
+	$MapViewContainer/MapSubViewport/OverworldViewer/OverworldTileMapLayer.Regenerate(map)
 	var endOverworldUpdateTime  = Time.get_ticks_msec()
 	var overworldUpdateTime = endOverworldUpdateTime-startOverworldUpdateTime
 	print("Generate Overworld Map: " + str(overworldGenerationTime)+ "ms") 
@@ -53,7 +53,7 @@ func GenerateOverworld():
 #Generates the Dungeon Layers
 func GenerateDungeons():
 	# Generate dungeon entrances and load to viewer
-	GenerateDungeonEntrances(Map)
+	GenerateDungeonEntrances(map)
 	$MapViewContainer/MapSubViewport/OverworldViewer/DungeonEntrances.AddDungeonEntrances(DungeonEntrances)
 	var startGenerateDungeon = Time.get_ticks_msec()
 	# Generate the layers of the dungeon and load to viewer

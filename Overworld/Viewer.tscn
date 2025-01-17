@@ -385,6 +385,7 @@ offset_bottom = 28.0
 text = "Height Layer Weight"
 
 [node name="HeightChangeWeightSelector" type="SpinBox" parent="DungeonControl"]
+layout_mode = 0
 offset_left = 254.0
 offset_top = 192.0
 offset_right = 337.063
