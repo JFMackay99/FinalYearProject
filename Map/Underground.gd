@@ -4,16 +4,11 @@ class_name Underground
 
 var heightLayers: int
 var layers: Array[LayerBase]
+var pathfinder: AStar3D
 
-func _init(maxHeights) -> void:
-	heightLayers = heightLayers
+
+func _init() -> void:
 	layers = []
-	layers.resize(maxHeights)
-	
-	
-
-func Refresh(maxHeights):
-	heightLayers = heightLayers
-	layers.clear()
-	layers.resize(maxHeights)
+	layers.resize(Constants.MAX_HEIGHT_LEVELS)
+	pathfinder = ModifiedAStar3D.new()
 	

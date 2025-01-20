@@ -4,11 +4,17 @@ class_name Map
 
 var overworld: OverworldMap
 var entrances: Array
-var underground
-var dungeon
+var underground : Underground
+var dungeon : Dungeon
+
+var overworldToDungeonScale = 3
+
 
 func _init():
 	overworld = OverworldMap.new()
+	underground = Underground.new()
+	dungeon = Dungeon.new()
+	
 	entrances = []
 
 func GetOverworld():

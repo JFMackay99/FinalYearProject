@@ -4,7 +4,7 @@ class_name UndergroundLayer
 
 var map: Array
 
-func _init(layerHeight: int, maxWidth, maxHeight, higherLevel: DungeonLayer = null) -> void:
+func _init(layerHeight: int, maxWidth, maxHeight, higherLevel: LayerBase = null) -> void:
 	super._init(layerHeight, maxWidth, maxHeight, higherLevel)
 		
 	#initialise map

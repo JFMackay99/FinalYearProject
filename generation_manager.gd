@@ -2,12 +2,13 @@ extends Node
 
 ## Overall Map
 var map: Map
-## Maximum number of height layers
-var maxHeightLevels: int
 
 ## Constructor
-func _init() -> void:
+func _ready() -> void:
 	map = Map.new()
+	var pathfinder = ModifiedAStar3D.new()
+	$UndergroundGenerator.pathfinder = pathfinder
+	$DungeonGenerator.pathfinder = pathfinder
 
 ## Generate Map 
 func Generate() -> Map:
@@ -41,7 +42,7 @@ func _GenerateUnderground() -> void:
 func _GenerateDungeon() -> void:
 	var startDungeonGeneration = Time.get_ticks_msec()
 	# Generate dungeon entrances
-	$DungeonGenerator.RegenerateDungeons(map.overworld.heights, maxHeightLevels, map.overworld.maxX, map.overworld.maxY) # This is just the entrances
+	$DungeonGenerator.RegenerateDungeons(map) # This is just the entrances
 	map.entrances = $DungeonGenerator.DungeonEntrances
 	# Generate the layers
 	var layers = $DungeonGenerator.GenerateDungeonLayers(map)
@@ -52,11 +53,6 @@ func _GenerateDungeon() -> void:
 
 
 #region Parameter Update
-func UpdateMaxHeightLevels(value) -> void:
-	maxHeightLevels = value
-	$OverworldMapGenerator.maxHeightLevels = value
-	$DungeonGenerator.maxHeightLevels = value
-	$UndergroundGenerator.maxHeightLayers = value
 
 func UpdateHeightChangeWeightSelector(value: float) -> void:
 	$DungeonGenerator.UpdateHeightChangeCostFactor(value)
