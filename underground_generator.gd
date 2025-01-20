@@ -67,7 +67,7 @@ func InitialisePathfinderFromOverworld(overworld: OverworldMap):
 	
 	# For each HeightLevel, add cells that would not be Outside
 	for z in Constants.MAX_HEIGHT_LEVELS:
-		var cost = pathfinder.heightLayerWeightFactor*(Constants.MAX_HEIGHT_LEVELS-z) 
+		var cost = pathfinder.heightLayerWeightFactor*(Constants.MAX_HEIGHT_LEVELS-z)+1 
 		for y in Constants.OVERWORLD_MAX_Y:
 			for x in Constants.OVERWORLD_MAX_X:
 				var cellHeight = overworld.GetHeightAtCellCoordinate(x, y)

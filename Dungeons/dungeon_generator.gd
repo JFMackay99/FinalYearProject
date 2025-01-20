@@ -19,7 +19,7 @@ var minRooms = 0
 var maxRooms = 0
 
 # Pathfinding algorithm for getting path between entrances
-var pathfinder: AStar3D
+var pathfinder: ModifiedAStar3D
 
 
 # Stores the three dimensional coordinates of the dungeon entrances
@@ -340,12 +340,8 @@ func UpdateMaxRooms(value: float) -> void:
 
 func UpdateHeightLayerWeightFactor(value):
 	heightLayerWeightFactor = value
+	pathfinder.heightLayerWeightFactor = value
 	
 func UpdateHeightChangeCostFactor(value):
 	heightChangeCostFactor = value
 	pathfinder.heightChangeCostFactor = value
-
-
-
-
-	

@@ -36,6 +36,7 @@ func updateDungeonLayer(layer: LayerBase):
 			set_cell(coordVector, 0, Vector2i(tile, 0))
 	
 func UpdateViewer(map: Map, heightLevel):
+	clear()
 	var foo = map.underground.layers
 	var undergroundLayer = map.underground.layers[heightLevel] as UndergroundLayer
 	var dungeonLayer = map.dungeon.dungeonLayers[heightLevel] as DungeonLayer

@@ -3,6 +3,8 @@ extends Node
 ## Overall Map
 var map: Map
 
+var scaleChanged = false
+
 ## Constructor
 func _ready() -> void:
 	map = Map.new()
@@ -21,6 +23,10 @@ func Generate() -> Map:
 
 ## Regenerate Dungeon layer
 func RegenerateDungeon() -> Map:
+	if scaleChanged:
+		_GenerateUnderground()
+		scaleChanged = false
+	
 	_GenerateDungeon()
 	return map
 
@@ -69,6 +75,7 @@ func UpdateMinRooms(value: float) -> void:
 	$DungeonGenerator.UpdateMinRooms(value)
 
 func UpdateScale(value: float) -> void:
+	scaleChanged = true
 	$DungeonGenerator.UpdateScale(value)
 	$UndergroundGenerator.UpdateScale(value)
 
