@@ -44,7 +44,7 @@ func MarkLayerHeights(overworld: OverworldMap, layer: DungeonLayer):
 					var yCoord = overY * scale + dY
 					if layer.height > overworld.GetHeightAtCellCoordinate(overX, overY):
 						
-						layer.setTile(xCoord,yCoord, tile)
+						layer.SetTile(xCoord,yCoord, tile)
 
 
 #region Parameter Updates

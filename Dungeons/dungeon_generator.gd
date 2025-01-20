@@ -198,17 +198,17 @@ func CalculateDirectionFromOrthogonalCoords(from, to):
 
 func ConstructDirectionalPathInCell(cell, direction, layer: DungeonLayer):
 	var centralPoint = GetCentralPointFromOverWorldCoords(cell.x, cell.y)
-	layer.setTile(centralPoint.x, centralPoint.y, Constants.DUNGEON_TILES.ROOM)
+	layer.SetTile(centralPoint.x, centralPoint.y, Constants.DUNGEON_TILES.ROOM)
 	for delta in ceil((dungeonToOverworldScale+1)/2.0):
 		match direction:
 			Constants.DIRECTION.NORTH: 
-				layer.setTile(centralPoint.x, centralPoint.y+delta, Constants.DUNGEON_TILES.ROOM)
+				layer.SetTile(centralPoint.x, centralPoint.y+delta, Constants.DUNGEON_TILES.ROOM)
 			Constants.DIRECTION.EAST: 
-				layer.setTile(centralPoint.x-delta, centralPoint.y, Constants.DUNGEON_TILES.ROOM)
+				layer.SetTile(centralPoint.x-delta, centralPoint.y, Constants.DUNGEON_TILES.ROOM)
 			Constants.DIRECTION.SOUTH: 
-				layer.setTile(centralPoint.x, centralPoint.y-delta, Constants.DUNGEON_TILES.ROOM)
+				layer.SetTile(centralPoint.x, centralPoint.y-delta, Constants.DUNGEON_TILES.ROOM)
 			Constants.DIRECTION.WEST: 
-				layer.setTile(centralPoint.x+delta, centralPoint.y, Constants.DUNGEON_TILES.ROOM)
+				layer.SetTile(centralPoint.x+delta, centralPoint.y, Constants.DUNGEON_TILES.ROOM)
 
 
 # Seperate the path into sections that are on the same layer
@@ -319,21 +319,21 @@ func GenerateUpStairwell(layer, entrance):
 	var startX = entrance.x - (dungeonToOverworldScale-1)/2
 	var startY = entrance.y - (dungeonToOverworldScale-1)/2
 	GenerateSquareRoom(layer, startX, startY, dungeonToOverworldScale)
-	layer.setTile(entrance.x, entrance.y, Constants.DUNGEON_TILES.UP_STAIRS)
+	layer.SetTile(entrance.x, entrance.y, Constants.DUNGEON_TILES.UP_STAIRS)
 
 # Generates a stairwell going down	
 func GenerateDownStairwell(layer, entrance):
 	var startX = entrance.x - (dungeonToOverworldScale-1)/2
 	var startY = entrance.y - (dungeonToOverworldScale-1)/2
 	GenerateSquareRoom(layer, startX, startY, dungeonToOverworldScale)
-	layer.setTile(entrance.x, entrance.y, Constants.DUNGEON_TILES.DOWN_STAIRS)
+	layer.SetTile(entrance.x, entrance.y, Constants.DUNGEON_TILES.DOWN_STAIRS)
 
 # Generates a stairwell going both up and down
 func GenerateDualStairwell(layer, entrance):
 	var startX = entrance.x - (dungeonToOverworldScale-1)/2
 	var startY = entrance.y - (dungeonToOverworldScale-1)/2
 	GenerateSquareRoom(layer, startX, startY, dungeonToOverworldScale)
-	layer.setTile(entrance.x, entrance.y, Constants.DUNGEON_TILES.DUAL_STAIRS)
+	layer.SetTile(entrance.x, entrance.y, Constants.DUNGEON_TILES.DUAL_STAIRS)
 
 # Generates a square room
 func GenerateSquareRoom(layer: DungeonLayer, xStart: int, yStart: int, width: int):
@@ -343,7 +343,7 @@ func GenerateSquareRoom(layer: DungeonLayer, xStart: int, yStart: int, width: in
 func GenerateRectangleRoom(layer: DungeonLayer, xStart: int, yStart: int, width: int, height: int):
 	for x in width:
 		for y in width:
-			layer.setTile(xStart+x, yStart+y, Constants.DUNGEON_TILES.ROOM)
+			layer.SetTile(xStart+x, yStart+y, Constants.DUNGEON_TILES.ROOM)
 
 # For a given point in a dungeon layer, gets the central point of the corresponding overworld coordinate
 func GetCentralPointFromDungeonPoint(x,y):

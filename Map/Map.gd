@@ -4,6 +4,7 @@ class_name Map
 
 var overworld: OverworldMap
 var entrances: Array
+var underground
 var dungeon
 
 func _init():
