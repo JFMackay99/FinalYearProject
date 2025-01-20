@@ -1,6 +1,6 @@
 extends LayerBase
 
-class_name DungeonLayer2
+class_name DungeonLayer
 
 var tiles: Dictionary
 
@@ -14,4 +14,5 @@ func SetTile(x, y, tile):
 
 func GetTile(x, y):
 	return tiles.get(Vector2i(x,y))
+
 	

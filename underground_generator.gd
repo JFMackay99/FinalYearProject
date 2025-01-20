@@ -42,7 +42,10 @@ func GenerateUnderground(map: Map) -> void:
 	var pathfindingInitialisationTime = endPathfindingInitialisation-startPathfindingInitialisation
 	print("Pathfinder Initialisation time: "+str(pathfindingInitialisationTime)+"ms")
 	
-	map.dungeon.setLayers(layers)
+	map.underground.setLayers(layers)
+	
+	var foo = map.underground.layers
+	var bar = 1
 
 func MarkLayerHeights(overworld: OverworldMap, layer: LayerBase):
 	var tile = Constants.DUNGEON_TILES.FORBIDDEN
@@ -89,6 +92,5 @@ func ConnectPathfinderFromOverworld():
 
 
 #region Parameter Updates
-
 func UpdateScale(value):
 	scale = value

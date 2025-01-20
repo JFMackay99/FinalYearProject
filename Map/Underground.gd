@@ -12,3 +12,9 @@ func _init() -> void:
 	layers.resize(Constants.MAX_HEIGHT_LEVELS)
 	pathfinder = ModifiedAStar3D.new()
 	
+
+func setLayers(newLayers: Array[LayerBase]):
+	layers = newLayers
+	
+func getLayers() -> Array[LayerBase]:
+	return layers

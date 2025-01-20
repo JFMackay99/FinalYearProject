@@ -15,6 +15,8 @@ func Generate() -> Map:
 	_GenerateOverworld()
 	_GenerateUnderground()
 	_GenerateDungeon()
+	
+	var foo = map.underground.layers
 	return map
 
 ## Regenerate Dungeon layer

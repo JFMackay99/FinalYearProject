@@ -24,6 +24,8 @@ func SetTile( x, y, tile):
 func GetTile( x, y):
 	pass
 
+func GetAllTiles(x, y):
+	pass
 
 func SetLowerLevel(newLevel: LayerBase):
 	LowerLevel = newLevel

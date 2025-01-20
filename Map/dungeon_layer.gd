@@ -1,6 +1,6 @@
 extends LayerBase
 
-class_name DungeonLayer
+class_name DungeonLayerLegacy
 
 
 var map : Array
@@ -11,7 +11,7 @@ var stairsDown: Array
 
 
 
-func _init(layerHeight: int, maxWidth, maxHeight, higherLevel: DungeonLayer = null) -> void:
+func _init(layerHeight: int, maxWidth, maxHeight, higherLevel: LayerBase = null) -> void:
 	super._init(layerHeight, maxWidth, maxHeight, higherLevel)
 		
 	#initialise map

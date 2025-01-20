@@ -47,6 +47,8 @@ func GenerateMap() -> void:
 	var mapGenerationTime = endMapGeneration - startMapGeneration
 	print("Overall Map Generation Time: " + str(mapGenerationTime)+ "ms")
 	var startViewerUpdate = Time.get_ticks_msec()
+	
+	var foo = map.underground.layers
 	_UpdateViewers()
 	var endViewerUpdate = Time.get_ticks_msec()
 	var viewerUpdateTime = endViewerUpdate - startViewerUpdate
@@ -72,5 +74,8 @@ func ChangeView(value):
 		return
 	ActiveView = views[1]
 	var dungeonLayer =map.dungeon.dungeonLayers[value-1]
-	$MapViewContainer/MapSubViewport/DungeonViewer/DungeonTileMapLayer.updateDungeonLayer(dungeonLayer)
+	#$MapViewContainer/MapSubViewport/DungeonViewer/DungeonTileMapLayer.updateDungeonLayer(dungeonLayer)
+	
+	var foo = map.underground.layers
+	$MapViewContainer/MapSubViewport/DungeonViewer/DungeonTileMapLayer.UpdateViewer(map, value-1)
 	ActiveView .set_visible(true)

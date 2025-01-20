@@ -11,3 +11,6 @@ func get2dCoordVector():
 	
 func get3dCoordVector():
 	return Vector3i(x,y,z)
+	
+func getTile():
+	return tile

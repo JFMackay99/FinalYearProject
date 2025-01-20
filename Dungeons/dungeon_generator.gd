@@ -67,7 +67,29 @@ func GenerateDungeonEntrance(map: Map):
 # Generate dungeon layers between entrances
 func GenerateDungeonLayers(map: Map):
 	var scale = map.overworldToDungeonScale
+	var layers:Array[LayerBase] = []
+	map.dungeon.setLayers(layers)
+	layers.resize(Constants.MAX_HEIGHT_LEVELS+1)
+
+	var startLayerConstrunction  = Time.get_ticks_msec()
 	
+	# Create the first top dungeon layer layer
+	var startLayer = DungeonLayer.new(Constants.MAX_HEIGHT_LEVELS, Constants.OVERWORLD_MAX_X * scale, Constants.OVERWORLD_MAX_Y*scale)
+	layers[Constants.MAX_HEIGHT_LEVELS] =startLayer
+	
+	
+	var currentLayer :LayerBase
+	var prevLayer = startLayer
+	#Add layers for levels down to 0
+	for z in range (Constants.MAX_HEIGHT_LEVELS-1,-1,-1):
+		currentLayer = DungeonLayer.new(z, Constants.OVERWORLD_MAX_X * scale, Constants.OVERWORLD_MAX_Y * scale, prevLayer)
+	
+		layers[z] = currentLayer
+		prevLayer = currentLayer
+	
+	var endLayerConstruction = Time.get_ticks_msec()
+	var layerConstructionTime = endLayerConstruction-startLayerConstrunction
+	print("Layer Construction Time: " +  str(layerConstructionTime) +"ms")
 	#Add entrances
 	var entrances = map.entrances
 	
@@ -87,7 +109,7 @@ func GenerateDungeonLayers(map: Map):
 
 	var startPathConstruction = Time.get_ticks_msec()
 	#Add generated path to layers
-	ConstructCellPathBetweenEntrancesInDungeon(path, map.dungeon.dungeonLayers)
+	ConstructCellPathBetweenEntrancesInDungeon(path, layers)
 	var endPathConstruction  = Time.get_ticks_msec()
 	var pathConstructionTime = endPathConstruction - startPathConstruction
 	print("Path Construction Time: " + str(pathConstructionTime) + "ms")
