@@ -1,13 +1,10 @@
 extends Node
 
 #Scale between tiles in the dungeon and overworld
-@export var dungeonToOverworldScale = 3
+@export var scale = 3
 
-#If an additional layer is needed, how far away the  
-@export var maximumDownstairDistance = 5
 
 # Map size parameters
-var maxHeightLevels = 8
 var maxMapWidth
 var maxMapHeight
 
@@ -22,10 +19,8 @@ var minRooms = 0
 var maxRooms = 0
 
 # Pathfinding algorithm for getting path between entrances
-var pathfinder: modifiedAStar3D
+var pathfinder: ModifiedAStar3D
 
-# Stores the heights of the overworld map
-var OverworldHeights : Array
 
 # Stores the three dimensional coordinates of the dungeon entrances
 var DungeonEntrances : Array[Vector3]
@@ -35,91 +30,81 @@ func _ready() -> void:
 	pass
 
 # Regenerate the dungeons
-func RegenerateDungeons(newHeights: Array, maximumHeightLevels, owHeight, owWidth):
+func RegenerateDungeons(map: Map):
 	#Update size parameters
-	OverworldHeights = newHeights
-	maxHeightLevels = maximumHeightLevels
-	maxMapWidth = owWidth * dungeonToOverworldScale
-	maxMapHeight = owHeight * dungeonToOverworldScale
+	maxMapWidth = Constants.OVERWORLD_MAX_X * scale
+	maxMapHeight = Constants.OVERWORLD_MAX_Y * scale
 	
 	# Initialise noise handler to handle rng
 	$NoiseHandler.RegenerateNoise()
 	seed($NoiseHandler.SeedBuffer)
 	
 	# Generate Dungeon Entrances
-	GenerateDungeonEntrances()
+	GenerateDungeonEntrances(map)
+	GenerateDungeonLayers(map)
 
 # Generate a number of dungeon entrances, defaulting to 2
-func GenerateDungeonEntrances(NumberOfEntrances: int = 2):
+func GenerateDungeonEntrances(map: Map, NumberOfEntrances: int = 2):
 	# Clear previous array of entrances
 	DungeonEntrances.clear()
 	
 	# Generate entrances and append to array
 	var generatedEntrances = 0
 	while generatedEntrances < NumberOfEntrances:
-		var entrance = GenerateDungeonEntrance()
+		var entrance = GenerateDungeonEntrance(map)
 		if not DungeonEntrances.has(entrance): 
 			DungeonEntrances.append(entrance)
 			generatedEntrances+=1
-			
+	map.entrances = DungeonEntrances
+
 # Generate a single dungeon entrance
-func GenerateDungeonEntrance():
+func GenerateDungeonEntrance(map: Map):
 	# Generate x,y coords of dungeon
 	var x = randi_range(0, 63)
 	var y = randi_range(0, 63)
 	# Get height of entrance
-	var z = OverworldHeights[x][y]
+	var z = map.overworld.GetHeightAtCellCoordinate(x,y)
 	return Vector3(x,y, z)
 
 # Generate dungeon layers between entrances
-func GenerateDungeonLayers(entrances: Array):
-	# For now assume only two entrances
-	
-	# Initialise array holding layers
-	var layers = Array()
-	layers.resize(maxHeightLevels+1)
+func GenerateDungeonLayers(map: Map):
+	scale = map.overworldToDungeonScale
+	var layers:Array[LayerBase] = []
+	map.dungeon.setLayers(layers)
+	layers.resize(Constants.MAX_HEIGHT_LEVELS+1)
 
 	var startLayerConstrunction  = Time.get_ticks_msec()
 	
 	# Create the first top dungeon layer layer
-	var startLayer = DungeonLayer.new(maxHeightLevels, maxMapWidth, maxMapHeight)
-	layers[maxHeightLevels] =startLayer
+	var startLayer = DungeonLayer.new(Constants.MAX_HEIGHT_LEVELS, Constants.OVERWORLD_MAX_X * scale, Constants.OVERWORLD_MAX_Y*scale)
+	layers[Constants.MAX_HEIGHT_LEVELS] =startLayer
 	
-	# Mark the areas of the layer that represents areas of the overworld map that have lower
-	# heights than the start layers height
-	startLayer.markHeights(OverworldHeights, dungeonToOverworldScale)
 	
-	var currentLayer :DungeonLayer
+	var currentLayer :LayerBase
 	var prevLayer = startLayer
 	#Add layers for levels down to 0
-	for z in range (maxHeightLevels-1,-1,-1):
-		currentLayer = DungeonLayer.new(z, maxMapWidth, maxMapHeight, prevLayer)
-		currentLayer.markHeights(OverworldHeights, dungeonToOverworldScale)
+	for z in range (Constants.MAX_HEIGHT_LEVELS-1,-1,-1):
+		currentLayer = DungeonLayer.new(z, Constants.OVERWORLD_MAX_X * scale, Constants.OVERWORLD_MAX_Y * scale, prevLayer)
+	
 		layers[z] = currentLayer
 		prevLayer = currentLayer
 	
 	var endLayerConstruction = Time.get_ticks_msec()
 	var layerConstructionTime = endLayerConstruction-startLayerConstrunction
 	print("Layer Construction Time: " +  str(layerConstructionTime) +"ms")
-	
 	#Add entrances
+	var entrances = map.entrances
+	
 	var processedEntrances: Array[Vector3i]
 	for entrance in entrances:
 		var z = floor(entrance.z)
 		processedEntrances.append(Vector3i(entrance.x, entrance.y, z))
-		layers[z].addEntrance(GetCentralPointFromOverWorldVect(entrance))
+		#map.dungeon[z].addEntrance(UtilityMethods.GetCentralPointFromOverWorldVect(entrance, scale))
 
-	var startPathfindingInitialisation  = Time.get_ticks_msec()
-	#Initialise pathfinder
-	InitialisePathfinderFromOverworld(OverworldHeights)
-	ConnectPathfinderFromOverworld()
-	var endPathfindingInitialisation  = Time.get_ticks_msec()
-	var pathfindingInitialisationTime = endPathfindingInitialisation-startPathfindingInitialisation
-	print("Pathfinder Initialisation time: "+str(pathfindingInitialisationTime)+"ms")
 	
 	#Generate legal route between entrances
 	var startPathFinding = Time.get_ticks_msec()
-	var path = pathfinder.get_point_path(CellVectToAStarID(entrances[0]),CellVectToAStarID(entrances[1]))
+	var path = pathfinder.get_point_path(pathfinder.CellVectToAStarID(entrances[0]), pathfinder.CellVectToAStarID(entrances[1]))
 	var endPathFinding = Time.get_ticks_msec()
 	var pathFindingTime = endPathFinding - startPathFinding
 	print("Pathfinding: " + str(pathFindingTime) + "ms")
@@ -135,54 +120,12 @@ func GenerateDungeonLayers(entrances: Array):
 	var startStairwells = Time.get_ticks_msec()
 	#Stairwells
 	var sections = ProcessPathIntoHeightSections(path)
-	AddConnectingStairwellsFromOverworldSections(layers, sections)
+	AddConnectingStairwellsFromOverworldSections(map.dungeon.dungeonLayers, sections)
 	
 	var endStairwells = Time.get_ticks_msec()
 	var stairwellTime = endStairwells-startStairwells
 	print("Stairwell construction: " +str(stairwellTime) + "ms")
 
-	
-	return layers
-
-# Intialise the pathfinder
-func InitialisePathfinderFromOverworld(overworld):
-	if pathfinder == null:
-		pathfinder = modifiedAStar3D.new()
-	pathfinder.clear()
-	var maxOverworldWidth = overworld.size()
-	var maxOverworldHeight = overworld[0].size()
-	pathfinder.reserve_space(maxMapHeight * maxOverworldWidth * maxOverworldHeight)
-	
-	# For each HeightLevel, add cells that would not be Outside
-	for z in maxHeightLevels:
-		var cost = heightLayerWeightFactor*(maxHeightLevels-z)#(maxHeightLevels+1-z)*heightLayerWeightFactor 
-		for y in maxOverworldHeight:
-			for x in maxOverworldWidth:
-				var cellHeight = overworld[x][y]
-				if x == 63:
-						var foo = 1
-				if cellHeight >= z:
-					var location = Vector3(x,y,z)
-					var id =CellVectToAStarID(location)
-					pathfinder.add_point(id, location, cost)
-
-# Connect the points of the pathfinder
-func ConnectPathfinderFromOverworld():
-	var maxOverworldWidth = OverworldHeights.size()
-	var maxOverworldHeight = OverworldHeights[0].size()
-	# Go through each cell that has a point in the pathfinder
-	for z in maxHeightLevels:
-		for y in maxOverworldHeight:
-			for x in maxOverworldWidth:
-				var locationId = CellCoordsToAStarID(x,y,z)
-				if pathfinder.has_point(locationId):
-					if x == 63:
-						var foo = 1
-					# Connect adjacent points that will not have been added already
-					for neighbourVector in [Vector3(x+1, y, z), Vector3(x,y+1,z), Vector3(x,y,z+1)]:
-						var neighbourId = CellVectToAStarID(neighbourVector)
-						if pathfinder.has_point(neighbourId):
-							pathfinder.connect_points(locationId, neighbourId)
 
 func ConstructCellPathBetweenEntrancesInDungeon(path: Array, layers: Array):
 	
@@ -229,19 +172,19 @@ func CalculateDirectionFromOrthogonalCoords(from, to):
 	
 	return Constants.DIRECTION.SAME
 
-func ConstructDirectionalPathInCell(cell, direction, layer: DungeonLayer):
-	var centralPoint = GetCentralPointFromOverWorldCoords(cell.x, cell.y)
-	layer.setTile(centralPoint.x, centralPoint.y, Constants.DUNGEON_TILES.ROOM)
-	for delta in ceil((dungeonToOverworldScale+1)/2.0):
+func ConstructDirectionalPathInCell(cell, direction, layer: LayerBase):
+	var centralPoint = UtilityMethods.GetCentralPointFromOverWorldCoords(cell.x, cell.y, scale)
+	layer.SetTile(centralPoint.x, centralPoint.y, Constants.DUNGEON_TILES.ROOM)
+	for delta in ceil((scale+1)/2.0):
 		match direction:
 			Constants.DIRECTION.NORTH: 
-				layer.setTile(centralPoint.x, centralPoint.y+delta, Constants.DUNGEON_TILES.ROOM)
+				layer.SetTile(centralPoint.x, centralPoint.y+delta, Constants.DUNGEON_TILES.ROOM)
 			Constants.DIRECTION.EAST: 
-				layer.setTile(centralPoint.x-delta, centralPoint.y, Constants.DUNGEON_TILES.ROOM)
+				layer.SetTile(centralPoint.x-delta, centralPoint.y, Constants.DUNGEON_TILES.ROOM)
 			Constants.DIRECTION.SOUTH: 
-				layer.setTile(centralPoint.x, centralPoint.y-delta, Constants.DUNGEON_TILES.ROOM)
+				layer.SetTile(centralPoint.x, centralPoint.y-delta, Constants.DUNGEON_TILES.ROOM)
 			Constants.DIRECTION.WEST: 
-				layer.setTile(centralPoint.x+delta, centralPoint.y, Constants.DUNGEON_TILES.ROOM)
+				layer.SetTile(centralPoint.x+delta, centralPoint.y, Constants.DUNGEON_TILES.ROOM)
 
 
 # Seperate the path into sections that are on the same layer
@@ -318,97 +261,66 @@ func AddConnectingStairwellsFromOverworldSections (layers, sections):
 		#If single tile, so going staright down/up, add a dual stairwell
 		if section.size() == 1:
 			
-			GenerateDualStairwell(layer, GetCentralPointFromOverWorldVect(section[0]))
+			GenerateDualStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[0], scale))
 		else:
 			
 			#First Tile stairwell
 			#If first section, add up stairs for entrance
 			if i == 0:
-				GenerateUpStairwell(layer,GetCentralPointFromOverWorldVect(section[0]))
+				GenerateUpStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[0], scale))
 			#Otherwise work out if prev layer is higher or lower for stairwell type
 			else:
 				var prevHeight = sections[i-1][0].z
 				if prevHeight < height:
-					GenerateDownStairwell(layer,GetCentralPointFromOverWorldVect(section[0]))
+					GenerateDownStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[0], scale))
 				else:
-					GenerateUpStairwell(layer, GetCentralPointFromOverWorldVect(section[0]))
+					GenerateUpStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[0], scale))
 			
 			#Last Tile stairwell
 			#If last section, add up stairwell for entrance
 			if i == sections.size()-1:
-				GenerateUpStairwell(layer, GetCentralPointFromOverWorldVect(section[-1]))
+				GenerateUpStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[-1], scale))
 			#Otherwise work out if next section is higher or lower
 			else: 
 				var nextHeight = sections[i+1][0].z
 				if nextHeight < height:
-					GenerateDownStairwell(layer, GetCentralPointFromOverWorldVect(section[-1]))
+					GenerateDownStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[-1], scale))
 				else:
-					GenerateUpStairwell(layer, GetCentralPointFromOverWorldVect(section[-1]))
+					GenerateUpStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[-1], scale))
 
 
 
 # Generates a stairwell going up
 func GenerateUpStairwell(layer, entrance):
-	var startX = entrance.x - (dungeonToOverworldScale-1)/2
-	var startY = entrance.y - (dungeonToOverworldScale-1)/2
-	GenerateSquareRoom(layer, startX, startY, dungeonToOverworldScale)
-	layer.setTile(entrance.x, entrance.y, Constants.DUNGEON_TILES.UP_STAIRS)
+	var startX = entrance.x - (scale-1)/2
+	var startY = entrance.y - (scale-1)/2
+	GenerateSquareRoom(layer, startX, startY, scale)
+	layer.SetTile(entrance.x, entrance.y, Constants.DUNGEON_TILES.UP_STAIRS)
 
 # Generates a stairwell going down	
 func GenerateDownStairwell(layer, entrance):
-	var startX = entrance.x - (dungeonToOverworldScale-1)/2
-	var startY = entrance.y - (dungeonToOverworldScale-1)/2
-	GenerateSquareRoom(layer, startX, startY, dungeonToOverworldScale)
-	layer.setTile(entrance.x, entrance.y, Constants.DUNGEON_TILES.DOWN_STAIRS)
+	var startX = entrance.x - (scale-1)/2
+	var startY = entrance.y - (scale-1)/2
+	GenerateSquareRoom(layer, startX, startY, scale)
+	layer.SetTile(entrance.x, entrance.y, Constants.DUNGEON_TILES.DOWN_STAIRS)
 
 # Generates a stairwell going both up and down
 func GenerateDualStairwell(layer, entrance):
-	var startX = entrance.x - (dungeonToOverworldScale-1)/2
-	var startY = entrance.y - (dungeonToOverworldScale-1)/2
-	GenerateSquareRoom(layer, startX, startY, dungeonToOverworldScale)
-	layer.setTile(entrance.x, entrance.y, Constants.DUNGEON_TILES.DUAL_STAIRS)
+	var startX = entrance.x - (scale-1)/2
+	var startY = entrance.y - (scale-1)/2
+	GenerateSquareRoom(layer, startX, startY, scale)
+	layer.SetTile(entrance.x, entrance.y, Constants.DUNGEON_TILES.DUAL_STAIRS)
 
 # Generates a square room
-func GenerateSquareRoom(layer: DungeonLayer, xStart: int, yStart: int, width: int):
+func GenerateSquareRoom(layer: LayerBase, xStart: int, yStart: int, width: int):
 	GenerateRectangleRoom(layer, xStart, yStart, width, width)
 
 # Generates a rectangle room
-func GenerateRectangleRoom(layer: DungeonLayer, xStart: int, yStart: int, width: int, height: int):
+func GenerateRectangleRoom(layer: LayerBase, xStart: int, yStart: int, width: int, height: int):
 	for x in width:
 		for y in width:
-			layer.setTile(xStart+x, yStart+y, Constants.DUNGEON_TILES.ROOM)
+			layer.SetTile(xStart+x, yStart+y, Constants.DUNGEON_TILES.ROOM)
 
-# For a given point in a dungeon layer, gets the central point of the corresponding overworld coordinate
-func GetCentralPointFromDungeonPoint(x,y):
-	var owVect = GetOverworldCellCoordsFromDungeonPoint(x,y)
-	return GetCentralPointFromOverWorldVect(owVect)
-
-# Gets an area of the dungeon layer that corresponds to the given overworld coordinates
-func GetDungeonAreaFromOverworldCoords(owCoords):
-	var area = Array()
-	for i in dungeonToOverworldScale:
-		area.append([])
-		for j in dungeonToOverworldScale:
-			area.append(Vector2(owCoords.x*dungeonToOverworldScale +i, owCoords.y*dungeonToOverworldScale + j))
-	return area
-
-# Gets the central point of an area of the dungeon layers that correspond to the given overworld
-# coordinates
-func GetCentralPointFromOverWorldVect(cellVect):
-	return GetCentralPointFromOverWorldCoords(cellVect.x, cellVect.y)
-
-# Gets the central point of an area of the dungeon layers that correspond to the given overworld
-# coordinates
-func GetCentralPointFromOverWorldCoords(cellX, cellY):
-	var x = cellX * dungeonToOverworldScale + (dungeonToOverworldScale/2)
-	var y = cellY * dungeonToOverworldScale + (dungeonToOverworldScale/2)
-	return Vector2i(x, y)
-	
-
-
-# Gets the overworld coordinates corresponding to a given point in a dungeon layer
-func GetOverworldCellCoordsFromDungeonPoint(x,y):
-	return Vector2(x/dungeonToOverworldScale, y/dungeonToOverworldScale)
 
 # Updates the seed buffer
 func UpdateSeedValue(value: float) -> void:
@@ -416,7 +328,7 @@ func UpdateSeedValue(value: float) -> void:
 
 # Updates the dungeon to overworld scale
 func UpdateScale(value: float) -> void:
-	dungeonToOverworldScale = value
+	scale = value
 
 # Updates the minimum number of rooms
 func UpdateMinRooms(value: float) -> void:
@@ -426,48 +338,12 @@ func UpdateMinRooms(value: float) -> void:
 func UpdateMaxRooms(value: float) -> void:
 	maxRooms = value
 
-# Gets the ID corresponding to the given coordinates given as a vector
-func VectToAStarID(vector : Vector3i):
-	return CoordsToAStarID(vector.x, vector.y, vector.z)
-# Gets the ID corresponding to the given coordinates given as individual coordinates
-func CoordsToAStarID(x: int, y: int, z:int) -> int:
-	return z*(maxMapHeight * maxMapWidth) + (y * maxMapWidth) + x
-
-func CellVectToAStarID(vector : Vector3):
-	return CellCoordsToAStarID(vector.x, vector.y, vector.z)
-
-func CellCoordsToAStarID(x: int, y: int, z: int):
-	return floor(z)*(100*OverworldHeights.size()*OverworldHeights[0].size())+10*y*OverworldHeights.size() +x
 
 
 func UpdateHeightLayerWeightFactor(value):
 	heightLayerWeightFactor = value
+	pathfinder.heightLayerWeightFactor = value
 	
 func UpdateHeightChangeCostFactor(value):
 	heightChangeCostFactor = value
 	pathfinder.heightChangeCostFactor = value
-
-
-# Modification of the pathfinding heuristic to allow changing height layers to have a different cost
-# in order to discourage unnecessary changes in heights
-class modifiedAStar3D extends AStar3D:
-	var heightChangeCostFactor = 10
-	
-	func _compute_cost(from_id: int, to_id: int) -> float:
-		var fromVector = get_point_position(from_id)
-		var toVector = get_point_position(to_id)
-		var dx = abs(fromVector.x - toVector.x)
-		var dy = abs(fromVector.y - toVector.y)
-		var dz = heightChangeCostFactor * abs(fromVector.z - toVector.z)
-		
-		return sqrt(dx*dx+dy*dy+dz*dz)
-
-	func _estimate_cost(from_id: int, to_id: int) -> float:
-		var fromVector = get_point_position(from_id)
-		var toVector = get_point_position(to_id)
-		var dx = abs(fromVector.x - toVector.x)
-		var dy = abs(fromVector.y - toVector.y)
-		var dz = heightChangeCostFactor * abs(fromVector.z - toVector.z)
-		
-		return sqrt(dx*dx+dy*dy+dz*dz)
-		

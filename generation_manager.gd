@@ -2,21 +2,31 @@ extends Node
 
 ## Overall Map
 var map: Map
-## Maximum number of height layers
-var maxHeightLevels: int
+
+var scaleChanged = false
 
 ## Constructor
-func _init() -> void:
+func _ready() -> void:
 	map = Map.new()
+	var pathfinder = ModifiedAStar3D.new()
+	$UndergroundGenerator.pathfinder = pathfinder
+	$DungeonGenerator.pathfinder = pathfinder
 
 ## Generate Map 
 func Generate() -> Map:
 	_GenerateOverworld()
+	_GenerateUnderground()
 	_GenerateDungeon()
+	
+	var foo = map.underground.layers
 	return map
 
 ## Regenerate Dungeon layer
 func RegenerateDungeon() -> Map:
+	if scaleChanged:
+		_GenerateUnderground()
+		scaleChanged = false
+	
 	_GenerateDungeon()
 	return map
 
@@ -28,15 +38,19 @@ func _GenerateOverworld() -> void:
 	var overworldGenerationTime = endOverworldGeneration - startOverworldGeneration
 	print("Overworld Map Generation Time: " + str(overworldGenerationTime)+ "ms")
 
+## Generate the Underground Layers
+func _GenerateUnderground() -> void:
+	var startUndergroundGeneration = Time.get_ticks_msec()
+	$UndergroundGenerator.GenerateUnderground(map)
+	var endUndergroundGeneration = Time.get_ticks_msec()
+	var undergroundGenerationTime = endUndergroundGeneration - startUndergroundGeneration
+	print("Underground Genration Time: " + str(undergroundGenerationTime) + "ms")
+
 ## Generate the Dungeon Layers
 func _GenerateDungeon() -> void:
 	var startDungeonGeneration = Time.get_ticks_msec()
 	# Generate dungeon entrances
-	$DungeonGenerator.RegenerateDungeons(map.overworld.heights, maxHeightLevels, map.overworld.maxX, map.overworld.maxY) # This is just the entrances
-	map.entrances = $DungeonGenerator.DungeonEntrances
-	# Generate the layers
-	var layers = $DungeonGenerator.GenerateDungeonLayers(map.entrances)
-	map.dungeon = layers
+	$DungeonGenerator.RegenerateDungeons(map)
 	
 	var endDungeonGeneration = Time.get_ticks_msec()
 	var dungeonGenerationTime = endDungeonGeneration - startDungeonGeneration
@@ -44,10 +58,6 @@ func _GenerateDungeon() -> void:
 
 
 #region Parameter Update
-func UpdateMaxHeightLevels(value) -> void:
-	maxHeightLevels = value
-	$OverworldMapGenerator.maxHeightLevels = value
-	$DungeonGenerator.maxHeightLevels = value
 
 func UpdateHeightChangeWeightSelector(value: float) -> void:
 	$DungeonGenerator.UpdateHeightChangeCostFactor(value)
@@ -62,7 +72,9 @@ func UpdateMinRooms(value: float) -> void:
 	$DungeonGenerator.UpdateMinRooms(value)
 
 func UpdateScale(value: float) -> void:
+	scaleChanged = true
 	$DungeonGenerator.UpdateScale(value)
+	$UndergroundGenerator.UpdateScale(value)
 
 func UpdateDungeonSeed(value: float) -> void:
 	$DungeonGenerator.UpdateSeedValue(value)

@@ -1,7 +1,6 @@
 extends Node2D
 
 @export var numberOfDungeons:int = 1
-@export var maxHeightLevels = 8
 
 # Available views to display to the user
 var views : Array[Control]
@@ -18,14 +17,12 @@ func _ready() -> void:
 	for c: Control in views:
 		c.hide()
 	ActiveView.set_visible(true)
-	#Initialise generators
-	$GenerationManager.UpdateMaxHeightLevels(maxHeightLevels)
 	
 	# Initialise view control
 	$ViewControls/LayerSelect.clear()
 	$ViewControls/LayerSelect.add_item("Overworld Layer", 0)
 	
-	for z in maxHeightLevels:
+	for z in Constants.MAX_HEIGHT_LEVELS:
 		$ViewControls/LayerSelect.add_item("Dungeon Layer "+ str(z), z+1)
 	GenerateMap()
 	
@@ -49,8 +46,9 @@ func GenerateMap() -> void:
 	var endMapGeneration = Time.get_ticks_msec()
 	var mapGenerationTime = endMapGeneration - startMapGeneration
 	print("Overall Map Generation Time: " + str(mapGenerationTime)+ "ms")
-	
 	var startViewerUpdate = Time.get_ticks_msec()
+	
+	var foo = map.underground.layers
 	_UpdateViewers()
 	var endViewerUpdate = Time.get_ticks_msec()
 	var viewerUpdateTime = endViewerUpdate - startViewerUpdate
@@ -75,5 +73,9 @@ func ChangeView(value):
 		ActiveView.set_visible(true)
 		return
 	ActiveView = views[1]
-	$MapViewContainer/MapSubViewport/DungeonViewer/DungeonTileMapLayer.updateDungeonLayer(map.dungeon[value-1])
+	var dungeonLayer =map.dungeon.dungeonLayers[value-1]
+	#$MapViewContainer/MapSubViewport/DungeonViewer/DungeonTileMapLayer.updateDungeonLayer(dungeonLayer)
+	
+	var foo = map.underground.layers
+	$MapViewContainer/MapSubViewport/DungeonViewer/DungeonTileMapLayer.UpdateViewer(map, value-1)
 	ActiveView .set_visible(true)

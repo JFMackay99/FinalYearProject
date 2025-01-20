@@ -3,18 +3,14 @@ extends Node
 # The map
 var map: Array
 
-# Map size parameters
-@export var height = 64
-@export var width =64
-@export var maxHeightLevels = 8
 
 # Called when the script is instantiated
 func _init():
 	# Initialise map array
 	map = Array()
-	for i in height:
+	for i in Constants.OVERWORLD_MAX_X:
 		map.append([])
-		for j in width:
+		for j in Constants.OVERWORLD_MAX_Y:
 			map[i].append(0.0)
 	
 
@@ -24,15 +20,15 @@ func GenerateMap() -> Array:
 	$HeightNoiseHandler.RegenerateNoise()
 	
 	# Fill the map with height values
-	for i in height:
-		for j in height:
+	for i in Constants.OVERWORLD_MAX_X:
+		for j in Constants.OVERWORLD_MAX_Y:
 			map[i][j] = normaliseNoiseValue($HeightNoiseHandler.Get2DNoise(i,j))
 			
 	return map
 	
 # Normalise noise value to be between 0 and the maximum height value  
 func normaliseNoiseValue(noiseValue: float):
-	return maxHeightLevels * (noiseValue+1)/2
+	return Constants.MAX_HEIGHT_LEVELS * (noiseValue+1)/2
 
 
 # Update noise handlers buffered frequency

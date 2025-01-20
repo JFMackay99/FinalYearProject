@@ -1,15 +1,8 @@
 extends LayerBase
 
-class_name DungeonLayerLegacy
+class_name UndergroundLayer
 
-
-var map : Array
-
-
-var stairsUp : Array
-var stairsDown: Array
-
-
+var map: Array
 
 func _init(layerHeight: int, maxWidth, maxHeight, higherLevel: LayerBase = null) -> void:
 	super._init(layerHeight, maxWidth, maxHeight, higherLevel)
@@ -23,11 +16,9 @@ func _init(layerHeight: int, maxWidth, maxHeight, higherLevel: LayerBase = null)
 
 	mapMaxHeight = maxHeight
 	mapMaxWidth = maxWidth
-	
-func addEntrance(entrance):
-	stairsUp.append(Vector2i(entrance.x, entrance.y))
+
+func GetTile( x, y):
+	return map[x][y]
 
 func SetTile(x: int, y: int, tile: int):
 	map[x][y] = tile
-
-	
