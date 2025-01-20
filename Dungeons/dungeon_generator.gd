@@ -41,6 +41,7 @@ func RegenerateDungeons(map: Map):
 	
 	# Generate Dungeon Entrances
 	GenerateDungeonEntrances(map)
+	GenerateDungeonLayers(map)
 
 # Generate a number of dungeon entrances, defaulting to 2
 func GenerateDungeonEntrances(map: Map, NumberOfEntrances: int = 2):
@@ -54,7 +55,8 @@ func GenerateDungeonEntrances(map: Map, NumberOfEntrances: int = 2):
 		if not DungeonEntrances.has(entrance): 
 			DungeonEntrances.append(entrance)
 			generatedEntrances+=1
-			
+	map.entrances = DungeonEntrances
+
 # Generate a single dungeon entrance
 func GenerateDungeonEntrance(map: Map):
 	# Generate x,y coords of dungeon
@@ -66,7 +68,7 @@ func GenerateDungeonEntrance(map: Map):
 
 # Generate dungeon layers between entrances
 func GenerateDungeonLayers(map: Map):
-	var scale = map.overworldToDungeonScale
+	scale = map.overworldToDungeonScale
 	var layers:Array[LayerBase] = []
 	map.dungeon.setLayers(layers)
 	layers.resize(Constants.MAX_HEIGHT_LEVELS+1)

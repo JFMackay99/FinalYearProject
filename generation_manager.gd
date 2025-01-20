@@ -50,10 +50,7 @@ func _GenerateUnderground() -> void:
 func _GenerateDungeon() -> void:
 	var startDungeonGeneration = Time.get_ticks_msec()
 	# Generate dungeon entrances
-	$DungeonGenerator.RegenerateDungeons(map) # This is just the entrances
-	map.entrances = $DungeonGenerator.DungeonEntrances
-	# Generate the layers
-	var layers = $DungeonGenerator.GenerateDungeonLayers(map)
+	$DungeonGenerator.RegenerateDungeons(map)
 	
 	var endDungeonGeneration = Time.get_ticks_msec()
 	var dungeonGenerationTime = endDungeonGeneration - startDungeonGeneration
