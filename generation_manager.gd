@@ -88,4 +88,15 @@ func UpdateHeightNoiseSeed(value: float) -> void:
 
 func UpdateHeightNoiseType(index: int) -> void:
 	$OverworldMapGenerator.UpdateHeightNoiseType(index)
+
+func UpdateBiomeNoiseFrequency(value: float) -> void:
+	$OverworldMapGenerator.UpdateBiomeNoiseFrequency(value)
+
+func UpdateBiomeNoiseSeed(value: float) -> void:
+	$OverworldMapGenerator.UpdateBiomeNoiseSeed(value)
+
+func UpdateBiomeNoiseType(index: int) -> void:
+	$OverworldMapGenerator.UpdateBiomeNoiseType(index)
+#endregion
+
 #endregion
