@@ -19,23 +19,23 @@ func _ready() -> void:
 	ActiveView.set_visible(true)
 	
 	# Initialise view control
-	$ViewControls/LayerSelect.clear()
-	$ViewControls/LayerSelect.add_item("Overworld Layer", 0)
+	$ViewControls/ViewControlsContainer/Layer/LayerSelect.clear()
+	$ViewControls/ViewControlsContainer/Layer/LayerSelect.add_item("Overworld Layer", 0)
 	
 	for z in Constants.MAX_HEIGHT_LEVELS:
-		$ViewControls/LayerSelect.add_item("Dungeon Layer "+ str(z), z+1)
+		$ViewControls/ViewControlsContainer/Layer/LayerSelect.add_item("Dungeon Layer "+ str(z), z+1)
 	GenerateMap()
 	
 # Update labels showing information about the generated overworld
 func UpdateLabels():
 	# For now we only need the coordinates of two dungeon entrances
 	var entrance = map.entrances[0]
-	$ViewControls/E1Coords.text = "(" + str(entrance.x) + "," + str(entrance.y) + ")"
-	$ViewControls/E1HeightValue.text = str(entrance.z)
+	$ViewControls/ViewControlsContainer/Entrances/E1/Coords/E1Coords.text = "(" + str(entrance.x) + "," + str(entrance.y) + ")"
+	$ViewControls/ViewControlsContainer/Entrances/E1/Height/E1HeightValue.text = str(entrance.z)
 	
 	entrance = map.entrances[1]
-	$ViewControls/E2Coords.text = "(" + str(entrance.x) + "," + str(entrance.y) + ")"
-	$ViewControls/E2HeightValue.text = str(entrance.z)
+	$ViewControls/ViewControlsContainer/Entrances/E2/Coords/E2Coords.text = "(" + str(entrance.x) + "," + str(entrance.y) + ")"
+	$ViewControls/ViewControlsContainer/Entrances/E2/Height/E2HeightValue.text = str(entrance.z)
 	
 	
 # Generate the full overworld. This is also called when the "pressed" signal is emmitted when the 
@@ -61,7 +61,7 @@ func RegenerateDungeon() -> void:
 func _UpdateViewers():
 	$MapViewContainer/MapSubViewport/OverworldViewer/OverworldTileMapLayer.Regenerate(map.overworld.heights)
 	$MapViewContainer/MapSubViewport/OverworldViewer/DungeonEntrances.AddDungeonEntrances(map.entrances)
-	ChangeView($ViewControls/LayerSelect.get_selected_id())
+	ChangeView($ViewControls/ViewControlsContainer/Layer/LayerSelect.get_selected_id())
 	UpdateLabels()
 
 # Change the view shown to the user. This is also called when the "itemSelect" signal is emmited

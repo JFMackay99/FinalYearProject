@@ -164,42 +164,51 @@ tile_map_data = PackedByteArray("AAAGAAQAAAABAAAAAAAHAAQAAAABAAAAAAAIAAQAAAABAAA
 tile_set = SubResource("TileSet_din5l")
 script = ExtResource("9_4rfbe")
 
-[node name="HeightNoiseControl" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 798.0
-offset_right = 1148.0
-offset_bottom = 358.0
-metadata/_edit_group_ = true
+[node name="GenerationControlTabs" type="TabContainer" parent="."]
+offset_left = 568.0
+offset_top = 14.0
+offset_right = 1145.0
+offset_bottom = 45.0
+current_tab = 0
+all_tabs_in_front = true
+drag_to_rearrange_enabled = true
+tab_focus_mode = 1
+deselect_enabled = true
 
-[node name="ColorRect" type="ColorRect" parent="HeightNoiseControl"]
-layout_mode = 0
-offset_right = 350.0
-offset_bottom = 358.0
+[node name="Overworld Noise" type="Control" parent="GenerationControlTabs"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="ColorRect" type="ColorRect" parent="GenerationControlTabs/Overworld Noise"]
+layout_mode = 2
+offset_left = 10.0
+offset_right = 583.0
+offset_bottom = 231.0
 color = Color(0.783523, 0.783523, 0.783523, 1)
 
-[node name="HeightLabel" type="Label" parent="HeightNoiseControl"]
+[node name="HeightVBoxContainer" type="VBoxContainer" parent="GenerationControlTabs/Overworld Noise"]
 layout_mode = 2
-offset_left = 150.0
-offset_top = 9.0
-offset_right = 202.0
-offset_bottom = 32.0
+offset_left = 10.0
+offset_top = 11.0
+offset_right = 265.0
+offset_bottom = 151.0
+
+[node name="CenterContainer" type="CenterContainer" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer"]
+layout_mode = 2
+
+[node name="HeightLabel" type="Label" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/CenterContainer"]
+layout_mode = 2
 text = "Height"
 
-[node name="HNoiseType" type="Label" parent="HeightNoiseControl"]
-layout_mode = 0
-offset_left = 40.0
-offset_top = 46.0
-offset_right = 125.0
-offset_bottom = 69.0
+[node name="TypeHSplitContainer" type="HSplitContainer" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer"]
+layout_mode = 2
+
+[node name="HNoiseType" type="Label" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/TypeHSplitContainer"]
+layout_mode = 2
 text = "Noise Type"
 
-[node name="TypeDropDown" type="OptionButton" parent="HeightNoiseControl"]
-layout_mode = 0
-offset_left = 136.0
-offset_top = 40.0
-offset_right = 286.0
-offset_bottom = 82.0
+[node name="TypeDropDown" type="OptionButton" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/TypeHSplitContainer"]
+layout_mode = 2
 selected = 0
 allow_reselect = true
 item_count = 6
@@ -215,367 +224,295 @@ popup/item_4/id = 4
 popup/item_5/text = "Value"
 popup/item_5/id = 5
 
-[node name="HSeedLabel" type="Label" parent="HeightNoiseControl"]
-layout_mode = 0
-offset_left = 46.0
-offset_top = 88.0
-offset_right = 86.0
-offset_bottom = 111.0
+[node name="SeedHSplitContainer" type="HSplitContainer" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer"]
+layout_mode = 2
+
+[node name="HSeedLabel" type="Label" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/SeedHSplitContainer"]
+layout_mode = 2
 text = "Seed
 "
 
-[node name="SeedEdit" type="SpinBox" parent="HeightNoiseControl"]
+[node name="SeedEdit" type="SpinBox" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/SeedHSplitContainer"]
 layout_mode = 2
-offset_left = 139.0
-offset_top = 86.0
-offset_right = 287.0
-offset_bottom = 117.0
 max_value = 9.22337e+18
 
-[node name="HFreqLabel" type="Label" parent="HeightNoiseControl"]
-layout_mode = 0
-offset_left = 45.0
-offset_top = 139.0
-offset_right = 126.0
-offset_bottom = 162.0
+[node name="FreqHBoxContainer" type="HSplitContainer" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer"]
+layout_mode = 2
+
+[node name="HFreqLabel" type="Label" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/FreqHBoxContainer"]
+layout_mode = 2
 text = "Frequency"
 
-[node name="HFreqValue" type="Label" parent="HeightNoiseControl"]
-layout_mode = 0
-offset_left = 147.0
-offset_top = 124.0
-offset_right = 273.0
-offset_bottom = 147.0
+[node name="VBoxContainer" type="VBoxContainer" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/FreqHBoxContainer"]
+layout_mode = 2
+
+[node name="HFreqValue" type="Label" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/FreqHBoxContainer/VBoxContainer"]
+layout_mode = 2
 text = "-0.05"
 script = ExtResource("5_r1ukx")
 
-[node name="FrequencyEdit" type="HSlider" parent="HeightNoiseControl"]
-layout_mode = 0
-offset_left = 138.0
-offset_top = 148.0
-offset_right = 285.0
-offset_bottom = 164.0
+[node name="FrequencyEdit" type="HSlider" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/FreqHBoxContainer/VBoxContainer"]
+layout_mode = 2
 min_value = -0.1
 max_value = 0.1
 step = 0.001
 value = -0.05
 
-[node name="RegenerateButton" type="Button" parent="HeightNoiseControl"]
-layout_mode = 0
-offset_left = 65.0
-offset_top = 196.0
-offset_right = 286.0
-offset_bottom = 224.0
-text = "Regenerate"
+[node name="DungeonControl" type="Control" parent="GenerationControlTabs"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
 
-[node name="DungeonControl" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 793.0
-offset_top = 245.0
-offset_right = 1143.0
-offset_bottom = 603.0
-metadata/_edit_group_ = true
-
-[node name="ColorRect" type="ColorRect" parent="DungeonControl"]
+[node name="ColorRect" type="ColorRect" parent="GenerationControlTabs/DungeonControl"]
 layout_mode = 0
-offset_right = 350.0
-offset_bottom = 358.0
+offset_left = 9.0
+offset_right = 586.0
+offset_bottom = 212.0
 color = Color(0.783523, 0.783523, 0.783523, 1)
 
-[node name="Dungeon Generation" type="Label" parent="DungeonControl"]
-layout_mode = 2
-offset_left = 71.0
-offset_top = 14.0
-offset_right = 233.0
-offset_bottom = 37.0
-text = "Dungeon Generation"
-
-[node name="DSeedLabel" type="Label" parent="DungeonControl"]
+[node name="VFlowContainer" type="VBoxContainer" parent="GenerationControlTabs/DungeonControl"]
 layout_mode = 0
-offset_left = 46.0
-offset_top = 88.0
-offset_right = 86.0
-offset_bottom = 111.0
+offset_left = 15.0
+offset_top = 1.0
+offset_right = 320.0
+offset_bottom = 63.0
+
+[node name="Seed" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/VFlowContainer"]
+layout_mode = 2
+
+[node name="DSeedLabel" type="Label" parent="GenerationControlTabs/DungeonControl/VFlowContainer/Seed"]
+layout_mode = 2
 text = "Seed
 "
 
-[node name="DSeedEdit" type="SpinBox" parent="DungeonControl"]
+[node name="DSeedEdit" type="SpinBox" parent="GenerationControlTabs/DungeonControl/VFlowContainer/Seed"]
 layout_mode = 2
-offset_left = 139.0
-offset_top = 86.0
-offset_right = 287.0
-offset_bottom = 117.0
 max_value = 9.22337e+18
 
-[node name="OverworldToDungeonScaleBox" type="SpinBox" parent="DungeonControl"]
-layout_mode = 0
-offset_left = 255.0
-offset_top = 119.0
-offset_right = 338.063
-offset_bottom = 150.0
+[node name="Scale" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/VFlowContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GenerationControlTabs/DungeonControl/VFlowContainer/Scale"]
+layout_mode = 2
+text = "Overworld To Dungeon Scale"
+
+[node name="OverworldToDungeonScaleBox" type="SpinBox" parent="GenerationControlTabs/DungeonControl/VFlowContainer/Scale"]
+layout_mode = 2
 min_value = 3.0
 max_value = 20.0
 value = 3.0
 suffix = "Tiles"
 
-[node name="Label" type="Label" parent="DungeonControl/OverworldToDungeonScaleBox"]
-layout_mode = 0
-offset_left = -236.0
-offset_top = 7.0
-offset_right = -13.0
-offset_bottom = 30.0
-text = "Overworld To Dungeon Scale"
+[node name="MinRoomCount" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/VFlowContainer"]
+layout_mode = 2
 
-[node name="DRegenerateButton" type="Button" parent="DungeonControl"]
-layout_mode = 0
-offset_left = 65.0
-offset_top = 303.0
-offset_right = 286.0
-offset_bottom = 334.0
-text = "Regenerate"
-
-[node name="MinRoomSelect" type="SpinBox" parent="DungeonControl"]
-layout_mode = 0
-offset_left = 254.0
-offset_top = 230.0
-offset_right = 337.063
-offset_bottom = 261.0
-
-[node name="Label" type="Label" parent="DungeonControl/MinRoomSelect"]
-layout_mode = 0
-offset_left = -236.0
-offset_top = 7.0
-offset_right = -13.0
-offset_bottom = 30.0
+[node name="Label" type="Label" parent="GenerationControlTabs/DungeonControl/VFlowContainer/MinRoomCount"]
+layout_mode = 2
 text = "Minimum Room Count"
 
-[node name="MaxRoomSelect" type="SpinBox" parent="DungeonControl"]
-layout_mode = 0
-offset_left = 255.0
-offset_top = 265.0
-offset_right = 338.063
-offset_bottom = 296.0
+[node name="MinRoomSelect" type="SpinBox" parent="GenerationControlTabs/DungeonControl/VFlowContainer/MinRoomCount"]
+layout_mode = 2
 
-[node name="Label" type="Label" parent="DungeonControl/MaxRoomSelect"]
-layout_mode = 0
-offset_left = -236.0
-offset_top = 7.0
-offset_right = -13.0
-offset_bottom = 30.0
+[node name="MaxRoomCount" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/VFlowContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GenerationControlTabs/DungeonControl/VFlowContainer/MaxRoomCount"]
+layout_mode = 2
 text = "Maximum Room Count"
 
-[node name="HeightLayerWeightSelector" type="SpinBox" parent="DungeonControl"]
-layout_mode = 0
-offset_left = 254.0
-offset_top = 154.0
-offset_right = 337.063
-offset_bottom = 185.0
-value = 10.0
+[node name="MaxRoomSelect" type="SpinBox" parent="GenerationControlTabs/DungeonControl/VFlowContainer/MaxRoomCount"]
+layout_mode = 2
 
-[node name="Label" type="Label" parent="DungeonControl/HeightLayerWeightSelector"]
-layout_mode = 0
-offset_left = -233.0
-offset_top = 5.0
-offset_right = -76.0
-offset_bottom = 28.0
+[node name="HeightLayerWright" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/VFlowContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GenerationControlTabs/DungeonControl/VFlowContainer/HeightLayerWright"]
+layout_mode = 2
 text = "Height Layer Weight"
 
-[node name="HeightChangeWeightSelector" type="SpinBox" parent="DungeonControl"]
-layout_mode = 0
-offset_left = 254.0
-offset_top = 192.0
-offset_right = 337.063
-offset_bottom = 223.0
+[node name="HeightLayerWeightSelector" type="SpinBox" parent="GenerationControlTabs/DungeonControl/VFlowContainer/HeightLayerWright"]
+layout_mode = 2
+value = 10.0
+
+[node name="HeightChangeCost" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/VFlowContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GenerationControlTabs/DungeonControl/VFlowContainer/HeightChangeCost"]
+layout_mode = 2
+text = "Height Change Cost
+"
+
+[node name="HeightChangeWeightSelector" type="SpinBox" parent="GenerationControlTabs/DungeonControl/VFlowContainer/HeightChangeCost"]
+layout_mode = 2
 min_value = 1.0
 value = 10.0
 
-[node name="Label" type="Label" parent="DungeonControl/HeightChangeWeightSelector"]
-layout_mode = 0
-offset_left = -233.0
-offset_top = 5.0
-offset_right = -76.0
-offset_bottom = 28.0
-text = "Height Change Weight"
-
 [node name="ViewControls" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 0
-offset_left = 560.0
-offset_top = 1.0
-offset_right = 800.0
-offset_bottom = 322.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 576.0
+offset_top = 278.0
+offset_right = 576.0
+offset_bottom = 278.0
+grow_horizontal = 2
+grow_vertical = 2
 metadata/_edit_group_ = true
 
 [node name="ColorRect" type="ColorRect" parent="ViewControls"]
 layout_mode = 0
-offset_right = 240.0
-offset_bottom = 321.0
+offset_right = 572.0
+offset_bottom = 186.0
 color = Color(0.783523, 0.783523, 0.783523, 1)
 
-[node name="DECD Title" type="Label" parent="ViewControls"]
+[node name="ViewControlsContainer" type="VFlowContainer" parent="ViewControls"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 3.0
+offset_right = 559.0
+offset_bottom = 180.0
+
+[node name="Entrances" type="VBoxContainer" parent="ViewControls/ViewControlsContainer"]
+layout_mode = 2
+
+[node name="DECD Title" type="Label" parent="ViewControls/ViewControlsContainer/Entrances"]
+layout_mode = 2
 text = "Dungeon Entrances
 "
 
-[node name="E1Label" type="Label" parent="ViewControls"]
-layout_mode = 0
-offset_left = 8.0
-offset_top = 31.0
-offset_right = 95.0
-offset_bottom = 54.0
+[node name="E1" type="VBoxContainer" parent="ViewControls/ViewControlsContainer/Entrances"]
+layout_mode = 2
+
+[node name="Coords" type="HBoxContainer" parent="ViewControls/ViewControlsContainer/Entrances/E1"]
+layout_mode = 2
+
+[node name="E1Label" type="Label" parent="ViewControls/ViewControlsContainer/Entrances/E1/Coords"]
+layout_mode = 2
 text = "Entrance 1:"
 
-[node name="E1HeightLabel" type="Label" parent="ViewControls"]
-layout_mode = 0
-offset_left = 38.0
-offset_top = 59.0
-offset_right = 98.0
-offset_bottom = 82.0
+[node name="E1Coords" type="Label" parent="ViewControls/ViewControlsContainer/Entrances/E1/Coords"]
+layout_mode = 2
+text = "(0,0)"
+
+[node name="Height" type="HBoxContainer" parent="ViewControls/ViewControlsContainer/Entrances/E1"]
+layout_mode = 2
+
+[node name="E1HeightLabel" type="Label" parent="ViewControls/ViewControlsContainer/Entrances/E1/Height"]
+layout_mode = 2
 text = "Height: "
 
-[node name="E2Label" type="Label" parent="ViewControls"]
-layout_mode = 0
-offset_left = 9.0
-offset_top = 112.0
-offset_right = 92.0
-offset_bottom = 135.0
+[node name="E1HeightValue" type="Label" parent="ViewControls/ViewControlsContainer/Entrances/E1/Height"]
+layout_mode = 2
+text = "0"
+
+[node name="E2" type="VBoxContainer" parent="ViewControls/ViewControlsContainer/Entrances"]
+layout_mode = 2
+
+[node name="Coords" type="HBoxContainer" parent="ViewControls/ViewControlsContainer/Entrances/E2"]
+layout_mode = 2
+
+[node name="E2Label" type="Label" parent="ViewControls/ViewControlsContainer/Entrances/E2/Coords"]
+layout_mode = 2
 text = "Entrance 2:"
 
-[node name="E2HeightLabel" type="Label" parent="ViewControls"]
-layout_mode = 0
-offset_left = 40.0
-offset_top = 138.0
-offset_right = 96.0
-offset_bottom = 161.0
+[node name="E2Coords" type="Label" parent="ViewControls/ViewControlsContainer/Entrances/E2/Coords"]
+layout_mode = 2
+text = "(0,0)"
+
+[node name="Height" type="HBoxContainer" parent="ViewControls/ViewControlsContainer/Entrances/E2"]
+layout_mode = 2
+
+[node name="E2HeightLabel" type="Label" parent="ViewControls/ViewControlsContainer/Entrances/E2/Height"]
+layout_mode = 2
 text = "Height:"
 
-[node name="E1Coords" type="Label" parent="ViewControls"]
-layout_mode = 0
-offset_left = 102.0
-offset_top = 30.0
-offset_right = 142.0
-offset_bottom = 53.0
-text = "(0,0)"
-
-[node name="E1HeightValue" type="Label" parent="ViewControls"]
-layout_mode = 0
-offset_left = 103.0
-offset_top = 60.0
-offset_right = 143.0
-offset_bottom = 83.0
+[node name="E2HeightValue" type="Label" parent="ViewControls/ViewControlsContainer/Entrances/E2/Height"]
+layout_mode = 2
 text = "0"
 
-[node name="E2Coords" type="Label" parent="ViewControls"]
-layout_mode = 0
-offset_left = 100.0
-offset_top = 112.0
-offset_right = 140.0
-offset_bottom = 135.0
-text = "(0,0)"
+[node name="Layer" type="HBoxContainer" parent="ViewControls/ViewControlsContainer"]
+layout_mode = 2
 
-[node name="E2HeightValue" type="Label" parent="ViewControls"]
-layout_mode = 0
-offset_left = 102.0
-offset_top = 141.0
-offset_right = 142.0
-offset_bottom = 164.0
-text = "0"
+[node name="Label" type="Label" parent="ViewControls/ViewControlsContainer/Layer"]
+layout_mode = 2
+text = "Layer
+"
 
-[node name="LayerSelect" type="OptionButton" parent="ViewControls"]
-layout_mode = 0
-offset_left = 104.0
-offset_top = 194.0
-offset_right = 218.0
-offset_bottom = 225.0
+[node name="LayerSelect" type="OptionButton" parent="ViewControls/ViewControlsContainer/Layer"]
+layout_mode = 2
 selected = 0
 item_count = 2
 popup/item_0/text = "Overworld"
 popup/item_1/text = "Dungeon"
 popup/item_1/id = 1
 
-[node name="Label" type="Label" parent="ViewControls/LayerSelect"]
-layout_mode = 0
-offset_left = -86.0
-offset_top = 4.0
-offset_right = -46.0
-offset_bottom = 27.0
-text = "Layer
-"
+[node name="CameraZoom" type="HSplitContainer" parent="ViewControls/ViewControlsContainer"]
+layout_mode = 2
 
-[node name="SpeedSlider" type="HSlider" parent="ViewControls"]
-layout_mode = 0
-offset_left = 128.0
-offset_top = 238.0
-offset_right = 192.0
-offset_bottom = 254.0
-min_value = 1.0
-max_value = 25.0
-value = 1.0
-
-[node name="Label" type="Label" parent="ViewControls/SpeedSlider"]
-layout_mode = 0
-offset_left = -126.0
-offset_top = -7.0
-offset_right = -14.0
-offset_bottom = 16.0
-text = "Camera Speed"
-
-[node name="CameraSpeedLabel" type="Label" parent="ViewControls/SpeedSlider"]
-layout_mode = 0
-offset_left = 66.0
-offset_top = -4.0
-offset_right = 106.0
-offset_bottom = 19.0
-text = "3
-"
-script = ExtResource("12_jt3o4")
-
-[node name="ZoomSlider" type="HSlider" parent="ViewControls"]
-layout_mode = 0
-offset_left = 130.0
-offset_top = 266.0
-offset_right = 194.0
-offset_bottom = 282.0
-min_value = 10.0
-max_value = 200.0
-value = 100.0
-
-[node name="Label" type="Label" parent="ViewControls/ZoomSlider"]
-layout_mode = 0
-offset_left = -126.0
-offset_top = -7.0
-offset_right = -14.0
-offset_bottom = 16.0
+[node name="Label" type="Label" parent="ViewControls/ViewControlsContainer/CameraZoom"]
+layout_mode = 2
 text = "Camera Zoom
 "
 
-[node name="CameraZoomLabel" type="Label" parent="ViewControls/ZoomSlider"]
-layout_mode = 0
-offset_left = 66.0
-offset_top = -4.0
-offset_right = 106.0
-offset_bottom = 19.0
+[node name="VBoxContainer" type="VBoxContainer" parent="ViewControls/ViewControlsContainer/CameraZoom"]
+layout_mode = 2
+
+[node name="CameraZoomLabel" type="Label" parent="ViewControls/ViewControlsContainer/CameraZoom/VBoxContainer"]
+layout_mode = 2
 text = "100%
 "
 script = ExtResource("13_ijeq1")
 
-[connection signal="item_selected" from="HeightNoiseControl/TypeDropDown" to="GenerationManager" method="UpdateHeightNoiseType"]
-[connection signal="value_changed" from="HeightNoiseControl/SeedEdit" to="GenerationManager" method="UpdateHeightNoiseSeed"]
-[connection signal="value_changed" from="HeightNoiseControl/FrequencyEdit" to="GenerationManager" method="UpdateHeightNoiseFrequency"]
-[connection signal="value_changed" from="HeightNoiseControl/FrequencyEdit" to="HeightNoiseControl/HFreqValue" method="_on_frequency_edit_value_changed"]
-[connection signal="pressed" from="HeightNoiseControl/RegenerateButton" to="." method="GenerateMap"]
-[connection signal="value_changed" from="DungeonControl/DSeedEdit" to="GenerationManager" method="UpdateDungeonSeed"]
-[connection signal="value_changed" from="DungeonControl/OverworldToDungeonScaleBox" to="GenerationManager" method="UpdateScale"]
-[connection signal="pressed" from="DungeonControl/DRegenerateButton" to="." method="RegenerateDungeon"]
-[connection signal="value_changed" from="DungeonControl/MinRoomSelect" to="GenerationManager" method="UpdateMinRooms"]
-[connection signal="value_changed" from="DungeonControl/MaxRoomSelect" to="GenerationManager" method="UpdateMaxRooms"]
-[connection signal="value_changed" from="DungeonControl/HeightLayerWeightSelector" to="GenerationManager" method="UpdateHeightLayerWeightSelector"]
-[connection signal="value_changed" from="DungeonControl/HeightChangeWeightSelector" to="GenerationManager" method="UpdateHeightChangeWeightSelector"]
-[connection signal="item_selected" from="ViewControls/LayerSelect" to="." method="ChangeView"]
-[connection signal="value_changed" from="ViewControls/SpeedSlider" to="MapViewContainer/MapSubViewport/MapViewCamera" method="UpdateSpeed"]
-[connection signal="value_changed" from="ViewControls/SpeedSlider" to="ViewControls/SpeedSlider/CameraSpeedLabel" method="UpdateValue"]
-[connection signal="value_changed" from="ViewControls/ZoomSlider" to="MapViewContainer/MapSubViewport/MapViewCamera" method="UpdateZoom"]
-[connection signal="value_changed" from="ViewControls/ZoomSlider" to="ViewControls/ZoomSlider/CameraZoomLabel" method="UpdateValue"]
+[node name="ZoomSlider" type="HSlider" parent="ViewControls/ViewControlsContainer/CameraZoom/VBoxContainer"]
+layout_mode = 2
+min_value = 10.0
+max_value = 200.0
+value = 100.0
+
+[node name="CameraSpeed" type="HSplitContainer" parent="ViewControls/ViewControlsContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ViewControls/ViewControlsContainer/CameraSpeed"]
+layout_mode = 2
+text = "Camera Speed"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ViewControls/ViewControlsContainer/CameraSpeed"]
+layout_mode = 2
+
+[node name="CameraSpeedLabel" type="Label" parent="ViewControls/ViewControlsContainer/CameraSpeed/VBoxContainer"]
+layout_mode = 2
+text = "3
+"
+script = ExtResource("12_jt3o4")
+
+[node name="SpeedSlider" type="HSlider" parent="ViewControls/ViewControlsContainer/CameraSpeed/VBoxContainer"]
+layout_mode = 2
+min_value = 1.0
+max_value = 25.0
+value = 1.0
+
+[node name="RegenerateOverworldButton" type="Button" parent="ViewControls/ViewControlsContainer"]
+layout_mode = 2
+text = "Regenerate Overworld"
+
+[node name="RegenerateDungeonButton" type="Button" parent="ViewControls/ViewControlsContainer"]
+layout_mode = 2
+text = "Regenerate Dungeon"
+
+[connection signal="item_selected" from="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/TypeHSplitContainer/TypeDropDown" to="GenerationManager" method="UpdateHeightNoiseType"]
+[connection signal="value_changed" from="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/SeedHSplitContainer/SeedEdit" to="GenerationManager" method="UpdateHeightNoiseSeed"]
+[connection signal="value_changed" from="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/FreqHBoxContainer/VBoxContainer/FrequencyEdit" to="GenerationManager" method="UpdateHeightNoiseFrequency"]
+[connection signal="value_changed" from="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/FreqHBoxContainer/VBoxContainer/FrequencyEdit" to="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/FreqHBoxContainer/VBoxContainer/HFreqValue" method="_on_frequency_edit_value_changed"]
+[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/VFlowContainer/Seed/DSeedEdit" to="GenerationManager" method="UpdateDungeonSeed"]
+[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/VFlowContainer/Scale/OverworldToDungeonScaleBox" to="GenerationManager" method="UpdateScale"]
+[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/VFlowContainer/MinRoomCount/MinRoomSelect" to="GenerationManager" method="UpdateMinRooms"]
+[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/VFlowContainer/MaxRoomCount/MaxRoomSelect" to="GenerationManager" method="UpdateMaxRooms"]
+[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/VFlowContainer/HeightLayerWright/HeightLayerWeightSelector" to="GenerationManager" method="UpdateHeightLayerWeightSelector"]
+[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/VFlowContainer/HeightChangeCost/HeightChangeWeightSelector" to="GenerationManager" method="UpdateHeightChangeWeightSelector"]
+[connection signal="item_selected" from="ViewControls/ViewControlsContainer/Layer/LayerSelect" to="." method="ChangeView"]
+[connection signal="value_changed" from="ViewControls/ViewControlsContainer/CameraZoom/VBoxContainer/ZoomSlider" to="MapViewContainer/MapSubViewport/MapViewCamera" method="UpdateZoom"]
+[connection signal="value_changed" from="ViewControls/ViewControlsContainer/CameraZoom/VBoxContainer/ZoomSlider" to="ViewControls/ViewControlsContainer/CameraZoom/VBoxContainer/CameraZoomLabel" method="UpdateValue"]
+[connection signal="value_changed" from="ViewControls/ViewControlsContainer/CameraSpeed/VBoxContainer/SpeedSlider" to="MapViewContainer/MapSubViewport/MapViewCamera" method="UpdateSpeed"]
+[connection signal="value_changed" from="ViewControls/ViewControlsContainer/CameraSpeed/VBoxContainer/SpeedSlider" to="ViewControls/ViewControlsContainer/CameraSpeed/VBoxContainer/CameraSpeedLabel" method="UpdateValue"]
+[connection signal="pressed" from="ViewControls/ViewControlsContainer/RegenerateOverworldButton" to="." method="GenerateMap"]
+[connection signal="pressed" from="ViewControls/ViewControlsContainer/RegenerateDungeonButton" to="." method="RegenerateDungeon"]

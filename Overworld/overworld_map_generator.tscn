@@ -6,4 +6,6 @@
 [node name="OverworldMapGenerator" type="Node"]
 script = ExtResource("1_v2xfd")
 
+[node name="BiomeNoiseHandler" parent="." instance=ExtResource("1_qioay")]
+
 [node name="HeightNoiseHandler" parent="." instance=ExtResource("1_qioay")]
