@@ -182,32 +182,35 @@ metadata/_tab_index = 0
 [node name="ColorRect" type="ColorRect" parent="GenerationControlTabs/Overworld Noise"]
 layout_mode = 2
 offset_left = 10.0
-offset_right = 583.0
+offset_right = 573.0
 offset_bottom = 231.0
 color = Color(0.783523, 0.783523, 0.783523, 1)
 
-[node name="HeightVBoxContainer" type="VBoxContainer" parent="GenerationControlTabs/Overworld Noise"]
-layout_mode = 2
-offset_left = 10.0
-offset_top = 11.0
-offset_right = 265.0
-offset_bottom = 151.0
+[node name="NoiseControls" type="HSplitContainer" parent="GenerationControlTabs/Overworld Noise"]
+layout_mode = 0
+offset_left = 16.0
+offset_right = 568.0
+offset_bottom = 227.0
+dragger_visibility = 1
 
-[node name="CenterContainer" type="CenterContainer" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer"]
+[node name="HeightVBoxContainer" type="VBoxContainer" parent="GenerationControlTabs/Overworld Noise/NoiseControls"]
 layout_mode = 2
 
-[node name="HeightLabel" type="Label" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/CenterContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="GenerationControlTabs/Overworld Noise/NoiseControls/HeightVBoxContainer"]
+layout_mode = 2
+
+[node name="HeightLabel" type="Label" parent="GenerationControlTabs/Overworld Noise/NoiseControls/HeightVBoxContainer/CenterContainer"]
 layout_mode = 2
 text = "Height"
 
-[node name="TypeHSplitContainer" type="HSplitContainer" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer"]
+[node name="TypeHSplitContainer" type="HSplitContainer" parent="GenerationControlTabs/Overworld Noise/NoiseControls/HeightVBoxContainer"]
 layout_mode = 2
 
-[node name="HNoiseType" type="Label" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/TypeHSplitContainer"]
+[node name="HNoiseType" type="Label" parent="GenerationControlTabs/Overworld Noise/NoiseControls/HeightVBoxContainer/TypeHSplitContainer"]
 layout_mode = 2
 text = "Noise Type"
 
-[node name="TypeDropDown" type="OptionButton" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/TypeHSplitContainer"]
+[node name="TypeDropDown" type="OptionButton" parent="GenerationControlTabs/Overworld Noise/NoiseControls/HeightVBoxContainer/TypeHSplitContainer"]
 layout_mode = 2
 selected = 0
 allow_reselect = true
@@ -224,34 +227,102 @@ popup/item_4/id = 4
 popup/item_5/text = "Value"
 popup/item_5/id = 5
 
-[node name="SeedHSplitContainer" type="HSplitContainer" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer"]
+[node name="SeedHSplitContainer" type="HSplitContainer" parent="GenerationControlTabs/Overworld Noise/NoiseControls/HeightVBoxContainer"]
 layout_mode = 2
 
-[node name="HSeedLabel" type="Label" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/SeedHSplitContainer"]
+[node name="HSeedLabel" type="Label" parent="GenerationControlTabs/Overworld Noise/NoiseControls/HeightVBoxContainer/SeedHSplitContainer"]
 layout_mode = 2
 text = "Seed
 "
 
-[node name="SeedEdit" type="SpinBox" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/SeedHSplitContainer"]
+[node name="SeedEdit" type="SpinBox" parent="GenerationControlTabs/Overworld Noise/NoiseControls/HeightVBoxContainer/SeedHSplitContainer"]
 layout_mode = 2
 max_value = 9.22337e+18
 
-[node name="FreqHBoxContainer" type="HSplitContainer" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer"]
+[node name="FreqHBoxContainer" type="HSplitContainer" parent="GenerationControlTabs/Overworld Noise/NoiseControls/HeightVBoxContainer"]
 layout_mode = 2
 
-[node name="HFreqLabel" type="Label" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/FreqHBoxContainer"]
+[node name="HFreqLabel" type="Label" parent="GenerationControlTabs/Overworld Noise/NoiseControls/HeightVBoxContainer/FreqHBoxContainer"]
 layout_mode = 2
 text = "Frequency"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/FreqHBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="GenerationControlTabs/Overworld Noise/NoiseControls/HeightVBoxContainer/FreqHBoxContainer"]
 layout_mode = 2
 
-[node name="HFreqValue" type="Label" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/FreqHBoxContainer/VBoxContainer"]
+[node name="BFreqValue" type="Label" parent="GenerationControlTabs/Overworld Noise/NoiseControls/HeightVBoxContainer/FreqHBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "-0.05"
 script = ExtResource("5_r1ukx")
 
-[node name="FrequencyEdit" type="HSlider" parent="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/FreqHBoxContainer/VBoxContainer"]
+[node name="FrequencyEdit" type="HSlider" parent="GenerationControlTabs/Overworld Noise/NoiseControls/HeightVBoxContainer/FreqHBoxContainer/VBoxContainer"]
+layout_mode = 2
+min_value = -0.1
+max_value = 0.1
+step = 0.001
+value = -0.05
+
+[node name="BiomeVBoxContainer" type="VBoxContainer" parent="GenerationControlTabs/Overworld Noise/NoiseControls"]
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="GenerationControlTabs/Overworld Noise/NoiseControls/BiomeVBoxContainer"]
+layout_mode = 2
+
+[node name="BiomeLabel" type="Label" parent="GenerationControlTabs/Overworld Noise/NoiseControls/BiomeVBoxContainer/CenterContainer"]
+layout_mode = 2
+text = "Biome"
+
+[node name="TypeHSplitContainer" type="HSplitContainer" parent="GenerationControlTabs/Overworld Noise/NoiseControls/BiomeVBoxContainer"]
+layout_mode = 2
+
+[node name="BNoiseType" type="Label" parent="GenerationControlTabs/Overworld Noise/NoiseControls/BiomeVBoxContainer/TypeHSplitContainer"]
+layout_mode = 2
+text = "Noise Type"
+
+[node name="TypeDropDown" type="OptionButton" parent="GenerationControlTabs/Overworld Noise/NoiseControls/BiomeVBoxContainer/TypeHSplitContainer"]
+layout_mode = 2
+selected = 0
+allow_reselect = true
+item_count = 6
+popup/item_0/text = "Simplex"
+popup/item_1/text = "Simplex Smooth"
+popup/item_1/id = 1
+popup/item_2/text = "Cellular"
+popup/item_2/id = 2
+popup/item_3/text = "Perlin"
+popup/item_3/id = 3
+popup/item_4/text = "Value Cubic"
+popup/item_4/id = 4
+popup/item_5/text = "Value"
+popup/item_5/id = 5
+
+[node name="SeedHSplitContainer" type="HSplitContainer" parent="GenerationControlTabs/Overworld Noise/NoiseControls/BiomeVBoxContainer"]
+layout_mode = 2
+
+[node name="BSeedLabel" type="Label" parent="GenerationControlTabs/Overworld Noise/NoiseControls/BiomeVBoxContainer/SeedHSplitContainer"]
+layout_mode = 2
+text = "Seed
+"
+
+[node name="SeedEdit" type="SpinBox" parent="GenerationControlTabs/Overworld Noise/NoiseControls/BiomeVBoxContainer/SeedHSplitContainer"]
+layout_mode = 2
+max_value = 9.22337e+18
+
+[node name="FreqHBoxContainer" type="HSplitContainer" parent="GenerationControlTabs/Overworld Noise/NoiseControls/BiomeVBoxContainer"]
+layout_mode = 2
+
+[node name="BFreqLabel" type="Label" parent="GenerationControlTabs/Overworld Noise/NoiseControls/BiomeVBoxContainer/FreqHBoxContainer"]
+layout_mode = 2
+text = "Frequency"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GenerationControlTabs/Overworld Noise/NoiseControls/BiomeVBoxContainer/FreqHBoxContainer"]
+layout_mode = 2
+
+[node name="BFreqValue" type="Label" parent="GenerationControlTabs/Overworld Noise/NoiseControls/BiomeVBoxContainer/FreqHBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "-0.05"
+script = ExtResource("5_r1ukx")
+
+[node name="FrequencyEdit" type="HSlider" parent="GenerationControlTabs/Overworld Noise/NoiseControls/BiomeVBoxContainer/FreqHBoxContainer/VBoxContainer"]
 layout_mode = 2
 min_value = -0.1
 max_value = 0.1
@@ -372,6 +443,10 @@ offset_left = 3.0
 offset_right = 559.0
 offset_bottom = 180.0
 
+[node name="RegenerateOverworldButton" type="Button" parent="ViewControls/ViewControlsContainer"]
+layout_mode = 2
+text = "Regenerate Overworld"
+
 [node name="Entrances" type="VBoxContainer" parent="ViewControls/ViewControlsContainer"]
 layout_mode = 2
 
@@ -429,6 +504,10 @@ text = "Height:"
 [node name="E2HeightValue" type="Label" parent="ViewControls/ViewControlsContainer/Entrances/E2/Height"]
 layout_mode = 2
 text = "0"
+
+[node name="RegenerateDungeonButton" type="Button" parent="ViewControls/ViewControlsContainer"]
+layout_mode = 2
+text = "Regenerate Dungeon"
 
 [node name="Layer" type="HBoxContainer" parent="ViewControls/ViewControlsContainer"]
 layout_mode = 2
@@ -491,28 +570,24 @@ min_value = 1.0
 max_value = 25.0
 value = 1.0
 
-[node name="RegenerateOverworldButton" type="Button" parent="ViewControls/ViewControlsContainer"]
-layout_mode = 2
-text = "Regenerate Overworld"
-
-[node name="RegenerateDungeonButton" type="Button" parent="ViewControls/ViewControlsContainer"]
-layout_mode = 2
-text = "Regenerate Dungeon"
-
-[connection signal="item_selected" from="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/TypeHSplitContainer/TypeDropDown" to="GenerationManager" method="UpdateHeightNoiseType"]
-[connection signal="value_changed" from="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/SeedHSplitContainer/SeedEdit" to="GenerationManager" method="UpdateHeightNoiseSeed"]
-[connection signal="value_changed" from="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/FreqHBoxContainer/VBoxContainer/FrequencyEdit" to="GenerationManager" method="UpdateHeightNoiseFrequency"]
-[connection signal="value_changed" from="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/FreqHBoxContainer/VBoxContainer/FrequencyEdit" to="GenerationControlTabs/Overworld Noise/HeightVBoxContainer/FreqHBoxContainer/VBoxContainer/HFreqValue" method="_on_frequency_edit_value_changed"]
+[connection signal="item_selected" from="GenerationControlTabs/Overworld Noise/NoiseControls/HeightVBoxContainer/TypeHSplitContainer/TypeDropDown" to="GenerationManager" method="UpdateHeightNoiseType"]
+[connection signal="value_changed" from="GenerationControlTabs/Overworld Noise/NoiseControls/HeightVBoxContainer/SeedHSplitContainer/SeedEdit" to="GenerationManager" method="UpdateHeightNoiseSeed"]
+[connection signal="value_changed" from="GenerationControlTabs/Overworld Noise/NoiseControls/HeightVBoxContainer/FreqHBoxContainer/VBoxContainer/FrequencyEdit" to="GenerationManager" method="UpdateHeightNoiseFrequency"]
+[connection signal="value_changed" from="GenerationControlTabs/Overworld Noise/NoiseControls/HeightVBoxContainer/FreqHBoxContainer/VBoxContainer/FrequencyEdit" to="GenerationControlTabs/Overworld Noise/NoiseControls/HeightVBoxContainer/FreqHBoxContainer/VBoxContainer/BFreqValue" method="_on_frequency_edit_value_changed"]
+[connection signal="item_selected" from="GenerationControlTabs/Overworld Noise/NoiseControls/BiomeVBoxContainer/TypeHSplitContainer/TypeDropDown" to="GenerationManager" method="UpdateBiomeNoiseType"]
+[connection signal="value_changed" from="GenerationControlTabs/Overworld Noise/NoiseControls/BiomeVBoxContainer/SeedHSplitContainer/SeedEdit" to="GenerationManager" method="UpdateBiomeNoiseSeed"]
+[connection signal="value_changed" from="GenerationControlTabs/Overworld Noise/NoiseControls/BiomeVBoxContainer/FreqHBoxContainer/VBoxContainer/FrequencyEdit" to="GenerationManager" method="UpdateBiomeNoiseFrequency"]
+[connection signal="value_changed" from="GenerationControlTabs/Overworld Noise/NoiseControls/BiomeVBoxContainer/FreqHBoxContainer/VBoxContainer/FrequencyEdit" to="GenerationControlTabs/Overworld Noise/NoiseControls/BiomeVBoxContainer/FreqHBoxContainer/VBoxContainer/BFreqValue" method="_on_frequency_edit_value_changed"]
 [connection signal="value_changed" from="GenerationControlTabs/DungeonControl/VFlowContainer/Seed/DSeedEdit" to="GenerationManager" method="UpdateDungeonSeed"]
 [connection signal="value_changed" from="GenerationControlTabs/DungeonControl/VFlowContainer/Scale/OverworldToDungeonScaleBox" to="GenerationManager" method="UpdateScale"]
 [connection signal="value_changed" from="GenerationControlTabs/DungeonControl/VFlowContainer/MinRoomCount/MinRoomSelect" to="GenerationManager" method="UpdateMinRooms"]
 [connection signal="value_changed" from="GenerationControlTabs/DungeonControl/VFlowContainer/MaxRoomCount/MaxRoomSelect" to="GenerationManager" method="UpdateMaxRooms"]
 [connection signal="value_changed" from="GenerationControlTabs/DungeonControl/VFlowContainer/HeightLayerWright/HeightLayerWeightSelector" to="GenerationManager" method="UpdateHeightLayerWeightSelector"]
 [connection signal="value_changed" from="GenerationControlTabs/DungeonControl/VFlowContainer/HeightChangeCost/HeightChangeWeightSelector" to="GenerationManager" method="UpdateHeightChangeWeightSelector"]
+[connection signal="pressed" from="ViewControls/ViewControlsContainer/RegenerateOverworldButton" to="." method="GenerateMap"]
+[connection signal="pressed" from="ViewControls/ViewControlsContainer/RegenerateDungeonButton" to="." method="RegenerateDungeon"]
 [connection signal="item_selected" from="ViewControls/ViewControlsContainer/Layer/LayerSelect" to="." method="ChangeView"]
 [connection signal="value_changed" from="ViewControls/ViewControlsContainer/CameraZoom/VBoxContainer/ZoomSlider" to="MapViewContainer/MapSubViewport/MapViewCamera" method="UpdateZoom"]
 [connection signal="value_changed" from="ViewControls/ViewControlsContainer/CameraZoom/VBoxContainer/ZoomSlider" to="ViewControls/ViewControlsContainer/CameraZoom/VBoxContainer/CameraZoomLabel" method="UpdateValue"]
 [connection signal="value_changed" from="ViewControls/ViewControlsContainer/CameraSpeed/VBoxContainer/SpeedSlider" to="MapViewContainer/MapSubViewport/MapViewCamera" method="UpdateSpeed"]
 [connection signal="value_changed" from="ViewControls/ViewControlsContainer/CameraSpeed/VBoxContainer/SpeedSlider" to="ViewControls/ViewControlsContainer/CameraSpeed/VBoxContainer/CameraSpeedLabel" method="UpdateValue"]
-[connection signal="pressed" from="ViewControls/ViewControlsContainer/RegenerateOverworldButton" to="." method="GenerateMap"]
-[connection signal="pressed" from="ViewControls/ViewControlsContainer/RegenerateDungeonButton" to="." method="RegenerateDungeon"]
