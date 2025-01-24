@@ -75,6 +75,7 @@ func UpdateScale(value: float) -> void:
 	scaleChanged = true
 	$DungeonGenerator.UpdateScale(value)
 	$UndergroundGenerator.UpdateScale(value)
+	map.overworldToDungeonScale= value
 
 func UpdateDungeonSeed(value: float) -> void:
 	$DungeonGenerator.UpdateSeedValue(value)
