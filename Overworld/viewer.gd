@@ -59,7 +59,7 @@ func RegenerateDungeon() -> void:
 	_UpdateViewers()
 
 func _UpdateViewers():
-	$MapViewContainer/MapSubViewport/OverworldViewer/OverworldTileMapLayer.Regenerate(map.overworld.heights)
+	$MapViewContainer/MapSubViewport/OverworldViewer/OverworldTileMapLayer.Regenerate(map.overworld)
 	$MapViewContainer/MapSubViewport/OverworldViewer/DungeonEntrances.AddDungeonEntrances(map.entrances)
 	ChangeView($ViewControls/ViewControlsContainer/Layer/LayerSelect.get_selected_id())
 	UpdateLabels()
