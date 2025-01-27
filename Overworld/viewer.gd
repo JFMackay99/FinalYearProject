@@ -32,10 +32,13 @@ func UpdateLabels():
 	var entrance = map.entrances[0]
 	$ViewControls/ViewControlsContainer/Entrances/E1/Coords/E1Coords.text = "(" + str(entrance.x) + "," + str(entrance.y) + ")"
 	$ViewControls/ViewControlsContainer/Entrances/E1/Height/E1HeightValue.text = str(entrance.z)
+	$ViewControls/ViewControlsContainer/Entrances/E1/Biome/E1BiomeValue.text = Constants.BIOMES.keys()[map.overworld.GetBiomeAtCellCoordinate(entrance.x, entrance.y)]
 	
 	entrance = map.entrances[1]
 	$ViewControls/ViewControlsContainer/Entrances/E2/Coords/E2Coords.text = "(" + str(entrance.x) + "," + str(entrance.y) + ")"
 	$ViewControls/ViewControlsContainer/Entrances/E2/Height/E2HeightValue.text = str(entrance.z)
+	$ViewControls/ViewControlsContainer/Entrances/E2/Biome/E2BiomeValue.text = Constants.BIOMES.keys()[map.overworld.GetBiomeAtCellCoordinate(entrance.x, entrance.y)]
+	
 	
 	
 # Generate the full overworld. This is also called when the "pressed" signal is emmitted when the 
@@ -59,7 +62,7 @@ func RegenerateDungeon() -> void:
 	_UpdateViewers()
 
 func _UpdateViewers():
-	$MapViewContainer/MapSubViewport/OverworldViewer/OverworldTileMapLayer.Regenerate(map.overworld.heights)
+	$MapViewContainer/MapSubViewport/OverworldViewer/OverworldTileMapLayer.Regenerate(map.overworld)
 	$MapViewContainer/MapSubViewport/OverworldViewer/DungeonEntrances.AddDungeonEntrances(map.entrances)
 	ChangeView($ViewControls/ViewControlsContainer/Layer/LayerSelect.get_selected_id())
 	UpdateLabels()

@@ -10,15 +10,19 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
-func Regenerate(map):
-	for i in map.size():
-		for j in map[i].size():
-			var tileIndexVector = Vector2i(0, SelectTileIndex(map[i][j]))
+func Regenerate(overworld: OverworldMap):
+	for i in Constants.OVERWORLD_MAX_X:
+		for j in Constants.OVERWORLD_MAX_Y:
+			var heightTileIndex = SelectHeightTileIndex(overworld.GetHeightAtCellCoordinate(i,j))
+			var biomeTileIndex = SelectBiomeTileIndex(overworld.GetBiomeAtCellCoordinate(i,j))
+			
+			var tileIndexVector = Vector2i(biomeTileIndex, heightTileIndex)
 			var coordVector = Vector2i(i,j)
-			set_cell(coordVector, 2, tileIndexVector)
+			set_cell(coordVector, 0, tileIndexVector)
 	
-func SelectTileIndex(height: float):
-	#TODO: Tile set is upside down, when we need to change it just use height
+func SelectHeightTileIndex(height: float):
 	var index = floor(height)
 	return index
 	
+func SelectBiomeTileIndex(biome: int):
+	return biome
