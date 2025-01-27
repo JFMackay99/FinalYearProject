@@ -489,15 +489,15 @@ metadata/_edit_group_ = true
 
 [node name="ColorRect" type="ColorRect" parent="ViewControls"]
 layout_mode = 0
-offset_right = 572.0
-offset_bottom = 186.0
+offset_right = 563.0
+offset_bottom = 269.0
 color = Color(0.783523, 0.783523, 0.783523, 1)
 
 [node name="ViewControlsContainer" type="VFlowContainer" parent="ViewControls"]
 layout_mode = 0
 offset_left = 3.0
 offset_right = 559.0
-offset_bottom = 180.0
+offset_bottom = 228.0
 
 [node name="RegenerateOverworldButton" type="Button" parent="ViewControls/ViewControlsContainer"]
 layout_mode = 2
@@ -536,6 +536,17 @@ text = "Height: "
 layout_mode = 2
 text = "0"
 
+[node name="Biome" type="HBoxContainer" parent="ViewControls/ViewControlsContainer/Entrances/E1"]
+layout_mode = 2
+
+[node name="E1BiomeLabel" type="Label" parent="ViewControls/ViewControlsContainer/Entrances/E1/Biome"]
+layout_mode = 2
+text = "Biome: "
+
+[node name="E1BiomeValue" type="Label" parent="ViewControls/ViewControlsContainer/Entrances/E1/Biome"]
+layout_mode = 2
+text = "Empty"
+
 [node name="E2" type="VBoxContainer" parent="ViewControls/ViewControlsContainer/Entrances"]
 layout_mode = 2
 
@@ -560,6 +571,17 @@ text = "Height:"
 [node name="E2HeightValue" type="Label" parent="ViewControls/ViewControlsContainer/Entrances/E2/Height"]
 layout_mode = 2
 text = "0"
+
+[node name="Biome" type="HBoxContainer" parent="ViewControls/ViewControlsContainer/Entrances/E2"]
+layout_mode = 2
+
+[node name="E2BiomeLabel" type="Label" parent="ViewControls/ViewControlsContainer/Entrances/E2/Biome"]
+layout_mode = 2
+text = "Biome: "
+
+[node name="E2BiomeValue" type="Label" parent="ViewControls/ViewControlsContainer/Entrances/E2/Biome"]
+layout_mode = 2
+text = "Empty"
 
 [node name="RegenerateDungeonButton" type="Button" parent="ViewControls/ViewControlsContainer"]
 layout_mode = 2
