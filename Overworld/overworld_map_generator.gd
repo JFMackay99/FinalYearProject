@@ -1,34 +1,55 @@
 extends Node
 
-# The map
-var map: Array
-
+# The heights
+var heights: Array
+var biomes: Array
 
 # Called when the script is instantiated
 func _init():
 	# Initialise map array
-	map = Array()
+	heights = Array()
 	for i in Constants.OVERWORLD_MAX_X:
-		map.append([])
+		heights.append([])
 		for j in Constants.OVERWORLD_MAX_Y:
-			map[i].append(0.0)
+			heights[i].append(0.0)
 	
+	
+	biomes = Array()
+	for i in Constants.OVERWORLD_MAX_X:
+		biomes.append([])
+		for j in Constants.OVERWORLD_MAX_Y:
+			biomes[i].append(0)
 
 # Generate the overworld map
-func GenerateMap() -> Array:
+func GenerateMap(overworld: OverworldMap):
 	# Regenerate noise with buffered parameters
 	$HeightNoiseHandler.RegenerateNoise()
 	
-	# Fill the map with height values
+	# Generate height values
 	for i in Constants.OVERWORLD_MAX_X:
 		for j in Constants.OVERWORLD_MAX_Y:
-			map[i][j] = normaliseHeightNoiseValue($HeightNoiseHandler.Get2DNoise(i,j))
+			heights[i][j] = NormaliseHeightNoiseValue($HeightNoiseHandler.Get2DNoise(i,j))
+	
+	# Generate Biomes
+	for i in Constants.OVERWORLD_MAX_X:
+		for j in Constants.OVERWORLD_MAX_Y:
+			biomes[i][j] = NormaliseBiomeNoiseValue($HeightNoiseHandler.Get2DNoise(i,j))
 			
-	return map
+	overworld.UpdateHeights(heights)
+	overworld.UpdateBiomes(biomes)
+
 	
 # Normalise noise value to be between 0 and the maximum height value  
-func normaliseHeightNoiseValue(noiseValue: float):
+func NormaliseHeightNoiseValue(noiseValue: float):
 	return Constants.MAX_HEIGHT_LEVELS * (noiseValue+1)/2
+
+# Normalise Noise Value for Biomes
+func NormaliseBiomeNoiseValue(noiseValue: float):
+	var nf = (noiseValue+1)/2 # Between 0 and 1
+	nf = Constants.BIOME_COUNT * nf # Between 0 and n
+	nf = ceil(nf) # int 0-n 
+	return nf if nf != 0 else 1 # 1-n
+
 
 # Update noise handlers buffered frequency
 func UpdateHeightNoiseFrequency(value: float) -> void:

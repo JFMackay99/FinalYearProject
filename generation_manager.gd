@@ -33,7 +33,7 @@ func RegenerateDungeon() -> Map:
 ## Generate the Overworld layer
 func _GenerateOverworld() -> void:
 	var startOverworldGeneration = Time.get_ticks_msec()
-	map.overworld.heights = $OverworldMapGenerator.GenerateMap()
+	$OverworldMapGenerator.GenerateMap(map.overworld)
 	var endOverworldGeneration = Time.get_ticks_msec()
 	var overworldGenerationTime = endOverworldGeneration - startOverworldGeneration
 	print("Overworld Map Generation Time: " + str(overworldGenerationTime)+ "ms")
