@@ -648,6 +648,28 @@ min_value = 1.0
 max_value = 25.0
 value = 1.0
 
+[node name="ViewHeights" type="HBoxContainer" parent="ViewControls/ViewControlsContainer"]
+layout_mode = 2
+
+[node name="ViewHeightsLabel" type="Label" parent="ViewControls/ViewControlsContainer/ViewHeights"]
+layout_mode = 2
+text = "View Heights"
+
+[node name="ViewHeightsCheckButton" type="CheckButton" parent="ViewControls/ViewControlsContainer/ViewHeights"]
+layout_mode = 2
+button_pressed = true
+
+[node name="ViewBiomes" type="HBoxContainer" parent="ViewControls/ViewControlsContainer"]
+layout_mode = 2
+
+[node name="ViewBiomesLabel" type="Label" parent="ViewControls/ViewControlsContainer/ViewBiomes"]
+layout_mode = 2
+text = "View Biomes"
+
+[node name="ViewHeightsCheckButton" type="CheckButton" parent="ViewControls/ViewControlsContainer/ViewBiomes"]
+layout_mode = 2
+button_pressed = true
+
 [connection signal="item_selected" from="GenerationControlTabs/Overworld Noise/NoiseControls/HeightVBoxContainer/TypeHSplitContainer/TypeDropDown" to="GenerationManager" method="UpdateHeightNoiseType"]
 [connection signal="value_changed" from="GenerationControlTabs/Overworld Noise/NoiseControls/HeightVBoxContainer/SeedHSplitContainer/SeedEdit" to="GenerationManager" method="UpdateHeightNoiseSeed"]
 [connection signal="value_changed" from="GenerationControlTabs/Overworld Noise/NoiseControls/HeightVBoxContainer/FreqHBoxContainer/VBoxContainer/FrequencyEdit" to="GenerationManager" method="UpdateHeightNoiseFrequency"]
@@ -669,3 +691,5 @@ value = 1.0
 [connection signal="value_changed" from="ViewControls/ViewControlsContainer/CameraZoom/VBoxContainer/ZoomSlider" to="ViewControls/ViewControlsContainer/CameraZoom/VBoxContainer/CameraZoomLabel" method="UpdateValue"]
 [connection signal="value_changed" from="ViewControls/ViewControlsContainer/CameraSpeed/VBoxContainer/SpeedSlider" to="MapViewContainer/MapSubViewport/MapViewCamera" method="UpdateSpeed"]
 [connection signal="value_changed" from="ViewControls/ViewControlsContainer/CameraSpeed/VBoxContainer/SpeedSlider" to="ViewControls/ViewControlsContainer/CameraSpeed/VBoxContainer/CameraSpeedLabel" method="UpdateValue"]
+[connection signal="toggled" from="ViewControls/ViewControlsContainer/ViewHeights/ViewHeightsCheckButton" to="." method="ToggleViewHeights"]
+[connection signal="toggled" from="ViewControls/ViewControlsContainer/ViewBiomes/ViewHeightsCheckButton" to="." method="ToggleViewBiomes"]
