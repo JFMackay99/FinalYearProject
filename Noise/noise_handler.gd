@@ -1,5 +1,7 @@
 extends Node
 
+class_name NoiseHandler
+
 # Noise parameters
 @export_enum("Value:5", "ValueCubic:4", "Perlin:3", "Cellular:2", "SimplexSmooth:1", "Simplex:0" ) var NoiseType = 0
 @export var NoiseSeed: int = 0
