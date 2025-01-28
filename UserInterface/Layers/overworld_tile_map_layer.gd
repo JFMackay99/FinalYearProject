@@ -1,5 +1,6 @@
 extends TileMapLayer
-
+var showHeights = true
+var showBiomes = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -22,7 +23,15 @@ func Regenerate(overworld: OverworldMap):
 	
 func SelectHeightTileIndex(height: float):
 	var index = floor(height)
-	return index
+	return index if showHeights else 0
 	
 func SelectBiomeTileIndex(biome: int):
-	return biome
+	return biome if showBiomes else 0
+	
+func ToggleViewHeights(toggled_on: bool, overworld: OverworldMap) -> void:
+	showHeights = toggled_on
+	Regenerate(overworld)
+
+func ToggleViewBiomes(toggled_on: bool, overworld: OverworldMap) -> void:
+	showBiomes = toggled_on
+	Regenerate(overworld)
