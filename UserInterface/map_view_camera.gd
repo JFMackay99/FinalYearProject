@@ -12,16 +12,16 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if Input.is_anything_pressed():
-		if Input.is_action_pressed("ui_left"):
+		if Input.is_action_pressed("pan_left"):
 			xPos-=cameraSpeed
 			self.move_local_x(-cameraSpeed)
-		if Input.is_action_pressed("ui_right"):
+		if Input.is_action_pressed("pan_right"):
 			xPos += cameraSpeed
 			self.move_local_x(cameraSpeed)
-		if Input.is_action_pressed("ui_down"):
+		if Input.is_action_pressed("pan_down"):
 			yPos += cameraSpeed
 			self.move_local_y(cameraSpeed)
-		if Input.is_action_pressed("ui_up"):
+		if Input.is_action_pressed("pan_up"):
 			yPos -= cameraSpeed
 			self.move_local_y(-cameraSpeed)
 		if Input.is_action_pressed("ui_accept"):
