@@ -1,0 +1,15 @@
+[gd_scene load_steps=5 format=3 uid="uid://cwe7mcniutae2"]
+
+[ext_resource type="Script" path="res://Generators/generation_manager.gd" id="1_y37ym"]
+[ext_resource type="PackedScene" uid="uid://pylp6qc2flnm" path="res://Generators/dungeon_generator.tscn" id="2_401cp"]
+[ext_resource type="PackedScene" uid="uid://3y372txewf84" path="res://Generators/underground_generator.tscn" id="2_u2ks8"]
+[ext_resource type="PackedScene" uid="uid://ubux5mgtain3" path="res://Generators/overworld_map_generator.tscn" id="3_u26ev"]
+
+[node name="GenerationManager" type="Node"]
+script = ExtResource("1_y37ym")
+
+[node name="UndergroundGenerator" parent="." instance=ExtResource("2_u2ks8")]
+
+[node name="DungeonGenerator" parent="." instance=ExtResource("2_401cp")]
+
+[node name="OverworldMapGenerator" parent="." instance=ExtResource("3_u26ev")]

@@ -1,6 +1,40 @@
-[gd_scene load_steps=2 format=3 uid="uid://w1ak7v5vdxom"]
+[gd_scene load_steps=2 format=3 uid="uid://6onlvj4jyct"]
 
-[ext_resource type="Script" path="res://Map/dungeon_layer.gd" id="1_f6bn3"]
+[sub_resource type="GDScript" id="GDScript_w1sqh"]
+script/source = "extends LayerBase
+
+class_name DungeonLayerLegacy
+
+
+var map : Array
+
+
+var stairsUp : Array
+var stairsDown: Array
+
+
+
+func _init(layerHeight: int, maxWidth, maxHeight, higherLevel: LayerBase = null) -> void:
+	super._init(layerHeight, maxWidth, maxHeight, higherLevel)
+		
+	#initialise map
+	map = Array()
+	for x in maxWidth:
+		map.append([])
+		for y in maxHeight:
+			map[x].append(Constants.DUNGEON_TILES.ROCK)
+
+	mapMaxHeight = maxHeight
+	mapMaxWidth = maxWidth
+	
+func addEntrance(entrance):
+	stairsUp.append(Vector2i(entrance.x, entrance.y))
+
+func SetTile(x: int, y: int, tile: int):
+	map[x][y] = tile
+
+	
+"
 
 [node name="DungeonLayer" type="Node"]
-script = ExtResource("1_f6bn3")
+script = SubResource("GDScript_w1sqh")

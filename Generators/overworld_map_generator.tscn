@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ubux5mgtain3"]
 
 [ext_resource type="PackedScene" uid="uid://bro5jjxdt6y85" path="res://Noise/NoiseHandler.tscn" id="1_qioay"]
-[ext_resource type="Script" path="res://Overworld/overworld_map_generator.gd" id="1_v2xfd"]
+[ext_resource type="Script" path="res://Generators/overworld_map_generator.gd" id="1_v2xfd"]
 
 [node name="OverworldMapGenerator" type="Node"]
 script = ExtResource("1_v2xfd")
