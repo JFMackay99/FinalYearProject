@@ -25,8 +25,17 @@ var pathfinder: ModifiedAStar3D
 # Stores the three dimensional coordinates of the dungeon entrances
 var DungeonEntrances : Array[Vector3]
 
+# Room Generators
+var RoomGenerators : Array[RoomGeneratorBase]
+var SelectedRoomGenerator : RoomGeneratorBase
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	SelectedRoomGenerator = RoomGeneratorBase.new()
+	RoomGenerators.append(SelectedRoomGenerator)
+	
+	for roomGenerator in RoomGenerators:
+		roomGenerator.noiseHandler = $NoiseHandler
 	pass
 
 # Regenerate the dungeons
@@ -120,7 +129,9 @@ func GenerateDungeonLayers(map: Map):
 	var startStairwells = Time.get_ticks_msec()
 	#Stairwells
 	var sections = ProcessPathIntoHeightSections(path)
-	AddConnectingStairwellsFromOverworldSections(map.dungeon.dungeonLayers, sections)
+	
+	SelectedRoomGenerator.AddConnectingStairwellsFromOverworldSections(map.dungeon.dungeonLayers, sections)
+	SelectedRoomGenerator.GenerateRoom(map, sections)
 	
 	var endStairwells = Time.get_ticks_msec()
 	var stairwellTime = endStairwells-startStairwells
@@ -216,118 +227,14 @@ func ReconnectPathHeightSectionsIntoPath(pathHeightSections):
 	return path
 
 
-# Adds stairwells between sections.
-func AddConnectingStairwellsFromUndergroundSections (layers, sections):
-	# For each section
-	for i in sections.size():
-		var section = sections[i]
-		var height =section[0].z
-		var layer =  layers[height]
-		#If single tile, so going staright down/up, add a dual stairwell
-		if section.size() == 1:
-			GenerateDualStairwell(layer, section[0])
-		else:
-			
-			#First Tile stairwell
-			#If first section, add up stairs for entrance
-			if i == 0:
-				GenerateUpStairwell(layer,section[0])
-			#Otherwise work out if prev layer is higher or lower for stairwell type
-			else:
-				var prevHeight = sections[i-1][0].z
-				if prevHeight < height:
-					GenerateDownStairwell(layer,section[0])
-				else:
-					GenerateUpStairwell(layer, section[0])
-			
-			#Last Tile stairwell
-			#If last section, add up stairwell for entrance
-			if i == sections.size()-1:
-				GenerateUpStairwell(layer, section[-1])
-			#Otherwise work out if next section is higher or lower
-			else: 
-				var nextHeight = sections[i+1][0].z
-				if nextHeight < height:
-					GenerateDownStairwell(layer, section[-1])
-				else:
-					GenerateUpStairwell(layer, section[-1])
-
-func AddConnectingStairwellsFromOverworldSections (layers, sections):
-	# For each section
-	for i in sections.size():
-		var section = sections[i]
-		var height =section[0].z
-		var layer =  layers[height]
-		#If single tile, so going staright down/up, add a dual stairwell
-		if section.size() == 1:
-			
-			GenerateDualStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[0], scale))
-		else:
-			
-			#First Tile stairwell
-			#If first section, add up stairs for entrance
-			if i == 0:
-				GenerateUpStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[0], scale))
-			#Otherwise work out if prev layer is higher or lower for stairwell type
-			else:
-				var prevHeight = sections[i-1][0].z
-				if prevHeight < height:
-					GenerateDownStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[0], scale))
-				else:
-					GenerateUpStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[0], scale))
-			
-			#Last Tile stairwell
-			#If last section, add up stairwell for entrance
-			if i == sections.size()-1:
-				GenerateUpStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[-1], scale))
-			#Otherwise work out if next section is higher or lower
-			else: 
-				var nextHeight = sections[i+1][0].z
-				if nextHeight < height:
-					GenerateDownStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[-1], scale))
-				else:
-					GenerateUpStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[-1], scale))
-
-
-
-# Generates a stairwell going up
-func GenerateUpStairwell(layer, entrance):
-	var startX = entrance.x - (scale-1)/2
-	var startY = entrance.y - (scale-1)/2
-	GenerateSquareRoom(layer, startX, startY, scale)
-	layer.SetTile(entrance.x, entrance.y, Constants.DUNGEON_TILES.UP_STAIRS)
-
-# Generates a stairwell going down	
-func GenerateDownStairwell(layer, entrance):
-	var startX = entrance.x - (scale-1)/2
-	var startY = entrance.y - (scale-1)/2
-	GenerateSquareRoom(layer, startX, startY, scale)
-	layer.SetTile(entrance.x, entrance.y, Constants.DUNGEON_TILES.DOWN_STAIRS)
-
-# Generates a stairwell going both up and down
-func GenerateDualStairwell(layer, entrance):
-	var startX = entrance.x - (scale-1)/2
-	var startY = entrance.y - (scale-1)/2
-	GenerateSquareRoom(layer, startX, startY, scale)
-	layer.SetTile(entrance.x, entrance.y, Constants.DUNGEON_TILES.DUAL_STAIRS)
-
-# Generates a square room
-func GenerateSquareRoom(layer: LayerBase, xStart: int, yStart: int, width: int):
-	GenerateRectangleRoom(layer, xStart, yStart, width, width)
-
-# Generates a rectangle room
-func GenerateRectangleRoom(layer: LayerBase, xStart: int, yStart: int, width: int, height: int):
-	for x in width:
-		for y in width:
-			layer.SetTile(xStart+x, yStart+y, Constants.DUNGEON_TILES.ROOM)
-
-
 # Updates the seed buffer
 func UpdateSeedValue(value: float) -> void:
 	$NoiseHandler.SeedBuffer = value
 
 # Updates the dungeon to overworld scale
 func UpdateScale(value: float) -> void:
+	for roomGenerator in RoomGenerators:
+		roomGenerator.scale = value
 	scale = value
 
 # Updates the minimum number of rooms
@@ -337,8 +244,6 @@ func UpdateMinRooms(value: float) -> void:
 # Update the maximum number of rooms
 func UpdateMaxRooms(value: float) -> void:
 	maxRooms = value
-
-
 
 func UpdateHeightLayerWeightFactor(value):
 	heightLayerWeightFactor = value
