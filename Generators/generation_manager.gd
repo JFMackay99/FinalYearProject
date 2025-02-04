@@ -101,3 +101,7 @@ func UpdateBiomeNoiseType(index: int) -> void:
 #endregion
 
 #endregion
+
+
+func UpdateSelectedRoomGenerator(index: int) -> void:
+	$DungeonGenerator.UpdateSelectedRoomGenerator(index)

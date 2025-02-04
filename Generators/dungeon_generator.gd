@@ -31,12 +31,16 @@ var SelectedRoomGenerator : RoomGeneratorBase
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	SelectedRoomGenerator = RoomGeneratorBase.new()
-	RoomGenerators.append(SelectedRoomGenerator)
+	
+	# 0: No Rooms
+	RoomGenerators.append(RoomGeneratorBase.new())
+	# 1: WIP
+	RoomGenerators.append(RoomGeneratorBase.new())
 	
 	for roomGenerator in RoomGenerators:
 		roomGenerator.noiseHandler = $NoiseHandler
-	pass
+	
+	SelectedRoomGenerator = RoomGenerators[0]
 
 # Regenerate the dungeons
 func RegenerateDungeons(map: Map):
@@ -252,3 +256,6 @@ func UpdateHeightLayerWeightFactor(value):
 func UpdateHeightChangeCostFactor(value):
 	heightChangeCostFactor = value
 	pathfinder.heightChangeCostFactor = value
+	
+func UpdateSelectedRoomGenerator(index: int):
+	SelectedRoomGenerator = RoomGenerators[index]
