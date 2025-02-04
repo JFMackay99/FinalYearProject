@@ -225,13 +225,14 @@ offset_left = 568.0
 offset_top = 14.0
 offset_right = 1145.0
 offset_bottom = 45.0
-current_tab = 0
+current_tab = 1
 all_tabs_in_front = true
 drag_to_rearrange_enabled = true
 tab_focus_mode = 1
 deselect_enabled = true
 
 [node name="Overworld Noise" type="Control" parent="GenerationControlTabs"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -386,7 +387,6 @@ step = 0.001
 value = -0.05
 
 [node name="DungeonControl" type="Control" parent="GenerationControlTabs"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -394,7 +394,7 @@ metadata/_tab_index = 1
 layout_mode = 0
 offset_left = 9.0
 offset_right = 586.0
-offset_bottom = 212.0
+offset_bottom = 253.0
 color = Color(0.783523, 0.783523, 0.783523, 1)
 
 [node name="VFlowContainer" type="VBoxContainer" parent="GenerationControlTabs/DungeonControl"]
@@ -429,6 +429,21 @@ min_value = 3.0
 max_value = 20.0
 value = 3.0
 suffix = "Tiles"
+
+[node name="RoomGenerationTechniqu" type="HBoxContainer" parent="GenerationControlTabs/DungeonControl/VFlowContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GenerationControlTabs/DungeonControl/VFlowContainer/RoomGenerationTechniqu"]
+layout_mode = 2
+text = "Room Generation Technique"
+
+[node name="MenuBar" type="OptionButton" parent="GenerationControlTabs/DungeonControl/VFlowContainer/RoomGenerationTechniqu"]
+layout_mode = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "No Rooms"
+popup/item_1/text = "WIP"
+popup/item_1/id = 1
 
 [node name="MinRoomCount" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/VFlowContainer"]
 layout_mode = 2
@@ -480,9 +495,9 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 576.0
-offset_top = 278.0
+offset_top = 297.0
 offset_right = 576.0
-offset_bottom = 278.0
+offset_bottom = 297.0
 grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_group_ = true
@@ -680,6 +695,7 @@ button_pressed = true
 [connection signal="value_changed" from="GenerationControlTabs/Overworld Noise/NoiseControls/BiomeVBoxContainer/FreqHBoxContainer/VBoxContainer/FrequencyEdit" to="GenerationControlTabs/Overworld Noise/NoiseControls/BiomeVBoxContainer/FreqHBoxContainer/VBoxContainer/BFreqValue" method="_on_frequency_edit_value_changed"]
 [connection signal="value_changed" from="GenerationControlTabs/DungeonControl/VFlowContainer/Seed/DSeedEdit" to="GenerationManager" method="UpdateDungeonSeed"]
 [connection signal="value_changed" from="GenerationControlTabs/DungeonControl/VFlowContainer/Scale/OverworldToDungeonScaleBox" to="GenerationManager" method="UpdateScale"]
+[connection signal="item_selected" from="GenerationControlTabs/DungeonControl/VFlowContainer/RoomGenerationTechniqu/MenuBar" to="GenerationManager" method="UpdateSelectedRoomGenerator"]
 [connection signal="value_changed" from="GenerationControlTabs/DungeonControl/VFlowContainer/MinRoomCount/MinRoomSelect" to="GenerationManager" method="UpdateMinRooms"]
 [connection signal="value_changed" from="GenerationControlTabs/DungeonControl/VFlowContainer/MaxRoomCount/MaxRoomSelect" to="GenerationManager" method="UpdateMaxRooms"]
 [connection signal="value_changed" from="GenerationControlTabs/DungeonControl/VFlowContainer/HeightLayerWright/HeightLayerWeightSelector" to="GenerationManager" method="UpdateHeightLayerWeightSelector"]
