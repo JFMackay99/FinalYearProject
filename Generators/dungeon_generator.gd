@@ -3,6 +3,9 @@ extends Node
 #Scale between tiles in the dungeon and overworld
 @export var scale = 3
 
+# Random Number Generator
+var rng: RandomNumberGenerator
+var seed = 0
 
 # Map size parameters
 var maxMapWidth
@@ -14,9 +17,6 @@ var heightLayerWeightFactor = 10
 # Pathfinding weight factor for changing height layers
 var heightChangeCostFactor = 10
 
-# Room numbers. Currently unused.
-var minRooms = 0
-var maxRooms = 0
 
 # Pathfinding algorithm for getting path between entrances
 var pathfinder: ModifiedAStar3D
@@ -34,11 +34,11 @@ func _ready() -> void:
 	
 	# 0: No Rooms
 	RoomGenerators.append(RoomGeneratorBase.new())
-	# 1: WIP
-	RoomGenerators.append(RoomGeneratorBase.new())
+	# 1: Basic
+	RoomGenerators.append(BasicRoomGenerator.new())
 	
-	for roomGenerator in RoomGenerators:
-		roomGenerator.noiseHandler = $NoiseHandler
+	rng = RandomNumberGenerator.new()
+	RoomGeneratorBase.rng = rng
 	
 	SelectedRoomGenerator = RoomGenerators[0]
 
@@ -51,6 +51,7 @@ func RegenerateDungeons(map: Map):
 	# Initialise noise handler to handle rng
 	$NoiseHandler.RegenerateNoise()
 	seed($NoiseHandler.SeedBuffer)
+	rng.seed = seed
 	
 	# Generate Dungeon Entrances
 	GenerateDungeonEntrances(map)
@@ -129,17 +130,21 @@ func GenerateDungeonLayers(map: Map):
 	var pathConstructionTime = endPathConstruction - startPathConstruction
 	print("Path Construction Time: " + str(pathConstructionTime) + "ms")
 	
-
+	
+	
 	var startStairwells = Time.get_ticks_msec()
 	#Stairwells
 	var sections = ProcessPathIntoHeightSections(path)
 	
 	SelectedRoomGenerator.AddConnectingStairwellsFromOverworldSections(map.dungeon.dungeonLayers, sections)
-	SelectedRoomGenerator.GenerateRoom(map, sections)
+	SelectedRoomGenerator.GenerateRooms(map, sections)
 	
 	var endStairwells = Time.get_ticks_msec()
 	var stairwellTime = endStairwells-startStairwells
 	print("Stairwell construction: " +str(stairwellTime) + "ms")
+	
+	for layer in layers:
+		layer.ConstructRooms()
 
 
 func ConstructCellPathBetweenEntrancesInDungeon(path: Array, layers: Array):
@@ -233,6 +238,7 @@ func ReconnectPathHeightSectionsIntoPath(pathHeightSections):
 
 # Updates the seed buffer
 func UpdateSeedValue(value: float) -> void:
+	seed =value
 	$NoiseHandler.SeedBuffer = value
 
 # Updates the dungeon to overworld scale
@@ -243,11 +249,19 @@ func UpdateScale(value: float) -> void:
 
 # Updates the minimum number of rooms
 func UpdateMinRooms(value: float) -> void:
-	minRooms = value
+	RoomGeneratorBase.minRooms
 
 # Update the maximum number of rooms
 func UpdateMaxRooms(value: float) -> void:
-	maxRooms = value
+	RoomGeneratorBase.maxRooms = value
+	
+# Updates the minimum size of rooms
+func UpdateMinRoomCells(value: float) -> void:
+	RoomGeneratorBase.minRoomCells
+
+# Update the maximum size of rooms
+func UpdateMaxRoomCells(value: float) -> void:
+	RoomGeneratorBase.maxRooms = value
 
 func UpdateHeightLayerWeightFactor(value):
 	heightLayerWeightFactor = value

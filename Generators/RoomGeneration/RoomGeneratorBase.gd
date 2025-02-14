@@ -3,10 +3,17 @@ extends Node
 class_name RoomGeneratorBase
 
 var scale = 3
-var noiseHandler : NoiseHandler
+static var rng: RandomNumberGenerator
 
+# Room numbers
+static var minRooms = 1
+static var maxRooms = 3
 
-func GenerateRoom(map: Map, sections: Array):
+# Room Size parameters
+static var maxRoomCells = 3
+static var minRoomCells = 1
+
+func GenerateRooms(map: Map, sections: Array):
 	pass
 
 func AddConnectingStairwellsFromOverworldSections (layers, sections):
@@ -45,35 +52,67 @@ func AddConnectingStairwellsFromOverworldSections (layers, sections):
 				else:
 					GenerateUpStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[-1], scale))
 
-
+func GetSectionsLargeEnoughForARoom(sections: Array) -> Array:
+	var result = []
+	for section: Array in sections:
+		if section.size() >= minRoomCells + 4: # We want some passageway between rooms/stairwells
+			result.append(section)
+	
+	return result
 
 # Generates a stairwell going up
-func GenerateUpStairwell(layer, entrance):
-	var startX = entrance.x - (scale-1)/2
-	var startY = entrance.y - (scale-1)/2
-	GenerateSquareRoom(layer, startX, startY, scale)
-	layer.SetTile(entrance.x, entrance.y, Constants.DUNGEON_TILES.UP_STAIRS)
+func GenerateUpStairwell(layer: DungeonLayer, center) -> RoomBase:
+	#var startX = center.x - (scale-1)/2
+	#var startY = center.y - (scale-1)/2
+	#GenerateSquareRoom(layer, startX, startY, scale)
+	#layer.SetTile(center.x, center.y, Constants.DUNGEON_TILES.UP_STAIRS)
+	var room = SquareStairwell.new(scale, center, Constants.DUNGEON_TILES.UP_STAIRS)
+	layer.AddRoom(room)
+	return room
 
 # Generates a stairwell going down	
-func GenerateDownStairwell(layer, entrance):
-	var startX = entrance.x - (scale-1)/2
-	var startY = entrance.y - (scale-1)/2
-	GenerateSquareRoom(layer, startX, startY, scale)
-	layer.SetTile(entrance.x, entrance.y, Constants.DUNGEON_TILES.DOWN_STAIRS)
+func GenerateDownStairwell(layer: DungeonLayer, center) -> RoomBase:
+	#var startX = center.x - (scale-1)/2
+	#var startY = center.y - (scale-1)/2
+	#GenerateSquareRoom(layer, startX, startY, scale)
+	#layer.SetTile(centere.x, center.y, Constants.DUNGEON_TILES.DOWN_STAIRS)
+	var room = SquareStairwell.new(scale, center, Constants.DUNGEON_TILES.DOWN_STAIRS)
+	layer.AddRoom(room)
+	return room
 
 # Generates a stairwell going both up and down
-func GenerateDualStairwell(layer, entrance):
-	var startX = entrance.x - (scale-1)/2
-	var startY = entrance.y - (scale-1)/2
-	GenerateSquareRoom(layer, startX, startY, scale)
-	layer.SetTile(entrance.x, entrance.y, Constants.DUNGEON_TILES.DUAL_STAIRS)
+func GenerateDualStairwell(layer: DungeonLayer, center) -> RoomBase:
+	#var startX = center.x - (scale-1)/2
+	#var startY = center.y - (scale-1)/2
+	#var result = GenerateSquareRoom(layer, startX, startY, scale)
+	#layer.SetTile(center.x, center.y, Constants.DUNGEON_TILES.DUAL_STAIRS)
+	var room = SquareStairwell.new(scale, center, Constants.DUNGEON_TILES.DUAL_STAIRS)
+	layer.AddRoom(room)
+	return room
 
 # Generates a square room
-func GenerateSquareRoom(layer: LayerBase, xStart: int, yStart: int, width: int):
-	GenerateRectangleRoom(layer, xStart, yStart, width, width)
+#func GenerateSquareRoomFromCorner(layer: DungeonLayerrBase, xStart: int, yStart: int, width: int) -> RoomBase:
+	#return GenerateRectangleRoom(layer, xStart, yStart, width, width)
 
 # Generates a rectangle room
-func GenerateRectangleRoom(layer: LayerBase, xStart: int, yStart: int, width: int, height: int):
-	for x in width:
-		for y in width:
-			layer.SetTile(xStart+x, yStart+y, Constants.DUNGEON_TILES.ROOM)
+#func GenerateRectangleRoomFromCorner(layer: DungeonLayer, xStart: int, yStart: int, width: int, height: int) -> RoomBase:
+	#pass
+			
+
+func GenerateSquareRoomFromCentre(layer: DungeonLayer, center: Vector2i, width: int) -> RoomBase:
+		var room = SquareRoom.new(Constants.ROOM_TYPE.NORMAL, width, center)
+		layer.AddRoom(room)
+		return room
+
+func GenerateRectangleRoomFromCentre(layer: DungeonLayer, center: Vector2i, width: int, height: int) -> RoomBase:
+		var room = RectangularRoom.new(Constants.ROOM_TYPE.NORMAL, width, height, center)
+		layer.AddRoom(room)
+		return room
+	
+
+func UpdateMinRooms(value: float) -> void:
+	minRooms = value
+
+# Update the maximum number of rooms
+func UpdateMaxRooms(value: float) -> void:
+	maxRooms = value

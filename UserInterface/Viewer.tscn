@@ -442,7 +442,7 @@ layout_mode = 2
 selected = 0
 item_count = 2
 popup/item_0/text = "No Rooms"
-popup/item_1/text = "WIP"
+popup/item_1/text = "Basic"
 popup/item_1/id = 1
 
 [node name="MinRoomCount" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/VFlowContainer"]
