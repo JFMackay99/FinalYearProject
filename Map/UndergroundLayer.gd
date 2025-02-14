@@ -17,7 +17,7 @@ func _init(layerHeight: int, maxWidth, maxHeight, higherLevel: LayerBase = null)
 	mapMaxHeight = maxHeight
 	mapMaxWidth = maxWidth
 
-func GetTile( x, y):
+func GetTile( x, y) -> Constants.DUNGEON_TILES:
 	return map[x][y]
 
 func SetTile(x: int, y: int, tile: int):

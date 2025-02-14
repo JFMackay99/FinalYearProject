@@ -425,7 +425,7 @@ text = "Overworld To Dungeon Scale"
 
 [node name="OverworldToDungeonScaleBox" type="SpinBox" parent="GenerationControlTabs/DungeonControl/VFlowContainer/Scale"]
 layout_mode = 2
-min_value = 3.0
+min_value = 1.0
 max_value = 20.0
 value = 3.0
 suffix = "Tiles"
