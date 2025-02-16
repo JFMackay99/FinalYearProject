@@ -30,3 +30,14 @@ func ConstructOnLayer(layer: LayerBase):
 		layer.SetTile(tile.x, tile.y, floorTile)
 	for tile in boundary:
 		layer.SetTile(tile.x, tile.y, boundaryTile)
+
+func SeperateSection(section: Array, index: int):
+	pass
+
+func IsPointInRoom(point: Vector2i) -> bool:
+	if boundary.has(point): 
+		return true
+	if floor.has(point):
+		return true
+	
+	return false

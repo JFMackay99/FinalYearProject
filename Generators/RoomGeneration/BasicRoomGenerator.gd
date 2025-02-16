@@ -20,6 +20,8 @@ func GenerateRooms(map: Map, sections: Array):
 		
 		var selectedSection = sectionsWithSpace[rng.randi_range(0,sectionsWithSpace.size()-1)]
 		
+		var selectedSectionIndexInOverallSections = sections.find(selectedSection)
+		
 		var selectedCellIndex =rng.randi_range(2, selectedSection.size()-3)
 		
 		var selectedCell = selectedSection[selectedCellIndex]
@@ -28,16 +30,15 @@ func GenerateRooms(map: Map, sections: Array):
 		
 		var cellCenter = UtilityMethods.GetCentralPointFromOverWorldVect(selectedCell, map.overworldToDungeonScale)
 		
-		# TODO Make sure the room doesn't go outside. 
 		var maxSize = GenerateSquareCenteredRoomSize(map.underground.getLayer(selectedCell.z), selectedSection, selectedCell, selectedCellIndex)
 		#min(maxRoomCells, (selectedSection.size()-1) - selectedCellIndex)
 		var size = rng.randi_range(minRoomCells, maxSize)
 		
 		var room =super.GenerateSquareRoomFromCentre(layer, cellCenter, size * map.overworldToDungeonScale)
-
+		
+		sections =ReprocessSections(sections, selectedSectionIndexInOverallSections, room, selectedCellIndex)
+		sectionsWithSpace = super.GetSectionsLargeEnoughForARoom(sections)
 		roomsToAdd-=1
-		# TODO Re-process sections to seperate by rooms
-		return
 	
 func GenerateSquareCenteredRoomSize(undergroundLayer: UndergroundLayer, section: Array, cell, cellIndex) -> int:
 	
@@ -65,3 +66,19 @@ func GenerateSquareCenteredRoomSize(undergroundLayer: UndergroundLayer, section:
 	var generatedSize = rng.randi_range(minRoomCells, maxSize)
 	
 	return generatedSize
+
+func ReprocessSections(sections: Array, changedSectionIndex: int, addedRoom: RoomBase, roomSectionIndex: int) -> Array:
+	
+	var result = []
+	
+	for i in changedSectionIndex:
+		result.append(sections[i])
+		
+	result.append_array(addedRoom.SeperateSection(sections[changedSectionIndex], roomSectionIndex))
+	
+	
+	
+	for i in range(changedSectionIndex, sections.size()):
+		result.append(sections[i])
+		
+	return result

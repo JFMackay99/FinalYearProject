@@ -2,7 +2,6 @@ extends SquareRoom
 
 class_name SquareStairwell
 
-var center
 var stairType: Constants.DUNGEON_TILES
 
 func _init(
@@ -11,7 +10,6 @@ func _init(
 	stairTile: Constants.DUNGEON_TILES
 	):
 	super(Constants.ROOM_TYPE.STAIRWELL, width, center)
-	self.center = center
 	stairType = stairTile
 	
 func ConstructOnLayer(layer: LayerBase):
