@@ -397,97 +397,133 @@ offset_right = 586.0
 offset_bottom = 253.0
 color = Color(0.783523, 0.783523, 0.783523, 1)
 
-[node name="VFlowContainer" type="VBoxContainer" parent="GenerationControlTabs/DungeonControl"]
+[node name="Controls" type="HBoxContainer" parent="GenerationControlTabs/DungeonControl"]
 layout_mode = 0
-offset_left = 15.0
-offset_top = 1.0
-offset_right = 320.0
-offset_bottom = 63.0
+offset_left = 12.0
+offset_right = 577.0
+offset_bottom = 241.0
 
-[node name="Seed" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/VFlowContainer"]
+[node name="Underground" type="VBoxContainer" parent="GenerationControlTabs/DungeonControl/Controls"]
 layout_mode = 2
 
-[node name="DSeedLabel" type="Label" parent="GenerationControlTabs/DungeonControl/VFlowContainer/Seed"]
+[node name="Seed" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/Controls/Underground"]
+layout_mode = 2
+
+[node name="DSeedLabel" type="Label" parent="GenerationControlTabs/DungeonControl/Controls/Underground/Seed"]
 layout_mode = 2
 text = "Seed
 "
 
-[node name="DSeedEdit" type="SpinBox" parent="GenerationControlTabs/DungeonControl/VFlowContainer/Seed"]
+[node name="DSeedEdit" type="SpinBox" parent="GenerationControlTabs/DungeonControl/Controls/Underground/Seed"]
 layout_mode = 2
 max_value = 9.22337e+18
 
-[node name="Scale" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/VFlowContainer"]
+[node name="Scale" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/Controls/Underground"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="GenerationControlTabs/DungeonControl/VFlowContainer/Scale"]
+[node name="Label" type="Label" parent="GenerationControlTabs/DungeonControl/Controls/Underground/Scale"]
 layout_mode = 2
-text = "Overworld To Dungeon Scale"
+text = "Scale"
 
-[node name="OverworldToDungeonScaleBox" type="SpinBox" parent="GenerationControlTabs/DungeonControl/VFlowContainer/Scale"]
+[node name="OverworldToDungeonScaleBox" type="SpinBox" parent="GenerationControlTabs/DungeonControl/Controls/Underground/Scale"]
 layout_mode = 2
-min_value = 3.0
+min_value = 1.0
 max_value = 20.0
 value = 3.0
 suffix = "Tiles"
 
-[node name="RoomGenerationTechniqu" type="HBoxContainer" parent="GenerationControlTabs/DungeonControl/VFlowContainer"]
+[node name="HeightLayerWright" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/Controls/Underground"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="GenerationControlTabs/DungeonControl/VFlowContainer/RoomGenerationTechniqu"]
-layout_mode = 2
-text = "Room Generation Technique"
-
-[node name="MenuBar" type="OptionButton" parent="GenerationControlTabs/DungeonControl/VFlowContainer/RoomGenerationTechniqu"]
-layout_mode = 2
-selected = 0
-item_count = 2
-popup/item_0/text = "No Rooms"
-popup/item_1/text = "WIP"
-popup/item_1/id = 1
-
-[node name="MinRoomCount" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/VFlowContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="GenerationControlTabs/DungeonControl/VFlowContainer/MinRoomCount"]
-layout_mode = 2
-text = "Minimum Room Count"
-
-[node name="MinRoomSelect" type="SpinBox" parent="GenerationControlTabs/DungeonControl/VFlowContainer/MinRoomCount"]
-layout_mode = 2
-
-[node name="MaxRoomCount" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/VFlowContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="GenerationControlTabs/DungeonControl/VFlowContainer/MaxRoomCount"]
-layout_mode = 2
-text = "Maximum Room Count"
-
-[node name="MaxRoomSelect" type="SpinBox" parent="GenerationControlTabs/DungeonControl/VFlowContainer/MaxRoomCount"]
-layout_mode = 2
-
-[node name="HeightLayerWright" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/VFlowContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="GenerationControlTabs/DungeonControl/VFlowContainer/HeightLayerWright"]
+[node name="Label" type="Label" parent="GenerationControlTabs/DungeonControl/Controls/Underground/HeightLayerWright"]
 layout_mode = 2
 text = "Height Layer Weight"
 
-[node name="HeightLayerWeightSelector" type="SpinBox" parent="GenerationControlTabs/DungeonControl/VFlowContainer/HeightLayerWright"]
+[node name="HeightLayerWeightSelector" type="SpinBox" parent="GenerationControlTabs/DungeonControl/Controls/Underground/HeightLayerWright"]
 layout_mode = 2
 value = 10.0
 
-[node name="HeightChangeCost" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/VFlowContainer"]
+[node name="HeightChangeCost" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/Controls/Underground"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="GenerationControlTabs/DungeonControl/VFlowContainer/HeightChangeCost"]
+[node name="Label" type="Label" parent="GenerationControlTabs/DungeonControl/Controls/Underground/HeightChangeCost"]
 layout_mode = 2
 text = "Height Change Cost
 "
 
-[node name="HeightChangeWeightSelector" type="SpinBox" parent="GenerationControlTabs/DungeonControl/VFlowContainer/HeightChangeCost"]
+[node name="HeightChangeWeightSelector" type="SpinBox" parent="GenerationControlTabs/DungeonControl/Controls/Underground/HeightChangeCost"]
 layout_mode = 2
 min_value = 1.0
 value = 10.0
+
+[node name="Rooms" type="VBoxContainer" parent="GenerationControlTabs/DungeonControl/Controls"]
+layout_mode = 2
+
+[node name="RoomGenerationTechniqu" type="HBoxContainer" parent="GenerationControlTabs/DungeonControl/Controls/Rooms"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GenerationControlTabs/DungeonControl/Controls/Rooms/RoomGenerationTechniqu"]
+layout_mode = 2
+text = "Generation Technique"
+
+[node name="MenuBar" type="OptionButton" parent="GenerationControlTabs/DungeonControl/Controls/Rooms/RoomGenerationTechniqu"]
+layout_mode = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "No Rooms"
+popup/item_1/text = "Basic"
+popup/item_1/id = 1
+
+[node name="MinRoomCount" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/Controls/Rooms"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GenerationControlTabs/DungeonControl/Controls/Rooms/MinRoomCount"]
+layout_mode = 2
+text = "Minimum Room Count"
+
+[node name="MinRoomSelect" type="SpinBox" parent="GenerationControlTabs/DungeonControl/Controls/Rooms/MinRoomCount"]
+layout_mode = 2
+min_value = 1.0
+max_value = 2.0
+value = 1.0
+
+[node name="MaxRoomCount" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/Controls/Rooms"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GenerationControlTabs/DungeonControl/Controls/Rooms/MaxRoomCount"]
+layout_mode = 2
+text = "Maximum Room Count"
+
+[node name="MaxRoomSelect" type="SpinBox" parent="GenerationControlTabs/DungeonControl/Controls/Rooms/MaxRoomCount"]
+layout_mode = 2
+min_value = 2.0
+value = 3.0
+
+[node name="MaxRoomSize" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/Controls/Rooms"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GenerationControlTabs/DungeonControl/Controls/Rooms/MaxRoomSize"]
+layout_mode = 2
+text = "Maximum Room Size"
+
+[node name="MaxSizeSelector" type="SpinBox" parent="GenerationControlTabs/DungeonControl/Controls/Rooms/MaxRoomSize"]
+layout_mode = 2
+min_value = 2.0
+max_value = 8.0
+value = 3.0
+
+[node name="MinRoomSize" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/Controls/Rooms"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GenerationControlTabs/DungeonControl/Controls/Rooms/MinRoomSize"]
+layout_mode = 2
+text = "Minimum Room Size"
+
+[node name="MinSizeSelector" type="SpinBox" parent="GenerationControlTabs/DungeonControl/Controls/Rooms/MinRoomSize"]
+layout_mode = 2
+min_value = 1.0
+max_value = 8.0
+value = 1.0
 
 [node name="ViewControls" type="Control" parent="."]
 layout_mode = 3
@@ -693,13 +729,19 @@ button_pressed = true
 [connection signal="value_changed" from="GenerationControlTabs/Overworld Noise/NoiseControls/BiomeVBoxContainer/SeedHSplitContainer/SeedEdit" to="GenerationManager" method="UpdateBiomeNoiseSeed"]
 [connection signal="value_changed" from="GenerationControlTabs/Overworld Noise/NoiseControls/BiomeVBoxContainer/FreqHBoxContainer/VBoxContainer/FrequencyEdit" to="GenerationManager" method="UpdateBiomeNoiseFrequency"]
 [connection signal="value_changed" from="GenerationControlTabs/Overworld Noise/NoiseControls/BiomeVBoxContainer/FreqHBoxContainer/VBoxContainer/FrequencyEdit" to="GenerationControlTabs/Overworld Noise/NoiseControls/BiomeVBoxContainer/FreqHBoxContainer/VBoxContainer/BFreqValue" method="_on_frequency_edit_value_changed"]
-[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/VFlowContainer/Seed/DSeedEdit" to="GenerationManager" method="UpdateDungeonSeed"]
-[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/VFlowContainer/Scale/OverworldToDungeonScaleBox" to="GenerationManager" method="UpdateScale"]
-[connection signal="item_selected" from="GenerationControlTabs/DungeonControl/VFlowContainer/RoomGenerationTechniqu/MenuBar" to="GenerationManager" method="UpdateSelectedRoomGenerator"]
-[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/VFlowContainer/MinRoomCount/MinRoomSelect" to="GenerationManager" method="UpdateMinRooms"]
-[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/VFlowContainer/MaxRoomCount/MaxRoomSelect" to="GenerationManager" method="UpdateMaxRooms"]
-[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/VFlowContainer/HeightLayerWright/HeightLayerWeightSelector" to="GenerationManager" method="UpdateHeightLayerWeightSelector"]
-[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/VFlowContainer/HeightChangeCost/HeightChangeWeightSelector" to="GenerationManager" method="UpdateHeightChangeWeightSelector"]
+[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/Controls/Underground/Seed/DSeedEdit" to="GenerationManager" method="UpdateDungeonSeed"]
+[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/Controls/Underground/Scale/OverworldToDungeonScaleBox" to="GenerationManager" method="UpdateScale"]
+[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/Controls/Underground/HeightLayerWright/HeightLayerWeightSelector" to="GenerationManager" method="UpdateHeightLayerWeightSelector"]
+[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/Controls/Underground/HeightChangeCost/HeightChangeWeightSelector" to="GenerationManager" method="UpdateHeightChangeWeightSelector"]
+[connection signal="item_selected" from="GenerationControlTabs/DungeonControl/Controls/Rooms/RoomGenerationTechniqu/MenuBar" to="GenerationManager" method="UpdateSelectedRoomGenerator"]
+[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/Controls/Rooms/MinRoomCount/MinRoomSelect" to="." method="UpdateMinRoomCount"]
+[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/Controls/Rooms/MinRoomCount/MinRoomSelect" to="GenerationManager" method="UpdateMinRooms"]
+[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/Controls/Rooms/MaxRoomCount/MaxRoomSelect" to="." method="UpdateMaxRoomCount"]
+[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/Controls/Rooms/MaxRoomCount/MaxRoomSelect" to="GenerationManager" method="UpdateMaxRooms"]
+[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/Controls/Rooms/MaxRoomSize/MaxSizeSelector" to="." method="UpdateMaxRoomSize"]
+[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/Controls/Rooms/MaxRoomSize/MaxSizeSelector" to="GenerationManager" method="UpdateMaxRoomCells"]
+[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/Controls/Rooms/MinRoomSize/MinSizeSelector" to="." method="UpdateMinRoomSize"]
+[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/Controls/Rooms/MinRoomSize/MinSizeSelector" to="GenerationManager" method="UpdateMinRoomCells"]
 [connection signal="pressed" from="ViewControls/ViewControlsContainer/RegenerateOverworldButton" to="." method="GenerateMap"]
 [connection signal="pressed" from="ViewControls/ViewControlsContainer/RegenerateDungeonButton" to="." method="RegenerateDungeon"]
 [connection signal="item_selected" from="ViewControls/ViewControlsContainer/Layer/LayerSelect" to="." method="ChangeView"]

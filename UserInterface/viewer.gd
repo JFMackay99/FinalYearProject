@@ -87,3 +87,14 @@ func ToggleViewHeights(toggled_on: bool) -> void:
 	
 func ToggleViewBiomes(toggled_on: bool) -> void:
 	$MapViewContainer/MapSubViewport/OverworldViewer/OverworldTileMapLayer.ToggleViewBiomes(toggled_on,  map.overworld)
+
+func UpdateMaxRoomSize(value):
+	$GenerationControlTabs/DungeonControl/Controls/Rooms/MinRoomSize/MinSizeSelector.max_value = value-1
+func UpdateMinRoomSize(value):
+	$GenerationControlTabs/DungeonControl/Controls/Rooms/MaxRoomSize/MaxSizeSelector.min_value = value+1
+
+func UpdateMaxRoomCount(value):
+	$GenerationControlTabs/DungeonControl/Controls/Rooms/MinRoomCount/MinRoomSelect.max_value = value -1
+
+func UpdateMinRoomCount(value):
+	$GenerationControlTabs/DungeonControl/Controls/Rooms/MaxRoomCount/MaxRoomSelect.min_value = value +1

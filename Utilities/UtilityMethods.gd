@@ -27,7 +27,16 @@ func GetCentralPointFromOverWorldCoords(cellX, cellY, scale):
 	var x = cellX * scale + (scale/2)
 	var y = cellY * scale + (scale/2)
 	return Vector2i(x, y)
+
+func GetTopLeftPointFromCell(cell: Vector2i, scale):
+	var x = cell.x * scale 
+	var y = cell.y * scale 
+	return Vector2i(x,y)
 	
+func GetTopLeftPointFrom3dCell(cell: Vector3, scale):
+	return GetTopLeftPointFromCell(Vector2i(cell.x, cell.y), scale)
+
+
 # Gets the overworld coordinates corresponding to a given point in a dungeon layer
 func GetOverworldCellCoordsFromDungeonPoint(x,y, scale):
 	return Vector2(x/scale, y/scale)

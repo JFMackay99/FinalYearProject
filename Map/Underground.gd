@@ -18,3 +18,6 @@ func setLayers(newLayers: Array[LayerBase]):
 	
 func getLayers() -> Array[LayerBase]:
 	return layers
+
+func getLayer(layerHeight: int):
+	return layers[layerHeight]
