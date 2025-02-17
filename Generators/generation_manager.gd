@@ -71,6 +71,12 @@ func UpdateMaxRooms(value: float) -> void:
 func UpdateMinRooms(value: float) -> void:
 	$DungeonGenerator.UpdateMinRooms(value)
 
+func UpdateMaxRoomCells(value: float):
+	$DungeonGenerator.UpdateMaxRoomCells(value)
+
+func UpdateMinRoomCells(value: float):
+	$DungeonGenerator.UpdateMinRoomCells(value)
+
 func UpdateScale(value: float) -> void:
 	scaleChanged = true
 	$DungeonGenerator.UpdateScale(value)
@@ -100,7 +106,6 @@ func UpdateBiomeNoiseType(index: int) -> void:
 	$OverworldMapGenerator.UpdateBiomeNoiseType(index)
 #endregion
 
-#endregion
 
 
 func UpdateSelectedRoomGenerator(index: int) -> void:

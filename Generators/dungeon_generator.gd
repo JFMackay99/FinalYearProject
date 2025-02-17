@@ -249,7 +249,7 @@ func UpdateScale(value: float) -> void:
 
 # Updates the minimum number of rooms
 func UpdateMinRooms(value: float) -> void:
-	RoomGeneratorBase.minRooms
+	RoomGeneratorBase.minRooms = value
 
 # Update the maximum number of rooms
 func UpdateMaxRooms(value: float) -> void:
@@ -257,11 +257,11 @@ func UpdateMaxRooms(value: float) -> void:
 	
 # Updates the minimum size of rooms
 func UpdateMinRoomCells(value: float) -> void:
-	RoomGeneratorBase.minRoomCells
+	RoomGeneratorBase.minRoomCells = value
 
 # Update the maximum size of rooms
 func UpdateMaxRoomCells(value: float) -> void:
-	RoomGeneratorBase.maxRooms = value
+	RoomGeneratorBase.maxRoomCells = value
 
 func UpdateHeightLayerWeightFactor(value):
 	heightLayerWeightFactor = value

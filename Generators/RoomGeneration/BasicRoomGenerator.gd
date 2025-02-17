@@ -4,8 +4,10 @@ class_name BasicRoomGenerator
 
 func GenerateRooms(map: Map, sections: Array):
 	
-	var foo = minRooms
-	var bar = maxRooms
+	var aaacheckMinRoom = minRooms
+	var aabcheckMaxRooms = maxRooms
+	var aafcheckMinSize = minRoomCells
+	var aaccheckMaxSize = maxRoomCells
 	
 	
 	var roomsToAdd = rng.randi_range(minRooms, maxRooms)
