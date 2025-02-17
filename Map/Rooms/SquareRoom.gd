@@ -22,6 +22,7 @@ func _init(type: Constants.ROOM_TYPE,
 	var startX = center.x - (width-1)/2
 	var startY = center.y - (width-1)/2
 	self.topLeft = Vector2i(startX, startY)
+	self.center = center
 	
 	# Floor
 	for x in width:
