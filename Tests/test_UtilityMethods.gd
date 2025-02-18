@@ -32,7 +32,7 @@ var getDungeonAreaFromOverworldCellParams = [
 	[Vector2i(0,0), 1, [Vector2i(0,0)]], # x=y=0 scale=1
 	[Vector2i(0,0), 2, [Vector2i(0,0), Vector2i(0,1), Vector2i(1,0), Vector2i(1,1)]], # x=y=0 scale!=1
 	[Vector2i(3,4), 1, [Vector2i(3,4)]], # x!=y scale=1
-	[Vector2i(1,2), 2, [Vector2i(3,4), Vector2i(3,5), Vector2i(4,4), Vector2i(4,5)]], # x!=y scale!=1
+	[Vector2i(1,2), 2, [Vector2i(2,4), Vector2i(2,5), Vector2i(3,4), Vector2i(3,5)]], # x!=y scale!=1
 	
 ]
 func test_GetDungeonAreaFromOverworlCell(params = use_parameters(getDungeonAreaFromOverworldCellParams)):
@@ -42,7 +42,7 @@ func test_GetDungeonAreaFromOverworlCell(params = use_parameters(getDungeonAreaF
 	
 	var actual = UtilityMethods.GetDungeonAreaFromOverworldCell(cell,scale)
 	
-	assert_eq(actual, expected)
+	assert_eq_deep(actual, expected)
 
 var getCentralPointFromOverWorldVectParams = [
 	[Vector2i(0,0), 1, Vector2i(0,0)], # x=y=0 scale =1
