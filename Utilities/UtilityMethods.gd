@@ -11,9 +11,8 @@ func GetCentralPointFromDungeonPoint(x,y, scale):
 func GetDungeonAreaFromOverworldCell(owCoords, scale):
 	var area = Array()
 	for i in scale:
-		area.append([])
 		for j in scale:
-			area.append(Vector2(owCoords.x*scale +i, owCoords.y*scale + j))
+			area.append(Vector2i(owCoords.x*scale +i, owCoords.y*scale + j))
 	return area
 
 # Gets the central point of an area of the dungeon layers that correspond to the given overworld
