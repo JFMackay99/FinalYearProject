@@ -61,10 +61,18 @@ func GenerateSquareCenteredRoomSize(undergroundLayer: UndergroundLayer, section:
 	
 	var maxSectionDistance = min(startTotalDistance, endTotalDistance)
 	
-	
-	
-	
 	# Next we check against the underground structure
+	var maxStructureDistance = CalculateMaxSizeSquareFromUndergroundStructure(undergroundLayer, cell)
+	
+	
+	
+	var maxSize = min(maxSectionDistance, maxStructureDistance)
+	
+	var generatedSize = rng.randi_range(minRoomCells, maxSize)
+	
+	return generatedSize
+
+func CalculateMaxSizeSquareFromUndergroundStructure(undergroundLayer: UndergroundLayer, cell) -> int:
 	# We can limit how far we need to check to max room size
 	# This max size will be limited to odd numbers
 	var checked = false
@@ -100,14 +108,8 @@ func GenerateSquareCenteredRoomSize(undergroundLayer: UndergroundLayer, section:
 			if checkSize == maxRoomCells:
 				checked = true
 				break
-	
-	
-	
-	var maxSize = min(maxSectionDistance, maxStructureDistance)
-	
-	var generatedSize = rng.randi_range(minRoomCells, maxSize)
-	
-	return generatedSize
+	return maxStructureDistance
+
 
 func ReprocessSections(sections: Array, changedSectionIndex: int, addedRoom: RoomBase, roomSectionIndex: int) -> Array:
 	
