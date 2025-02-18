@@ -39,7 +39,13 @@ func UpdateLabels():
 	$ViewControls/ViewControlsContainer/Entrances/E2/Height/E2HeightValue.text = str(entrance.z)
 	$ViewControls/ViewControlsContainer/Entrances/E2/Biome/E2BiomeValue.text = Constants.BIOMES.keys()[map.overworld.GetBiomeAtCellCoordinate(entrance.x, entrance.y)]
 	
-	
+	var roomCount = 0
+	for layer in map.dungeon.getLayers():
+		for room: RoomBase in layer.rooms:
+			var type = room.roomType
+			if room.roomType != Constants.ROOM_TYPE.STAIRWELL:
+				roomCount += 1
+	$ViewControls/ViewControlsContainer/Entrances/RoomCount/RoomCount.text = str(roomCount)
 	
 # Generate the full overworld. This is also called when the "pressed" signal is emmitted when the 
 # regenerate overworld button is pressed.

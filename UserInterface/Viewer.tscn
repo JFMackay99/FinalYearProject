@@ -540,15 +540,15 @@ metadata/_edit_group_ = true
 
 [node name="ColorRect" type="ColorRect" parent="ViewControls"]
 layout_mode = 0
-offset_right = 563.0
+offset_right = 577.0
 offset_bottom = 269.0
 color = Color(0.783523, 0.783523, 0.783523, 1)
 
 [node name="ViewControlsContainer" type="VFlowContainer" parent="ViewControls"]
 layout_mode = 0
 offset_left = 3.0
-offset_right = 559.0
-offset_bottom = 228.0
+offset_right = 574.0
+offset_bottom = 268.0
 
 [node name="RegenerateOverworldButton" type="Button" parent="ViewControls/ViewControlsContainer"]
 layout_mode = 2
@@ -633,6 +633,16 @@ text = "Biome: "
 [node name="E2BiomeValue" type="Label" parent="ViewControls/ViewControlsContainer/Entrances/E2/Biome"]
 layout_mode = 2
 text = "Empty"
+
+[node name="RoomCount" type="HBoxContainer" parent="ViewControls/ViewControlsContainer/Entrances"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ViewControls/ViewControlsContainer/Entrances/RoomCount"]
+layout_mode = 2
+text = "Rooms: "
+
+[node name="RoomCount" type="Label" parent="ViewControls/ViewControlsContainer/Entrances/RoomCount"]
+layout_mode = 2
 
 [node name="RegenerateDungeonButton" type="Button" parent="ViewControls/ViewControlsContainer"]
 layout_mode = 2

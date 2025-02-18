@@ -14,7 +14,7 @@ func _init(type: Constants.ROOM_TYPE,
 	):
 	
 	super(
-		Constants.ROOM_TYPE.NORMAL, 
+		type, 
 		Constants.ROOM_SHAPE.RECTANGULAR, 
 		floorTiles, 
 		boundaryTiles)
