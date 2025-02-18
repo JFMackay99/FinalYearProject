@@ -8,7 +8,7 @@ func GetCentralPointFromDungeonPoint(x,y, scale):
 	return GetCentralPointFromOverWorldVect(owVect, scale)
 
 # Gets an area of the dungeon layer that corresponds to the given overworld coordinates
-func GetDungeonAreaFromOverworldCoords(owCoords, scale):
+func GetDungeonAreaFromOverworldCell(owCoords, scale):
 	var area = Array()
 	for i in scale:
 		area.append([])
@@ -39,4 +39,4 @@ func GetTopLeftPointFrom3dCell(cell: Vector3, scale):
 
 # Gets the overworld coordinates corresponding to a given point in a dungeon layer
 func GetOverworldCellCoordsFromDungeonPoint(x,y, scale):
-	return Vector2(x/scale, y/scale)
+	return Vector2i(x/scale, y/scale)
