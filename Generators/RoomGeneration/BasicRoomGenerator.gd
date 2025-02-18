@@ -52,12 +52,12 @@ func GenerateSquareCenteredRoomSize(undergroundLayer: UndergroundLayer, section:
 	# This is a square room so take the minimum of the x and y distances
 	var startXDistance = abs(section[1].x - cell.x)
 	var startYDistance = abs(section[1].y - cell.y)
-	var startTotalDistance = min(startXDistance, startYDistance)
+	var startTotalDistance = max(startXDistance, startYDistance)
 	
 	
 	var endXDistance = abs(section[-2].x - cell.x)
 	var endYDistance = abs(section[-2].y - cell.y)
-	var endTotalDistance = min(endXDistance, endYDistance)
+	var endTotalDistance = max(endXDistance, endYDistance)
 	
 	var maxSectionDistance = min(startTotalDistance, endTotalDistance)
 	
