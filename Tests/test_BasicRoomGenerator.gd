@@ -3,45 +3,44 @@ extends GutTest
 var testUndergroundLayer: UndergroundLayer
 var generator: BasicRoomGenerator
 
-# Test Layer:
-#	X X X X X F F F
-#	X X X X X F F F
-#	X X X X X F F F
-#	X X X X X X F F
-#	X X X X X X X F
-#	X X X X X X X F
-#	X X X X X X X F
-#	X X X X X X X F
 func before_all():
 	generator = BasicRoomGenerator.new()
-	testUndergroundLayer = UndergroundLayer.new(1,8,8)
 	
-	for i in testUndergroundLayer.mapMaxHeight:
-		testUndergroundLayer.map[testUndergroundLayer.mapMaxWidth-1][i] = Constants.DUNGEON_TILES.FORBIDDEN
+
+func before_each():
+	# Forbidden tiles can be added during tests 
+	testUndergroundLayer = UndergroundLayer.new(1,9,9)
 	
-	testUndergroundLayer.map[5][0] = Constants.DUNGEON_TILES.FORBIDDEN
-	testUndergroundLayer.map[6][0] = Constants.DUNGEON_TILES.FORBIDDEN
-	testUndergroundLayer.map[5][1] = Constants.DUNGEON_TILES.FORBIDDEN
-	testUndergroundLayer.map[6][1] = Constants.DUNGEON_TILES.FORBIDDEN
-	testUndergroundLayer.map[5][2] = Constants.DUNGEON_TILES.FORBIDDEN
-	testUndergroundLayer.map[6][2] = Constants.DUNGEON_TILES.FORBIDDEN
-	testUndergroundLayer.map[6][3] = Constants.DUNGEON_TILES.FORBIDDEN
 	
 	
 var maxSizeFromUndergroundStructureParams = [
-	[Vector2i(3,3), 1, 1], # Max space scale =1
-	[Vector2i(3,3), 3, 3], # Max space scale !=1
-	[Vector2i(4,1), 3, 1], # Next to forbidden scale =3
-	[Vector2i(5,1), 5, 1], # Next to forbidden scale =5
-	[Vector2i(3,5), 5, 1], # Just Reaches forbidden scale =5
-	[Vector2i(5,1), 5, 1], # Next to forbidden scale =5
+	# [ ForbiddenTiles: Array, maxRoomCells: int, expected: int ]
+	[[], 1,1], # No Forbidden, maxRoomCells = 1
+	[[], 3,3], # No Forbidden, maxRoomCells != 1
+	[[Vector2i(0,0)], 1,1], # 1 Forbidden out of range, maxRoomCells = 1
+	[[Vector2i(0,0)], 3,3], # 1 Forbidden out of range, maxRoomCells != 1
+	[[Vector2i(5,4)], 1,1], # 1 Forbidden adjacent, maxRoomCells = 1
+	[[Vector2i(5,4)], 5,1], # 1 Forbidden adjacent, maxRoomCells != 1
+	[[Vector2i(5,5)], 5,1], # 1 Forbidden adjacent BR corner, maxRoomCells != 1
+	[[Vector2i(6,4)], 5,3], # 1 Forbidden edge of check, maxRoomCells != 1
+	[[Vector2i(4,6)], 5,3], # 1 Forbidden edge of check TR corner, maxRoomCells != 1
+	[[Vector2i(6,6)], 5,3], # 1 Forbidden edge of check BR corner, maxRoomCells != 1
+	[[Vector2i(4,6)], 5,3], # 1 Forbidden edge of check TL corner, maxRoomCells != 1
+	[[Vector2i(6,6)], 5,3], # 1 Forbidden edge of check TR corner, maxRoomCells != 1
+	[[Vector2i(5,4)], 5,1], # 1 Forbidden middle of check, maxRoomCells != 1
+	[[Vector2i(5,5)], 5,1], # 1 Forbidden middle of check BR corner, maxRoomCells != 1
 ]
 
 func test_MaxSizeFromUndergroundStruncture(params=use_parameters(maxSizeFromUndergroundStructureParams)):
-	var cell = params[0]
-	generator.scale = params[1]
+	generator.scale = 1
+	var cell = Vector2i(4,4)
+	
+	for tile in params[0]:
+		testUndergroundLayer.SetTile(tile.x, tile.y, Constants.DUNGEON_TILES.FORBIDDEN)
+	
+	generator.maxRoomCells = params[1]
 	var expected = params[2]
 	
 	var actual = generator.CalculateMaxSizeSquareFromUndergroundStructure(testUndergroundLayer, cell)
 	
-	assert_eq(expected, actual)
+	assert_eq( actual, expected)

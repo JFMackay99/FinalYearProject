@@ -75,6 +75,10 @@ func GenerateSquareCenteredRoomSize(undergroundLayer: UndergroundLayer, section:
 func CalculateMaxSizeSquareFromUndergroundStructure(undergroundLayer: UndergroundLayer, cell) -> int:
 	# We can limit how far we need to check to max room size
 	# This max size will be limited to odd numbers
+	
+	if maxRoomCells == 1:
+		return 1
+	
 	var checked = false
 	# Distance checked from center
 	var checkDistance = 0
@@ -100,14 +104,16 @@ func CalculateMaxSizeSquareFromUndergroundStructure(undergroundLayer: Undergroun
 			|| undergroundLayer.GetTileFromVect(UtilityMethods.GetCentralPointFromOverWorldCoords(checkTLCornerX, checkTLCornerY+i, self.scale)) == Constants.DUNGEON_TILES.FORBIDDEN 
 			|| undergroundLayer.GetTileFromVect(UtilityMethods.GetCentralPointFromOverWorldCoords(checkBRCornerX -i, checkBRCornerY, self.scale)) == Constants.DUNGEON_TILES.FORBIDDEN 
 			||  undergroundLayer.GetTileFromVect(UtilityMethods.GetCentralPointFromOverWorldCoords(checkBRCornerX, checkBRCornerY - i, self.scale)) == Constants.DUNGEON_TILES.FORBIDDEN):
-				maxStructureDistance = checkSize - 2
+				return checkSize -2
+				#maxStructureDistance = checkSize - 2
 				checked = true
 				break
 			
-			# Limit checks to the max room size
-			if checkSize == maxRoomCells:
-				checked = true
-				break
+		# Limit checks to the max room size
+		if checkSize == self.maxRoomCells:
+			return checkSize
+			checked = true
+			break
 	return maxStructureDistance
 
 
