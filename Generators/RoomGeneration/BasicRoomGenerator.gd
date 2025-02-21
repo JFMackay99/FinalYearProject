@@ -45,21 +45,7 @@ func GenerateRooms(map: Map, sections: Array):
 func GenerateSquareCenteredRoomSize(undergroundLayer: UndergroundLayer, section: Array, cell, cellIndex) -> int:
 	
 	# First, make sure that room size doesn't reach the star/end of section
-	
-	# []-x--[]
-	# We want at least one empty passageway cell between rooms
-	#
-	# This is a square room so take the minimum of the x and y distances
-	var startXDistance = abs(section[1].x - cell.x)
-	var startYDistance = abs(section[1].y - cell.y)
-	var startTotalDistance = max(startXDistance, startYDistance)
-	
-	
-	var endXDistance = abs(section[-2].x - cell.x)
-	var endYDistance = abs(section[-2].y - cell.y)
-	var endTotalDistance = max(endXDistance, endYDistance)
-	
-	var maxSectionDistance = min(startTotalDistance, endTotalDistance)
+	var maxSectionDistance = CalculateMaxSizeSquareFromSections(section, cell)
 	
 	# Next we check against the underground structure
 	var maxStructureDistance = CalculateMaxSizeSquareFromUndergroundStructure(undergroundLayer, cell)
@@ -116,6 +102,25 @@ func CalculateMaxSizeSquareFromUndergroundStructure(undergroundLayer: Undergroun
 			break
 	return maxStructureDistance
 
+func CalculateMaxSizeSquareFromSections(section, cell):
+	# We assume that the sections are continuos, the cell is part of the section
+	# and that the if the section curves on itself the structure size max will
+	# handle this
+	
+	# []-x--[]
+	# We want at least one empty passageway cell between rooms
+	#
+	# This is a square room so take the minimum of the x and y distances
+	var startXDistance = abs(section[1].x - cell.x)
+	var startYDistance = abs(section[1].y - cell.y)
+	var startTotalDistance = 2*max(startXDistance, startYDistance)-1
+	
+	
+	var endXDistance = abs(section[-2].x - cell.x)
+	var endYDistance = abs(section[-2].y - cell.y)
+	var endTotalDistance = 2*max(endXDistance, endYDistance)-1
+	
+	return min(startTotalDistance, endTotalDistance)
 
 func ReprocessSections(sections: Array, changedSectionIndex: int, addedRoom: RoomBase, roomSectionIndex: int) -> Array:
 	
