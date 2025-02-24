@@ -29,6 +29,8 @@ var maxSizeFromUndergroundStructureParams = [
 	[[Vector2i(6,6)], 5,3], # 1 Forbidden edge of check TR corner, maxRoomCells != 1
 	[[Vector2i(5,4)], 5,1], # 1 Forbidden middle of check, maxRoomCells != 1
 	[[Vector2i(5,5)], 5,1], # 1 Forbidden middle of check BR corner, maxRoomCells != 1
+	[[], 15,9], # No Explicit Forbidden, maxRoomCells reaches outside of available map space
+	[[Vector2i(5,5), Vector2i(6,4)], 5,1], # Multiple Forbidden, maxRoomCells != 1
 ]
 
 func test_MaxSizeFromUndergroundStruncture(params=use_parameters(maxSizeFromUndergroundStructureParams)):

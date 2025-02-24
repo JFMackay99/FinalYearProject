@@ -84,8 +84,9 @@ func CalculateMaxSizeSquareFromUndergroundStructure(undergroundLayer: Undergroun
 		# Width of square to check
 		var checkSize = checkDistance *2 +1
 		
+		# Check the boundary of the checked square
 		for i in checkSize:
-			# Check from top left corner
+			# Check from opposite corners
 			if (undergroundLayer.GetTileFromVect(UtilityMethods.GetCentralPointFromOverWorldCoords(checkTLCornerX+ i, checkTLCornerY, self.scale)) == Constants.DUNGEON_TILES.FORBIDDEN 
 			|| undergroundLayer.GetTileFromVect(UtilityMethods.GetCentralPointFromOverWorldCoords(checkTLCornerX, checkTLCornerY+i, self.scale)) == Constants.DUNGEON_TILES.FORBIDDEN 
 			|| undergroundLayer.GetTileFromVect(UtilityMethods.GetCentralPointFromOverWorldCoords(checkBRCornerX -i, checkBRCornerY, self.scale)) == Constants.DUNGEON_TILES.FORBIDDEN 

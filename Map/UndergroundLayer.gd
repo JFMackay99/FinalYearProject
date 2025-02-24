@@ -18,6 +18,10 @@ func _init(layerHeight: int, maxWidth, maxHeight, higherLevel: LayerBase = null)
 	mapMaxWidth = maxWidth
 
 func GetTile( x, y) -> Constants.DUNGEON_TILES:
+	# If outside of bounds return FORBIDDEN
+	if x >= mapMaxWidth || y >= mapMaxHeight || x < 0 || y < 0:
+		return Constants.DUNGEON_TILES.FORBIDDEN
+	
 	return map[x][y]
 	
 func GetTileFromVect(point)-> Constants.DUNGEON_TILES:
