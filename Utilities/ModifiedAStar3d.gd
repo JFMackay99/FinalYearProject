@@ -3,6 +3,15 @@ extends AStar3D
 # in order to discourage unnecessary changes in heights
 class_name ModifiedAStar3D
 
+var maxX
+var maxY
+var maxZ
+
+func _init(maxX = Constants.OVERWORLD_MAX_X, maxY = Constants.OVERWORLD_MAX_Y, maxZ = Constants.MAX_HEIGHT_LEVELS) -> void:
+	self.maxX = maxX
+	self.maxY = maxY
+	self.maxZ = maxZ
+
 
 var heightChangeCostFactor = 10
 var heightLayerWeightFactor = 10
@@ -32,4 +41,7 @@ func CellVectToAStarID(vector : Vector3):
 
 # Gets the ID corresponding to the given cell coordinates given as individual coordinates
 func CellCoordsToAStarID(x: int, y: int, z: int):
-	return floor(z)*(Constants.OVERWORLD_MAX_X*Constants.OVERWORLD_MAX_Y)+10*y*Constants.OVERWORLD_MAX_X +x
+	if x >= maxX || y >= maxY || z >= maxZ || x < 0 || y < 0 || z < 0:
+		return -1
+		
+	return floor(z)*(maxX*maxY)+y*maxX +x
