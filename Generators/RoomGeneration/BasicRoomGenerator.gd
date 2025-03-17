@@ -45,28 +45,26 @@ func GenerateRooms(map: Map, sections: Array):
 func GenerateSquareCenteredRoomSize(undergroundLayer: UndergroundLayer, section: Array, cell, cellIndex) -> int:
 	
 	# First, make sure that room size doesn't reach the star/end of section
-	
-	# []-x--[]
-	# We want at least one empty passageway cell between rooms
-	#
-	# This is a square room so take the minimum of the x and y distances
-	var startXDistance = abs(section[1].x - cell.x)
-	var startYDistance = abs(section[1].y - cell.y)
-	var startTotalDistance = max(startXDistance, startYDistance)
-	
-	
-	var endXDistance = abs(section[-2].x - cell.x)
-	var endYDistance = abs(section[-2].y - cell.y)
-	var endTotalDistance = max(endXDistance, endYDistance)
-	
-	var maxSectionDistance = min(startTotalDistance, endTotalDistance)
-	
-	
-	
+	var maxSectionDistance = CalculateMaxSizeSquareFromSections(section, cell)
 	
 	# Next we check against the underground structure
+	var maxStructureDistance = CalculateMaxSizeSquareFromUndergroundStructure(undergroundLayer, cell)
+	
+	
+	
+	var maxSize = min(maxSectionDistance, maxStructureDistance)
+	
+	var generatedSize = rng.randi_range(minRoomCells, maxSize)
+	
+	return generatedSize
+
+func CalculateMaxSizeSquareFromUndergroundStructure(undergroundLayer: UndergroundLayer, cell) -> int:
 	# We can limit how far we need to check to max room size
 	# This max size will be limited to odd numbers
+	
+	if maxRoomCells == 1:
+		return 1
+	
 	var checked = false
 	# Distance checked from center
 	var checkDistance = 0
@@ -86,28 +84,44 @@ func GenerateSquareCenteredRoomSize(undergroundLayer: UndergroundLayer, section:
 		# Width of square to check
 		var checkSize = checkDistance *2 +1
 		
+		# Check the boundary of the checked square
 		for i in checkSize:
-			# Check from top left corner
+			# Check from opposite corners
 			if (undergroundLayer.GetTileFromVect(UtilityMethods.GetCentralPointFromOverWorldCoords(checkTLCornerX+ i, checkTLCornerY, self.scale)) == Constants.DUNGEON_TILES.FORBIDDEN 
 			|| undergroundLayer.GetTileFromVect(UtilityMethods.GetCentralPointFromOverWorldCoords(checkTLCornerX, checkTLCornerY+i, self.scale)) == Constants.DUNGEON_TILES.FORBIDDEN 
 			|| undergroundLayer.GetTileFromVect(UtilityMethods.GetCentralPointFromOverWorldCoords(checkBRCornerX -i, checkBRCornerY, self.scale)) == Constants.DUNGEON_TILES.FORBIDDEN 
 			||  undergroundLayer.GetTileFromVect(UtilityMethods.GetCentralPointFromOverWorldCoords(checkBRCornerX, checkBRCornerY - i, self.scale)) == Constants.DUNGEON_TILES.FORBIDDEN):
-				maxStructureDistance = checkSize - 2
+				return checkSize -2
+				#maxStructureDistance = checkSize - 2
 				checked = true
 				break
 			
-			# Limit checks to the max room size
-			if checkSize == maxRoomCells:
-				checked = true
-				break
+		# Limit checks to the max room size
+		if checkSize == self.maxRoomCells:
+			return checkSize
+			checked = true
+			break
+	return maxStructureDistance
+
+func CalculateMaxSizeSquareFromSections(section, cell):
+	# We assume that the sections are continuos, the cell is part of the section
+	# and that the if the section curves on itself the structure size max will
+	# handle this
+	
+	# []-x--[]
+	# We want at least one empty passageway cell between rooms
+	#
+	# This is a square room so take the minimum of the x and y distances
+	var startXDistance = abs(section[1].x - cell.x)
+	var startYDistance = abs(section[1].y - cell.y)
+	var startTotalDistance = 2*max(startXDistance, startYDistance)-1
 	
 	
+	var endXDistance = abs(section[-2].x - cell.x)
+	var endYDistance = abs(section[-2].y - cell.y)
+	var endTotalDistance = 2*max(endXDistance, endYDistance)-1
 	
-	var maxSize = min(maxSectionDistance, maxStructureDistance)
-	
-	var generatedSize = rng.randi_range(minRoomCells, maxSize)
-	
-	return generatedSize
+	return min(startTotalDistance, endTotalDistance)
 
 func ReprocessSections(sections: Array, changedSectionIndex: int, addedRoom: RoomBase, roomSectionIndex: int) -> Array:
 	

@@ -1,5 +1,6 @@
 extends Node
 
+class_name  DungeonGenerator
 #Scale between tiles in the dungeon and overworld
 @export var scale = 3
 
@@ -209,9 +210,14 @@ func ConstructDirectionalPathInCell(cell, direction, layer: LayerBase):
 
 # Seperate the path into sections that are on the same layer
 func ProcessPathIntoHeightSections(path):
+	if path.is_empty():
+		return []
+	
 	var pathSections = Array()
 	var activeSection = Array()
 	var currentZ = path[0].z
+	
+
 	
 	for tile in path:
 		if currentZ != tile.z:

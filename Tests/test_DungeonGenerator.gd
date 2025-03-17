@@ -1,0 +1,73 @@
+extends GutTest
+
+var generator: DungeonGenerator
+
+func before_all():
+	generator = DungeonGenerator.new()
+
+var section1 = [
+	Vector3i(0,0,0), Vector3i(0,1,0)
+]
+var section2 = [
+	Vector3i(0,1,1), Vector3i(1,1,1), Vector3i(1,2,1)
+]
+var section3 = [
+	Vector3i(1,2,2), Vector3i(2,2,2), Vector3i(2,3,2), Vector3i(2,4,2)
+]
+
+var section4 = [
+	Vector3i(2,4,1), Vector3i(2,5,1)
+]
+
+var path12 = [
+	Vector3i(0,0,0), Vector3i(0,1,0),
+	Vector3i(0,1,1), Vector3i(1,1,1), Vector3i(1,2,1)
+] 
+
+var path123 = [
+	Vector3i(0,0,0), Vector3i(0,1,0),
+	Vector3i(0,1,1), Vector3i(1,1,1), Vector3i(1,2,1),
+	Vector3i(1,2,2), Vector3i(2,2,2), Vector3i(2,3,2), Vector3i(2,4,2)
+]
+
+var path234 = [
+	Vector3i(0,1,1), Vector3i(1,1,1), Vector3i(1,2,1),
+	Vector3i(1,2,2), Vector3i(2,2,2), Vector3i(2,3,2), Vector3i(2,4,2),
+	Vector3i(2,4,1), Vector3i(2,5,1)
+	
+]
+
+
+var processPathParams = [
+	#[path, expected]
+	[[],[]], # Empty 
+	[section1, [section1]], # single section
+	[path12, [section1, section2]], # 2 sections
+	[path123, [section1, section2, section3]], # 3 sections different heights
+	[path234, [section2, section3, section4]] # 3 sections repeating a height
+]
+
+
+func test_ProcessPathIntoSections(params=use_parameters(processPathParams)):
+	var path = params[0]
+	var expected = params[1]
+	
+	var actual = generator.ProcessPathIntoHeightSections(path)
+	
+	assert_eq_deep(actual, expected)
+
+var processSectionParams = [
+	#[sections, expected]
+	[[],[]], # Empty 
+	[[section1], section1], # single section
+	[[section1, section2], path12], # 2 sections
+	[[section1, section2, section3], path123], # 3 sections different heights
+	[[section2, section3, section4], path234] # 3 sections repeating a height
+]
+func test_ProcessSectionsIntoPath(params = use_parameters(processSectionParams)):
+	var sections = params[0]
+	var expected = params[1]
+	
+	var actual = generator.ReconnectPathHeightSectionsIntoPath(sections)
+	
+	assert_eq_deep(actual, expected)

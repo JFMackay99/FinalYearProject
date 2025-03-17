@@ -1,5 +1,7 @@
 extends Node
 
+class_name OverworldMapGenerator
+
 # The heights
 var heights: Array
 var biomes: Array
@@ -47,13 +49,13 @@ func GenerateMap(overworld: OverworldMap):
 
 	
 # Normalise noise value to be between 0 and the maximum height value  
-func NormaliseHeightNoiseValue(noiseValue: float):
-	return Constants.MAX_HEIGHT_LEVELS * (noiseValue+1)/2
+func NormaliseHeightNoiseValue(noiseValue: float, maxHeightLevels = Constants.MAX_HEIGHT_LEVELS):
+	return maxHeightLevels * (noiseValue+1)/2
 
 # Normalise Noise Value for Biomes
-func NormaliseBiomeNoiseValue(noiseValue: float):
+func NormaliseBiomeNoiseValue(noiseValue: float, biomeCount = Constants.BIOME_COUNT):
 	var nf = (noiseValue+1)/2 # Between 0 and 1
-	nf = Constants.BIOME_COUNT * nf # Between 0 and n
+	nf = biomeCount * nf # Between 0 and n
 	nf = ceil(nf) # int 0-n 
 	return nf if nf != 0 else 1 # 1-n
 
@@ -69,16 +71,12 @@ func UpdateHeightNoiseSeed(value: int) -> void:
 # Update noise handlers buffered type
 func UpdateHeightNoiseType(index: int) -> void:
 	$HeightNoiseHandler.NoiseTypeBuffer = index
-	
-# Normalise noise value to be between 0 and the maximum height value  
-func normaliseBiomeNoiseValue(noiseValue: float):
-	return Constants.BIOME_COUNT * (noiseValue+1)/2
 
 # Update noise handlers buffered frequency
 func UpdateBiomeNoiseFrequency(value: float) -> void:
 	$BiomeNoiseHandler.NoiseFrequencyBuffer = value
 
-# Update noise handlers buffered seef
+# Update noise handlers buffered seed
 func UpdateBiomeNoiseSeed(value: int) -> void:
 	$BiomeNoiseHandler.SeedBuffer = value + Constants.BIOME_NOISE_SEED_OFFSET
 
