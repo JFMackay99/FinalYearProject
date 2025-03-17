@@ -69,7 +69,7 @@ var mediumTRCorner = [Vector2i(0,0), Vector2i(1,0), Vector2i(2,0), Vector2i(3,0)
 
 
 var calculateMaxSizeSquareFromSectionsParams = [
-
+	#[section, cell, expected]
 	[shortStraightHorSection, Vector2i(2,0), 1], # center small horizontal
 	[shortStraightVertSection, Vector2i(0,2), 1], # center small vertical
 	[mediumStraightHorSection, Vector2i(3,0), 3], # center medium horizontal

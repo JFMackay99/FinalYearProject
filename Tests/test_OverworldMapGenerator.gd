@@ -6,6 +6,7 @@ func before_all():
 	generator = OverworldMapGenerator.new()
 
 var normaliseBiomeNoiseValueParams = [
+	#[noiseValue, expected]
 	[0,2],
 	[-1,1],
 	[1,4]
@@ -21,6 +22,7 @@ func test_NormaliseBiomeNoiseValue(params=use_parameters(normaliseBiomeNoiseValu
 
 
 var normaliseHeightNoiseValueParams = [
+	#[noiseValue, expected]
 	[0,2],
 	[-1,0],
 	[1,4]

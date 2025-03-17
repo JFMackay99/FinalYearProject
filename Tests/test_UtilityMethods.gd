@@ -12,6 +12,7 @@ func after_all():
 	gut.p("ran run teardown", 2)
 
 var centralPointFromDungeonPointParams = [
+	#[x,y,scale,expecte]
 	[0,0,1,Vector2i(0,0)], # x=y=0 scale = 1
 	[0,0,3,Vector2i(1,1)], # x=y=0 scale !=1
 	[1,2,1,Vector2i(1,2)], # x!=y scale = 1
@@ -29,6 +30,7 @@ func test_GetCentralPointFromDungeonPoint(params=use_parameters(centralPointFrom
 	assert_eq(actual, expected)
 
 var getDungeonAreaFromOverworldCellParams = [
+	#[cell,scale, expected]
 	[Vector2i(0,0), 1, [Vector2i(0,0)]], # x=y=0 scale=1
 	[Vector2i(0,0), 2, [Vector2i(0,0), Vector2i(0,1), Vector2i(1,0), Vector2i(1,1)]], # x=y=0 scale!=1
 	[Vector2i(3,4), 1, [Vector2i(3,4)]], # x!=y scale=1
@@ -45,6 +47,7 @@ func test_GetDungeonAreaFromOverworlCell(params = use_parameters(getDungeonAreaF
 	assert_eq_deep(actual, expected)
 
 var getCentralPointFromOverWorldVectParams = [
+	#[cell, scale, expected]
 	[Vector2i(0,0), 1, Vector2i(0,0)], # x=y=0 scale =1
 	[Vector2i(0,0), 3, Vector2i(1,1)], # x=y=0 scale !=1 odd
 	[Vector2i(1,3), 1, Vector2i(1,3)], # x!=y scale =1
@@ -61,6 +64,7 @@ func test_GetCentralPointFromOverWorldVect(params = use_parameters(getCentralPoi
 	
 
 var getCentralPointFromOverWorldCoords = [
+	#[x,y,scale,expected]
 	[0,0,1,Vector2i(0,0)], # x=y=0 scale = 1
 	[0,0,3,Vector2i(1,1)], # x=y=0 scale !=1
 	[1,2,1,Vector2i(1,2)], # x!=y scale = 1
@@ -76,12 +80,14 @@ func test_GetCentralPointFromOverWorldCoords(params=use_parameters(getCentralPoi
 	
 	assert_eq(actual, expected)
 
-#TODO
 var getTopLeftPointFromCellParams = [
+	#[cell,scale,expected]
 	[Vector2i(0,0), 1, Vector2i(0,0)], # x=y=0 scale =1
 	[Vector2i(0,0), 3, Vector2i(0,0)], # x=y=0 scale !=1
 	[Vector2i(1,3), 1, Vector2i(1,3)], # x!=y scale =1
 	[Vector2i(2,3), 3, Vector2i(6,9)], # x!=y scale !=1
+	[Vector2i(3,3), 1, Vector2i(3,3)], # x=y!=0 scale =1
+	[Vector2i(3,3), 3, Vector2i(9,9)], # x=y!=0 scale !=1
 ]
 func test_GetTopLeftPointFromCell(params = use_parameters(getTopLeftPointFromCellParams)):	
 	var cell = params[0]
@@ -94,6 +100,7 @@ func test_GetTopLeftPointFromCell(params = use_parameters(getTopLeftPointFromCel
 
 
 var getTopLeftPointFrom3dCellParams = [
+	#[cell, scale, expected]
 	[Vector3i(0, 0, 0), 1, Vector2i(0,0)], #x=y=0 scale=1 z = 0
 	[Vector3i(0, 0, 0), 3, Vector2i(0,0)], #x=y=0 scale!=1 z = 0
 	[Vector3i(2, 4, 0), 1, Vector2i(2,4)], #x!=y scale=1 z = 0
@@ -114,10 +121,13 @@ func test_GetTopLeftPointFrom3dCell(params = use_parameters(getTopLeftPointFrom3
 
 
 var getOverworldCellCoordsFromDungeonPoint = [
+	#[x,y,scale,expected]
 	[0,0,1,Vector2i(0,0)], # x=y=0 scale = 1
 	[0,0,3,Vector2i(0,0)], # x=y=0 scale !=1
 	[1,2,1,Vector2i(1,2)], # x!=y scale = 1
 	[4,7,3,Vector2i(1,2)], # x!=y scale !=1	
+	[4,4,1,Vector2i(4,4)], # x=y!=0 scale =1	
+	[4,4,3,Vector2i(1,1)], # x=y!=0 scale !=1	
 ]
 func test_OverworldCellCoordsFromDungeonPoint(params=use_parameters(getOverworldCellCoordsFromDungeonPoint)):
 	var x = params[0]

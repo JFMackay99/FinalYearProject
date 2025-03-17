@@ -39,6 +39,7 @@ var path234 = [
 
 
 var processPathParams = [
+	#[path, expected]
 	[[],[]], # Empty 
 	[section1, [section1]], # single section
 	[path12, [section1, section2]], # 2 sections
@@ -56,6 +57,7 @@ func test_ProcessPathIntoSections(params=use_parameters(processPathParams)):
 	assert_eq_deep(actual, expected)
 
 var processSectionParams = [
+	#[sections, expected]
 	[[],[]], # Empty 
 	[[section1], section1], # single section
 	[[section1, section2], path12], # 2 sections

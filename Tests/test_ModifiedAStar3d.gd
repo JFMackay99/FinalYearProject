@@ -11,6 +11,7 @@ func before_all():
 	
 
 var coordsToIDParams = [
+	#[x,y,z,expected]
 	[0,0,0,0], # 0
 	[1,0,0,1], # x
 	[0,1,0,5], # y
@@ -39,6 +40,7 @@ func test_CellCoordsToAStarId(params = use_parameters(coordsToIDParams)):
 	assert_eq(actual, expected)
 
 var vectToIDParams = [
+	#[vector, expected]
 	[Vector3(0,0,0),0], # 0
 	[Vector3(1,0,0),1], # x
 	[Vector3(0,1,0),5], # y
