@@ -9,6 +9,7 @@ var pathfindingTime: int
 var pathConstructionTime: int
 var stairwellConstructionTime: int
 var roomConstructionTime: int
+var dungeonLayerConstructionTime: int
 var totalDungeonConstructionTime: int
 
 func _init() -> void:

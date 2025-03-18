@@ -106,6 +106,7 @@ func GenerateDungeonLayers(map: Map):
 	
 	var endLayerConstruction = Time.get_ticks_usec()
 	var layerConstructionTime = endLayerConstruction-startLayerConstrunction
+	map.dungeon.dungeonLayerConstructionTime = layerConstructionTime
 	print("Layer Construction Time: " +  str(layerConstructionTime) +"us")
 	#Add entrances
 	var entrances = map.entrances

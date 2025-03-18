@@ -31,6 +31,7 @@ func GenerateUnderground(map: Map) -> void:
 	
 	var endLayerConstruction = Time.get_ticks_usec()
 	var layerConstructionTime = endLayerConstruction-startLayerConstrunction
+	map.underground.layerConstructionTime = layerConstructionTime
 	print("Layer Construction Time: " +  str(layerConstructionTime) +"us")
 	
 	
