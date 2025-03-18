@@ -17,6 +17,17 @@ var pathDistance: int
 var availableDistance: int
 
 
+var pathfindingTime: int
+var pathConstructionTime: int
+var stairwellConstructionTime: int
+var roomConstructionTime: int
+var totalDungeonConstructionTime: int
+var overworldConstructionTime: int
+var layerConstructionTime: int
+var pathfinderInitialisationTime: int
+var totalUndergroundConstructionTime: int
+
+
 func RegisterMapDetails(map: Map):
 	
 	RegisterOverworld(map.overworld)
@@ -44,7 +55,7 @@ func RegisterOverworld(overworld: OverworldMap) -> void:
 	minHeight = Constants.MAX_HEIGHT_LEVELS
 	biomeCounts.clear()
 	
-	
+	overworldConstructionTime=overworld.overworldConstructionTime
 	
 	
 	for x in Constants.OVERWORLD_MAX_X:
@@ -64,9 +75,17 @@ func RegisterOverworld(overworld: OverworldMap) -> void:
 	aveHeight = totalHeights/(Constants.OVERWORLD_MAX_X*Constants.OVERWORLD_MAX_Y)
 
 func RegisterUnderground(underground: Underground):
-	pass
+	layerConstructionTime = underground.layerConstructionTime
+	pathfinderInitialisationTime = underground.pathfinderInitialisationTime
+	totalUndergroundConstructionTime = underground.totalUndergroundConstructionTime
 
 func RegisterDungeon(dungeon: Dungeon):
+	pathfindingTime = dungeon.pathfindingTime
+	pathConstructionTime = dungeon.pathConstructionTime
+	stairwellConstructionTime = dungeon.stairwellConstructionTime
+	roomConstructionTime = dungeon.roomConstructionTime
+	totalDungeonConstructionTime = dungeon.totalDungeonConstructionTime
+	
 	pathDistance = dungeon.pathLength
 	roomCount = 0
 	for layer: DungeonLayer in dungeon.getLayers():
@@ -86,6 +105,17 @@ func ToJSON()-> String:
 		"pathDistance": pathDistance,
 		"availableDistance": availableDistance,
 		"entrances": entrances,
+		"times": {
+			"pathfindingTime": pathfindingTime,
+			"pathConstructionTime": pathConstructionTime,
+			"stairwellConstructionTime": stairwellConstructionTime,
+			"roomConstructionTime": roomConstructionTime,
+			"totalDungeonConstructionTime": totalDungeonConstructionTime,
+			"overworldConstructionTime": overworldConstructionTime,
+			"layerConstructionTime": layerConstructionTime,
+			"pathfinderInitialisationTime": pathfinderInitialisationTime,
+			"totalUndergroundConstructionTime": totalUndergroundConstructionTime,
+		},
 	}
 	
 	return JSON.stringify(propertiesDictionary, "\t")

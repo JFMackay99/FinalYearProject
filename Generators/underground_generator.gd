@@ -31,7 +31,7 @@ func GenerateUnderground(map: Map) -> void:
 	
 	var endLayerConstruction = Time.get_ticks_msec()
 	var layerConstructionTime = endLayerConstruction-startLayerConstrunction
-	print("Layer Construction Time: " +  str(layerConstructionTime) +"ms")
+	print("Layer Construction Time: " +  str(layerConstructionTime) +"us")
 	
 	
 	var startPathfindingInitialisation  = Time.get_ticks_msec()
@@ -40,12 +40,11 @@ func GenerateUnderground(map: Map) -> void:
 	ConnectPathfinderFromOverworld()
 	var endPathfindingInitialisation  = Time.get_ticks_msec()
 	var pathfindingInitialisationTime = endPathfindingInitialisation-startPathfindingInitialisation
-	print("Pathfinder Initialisation time: "+str(pathfindingInitialisationTime)+"ms")
+	map.underground.pathfinderInitialisationTime = pathfindingInitialisationTime
+	print("Pathfinder Initialisation time: "+str(pathfindingInitialisationTime)+"us")
 	
 	map.underground.setLayers(layers)
 	
-	var foo = map.underground.layers
-	var bar = 1
 
 func MarkLayerHeights(overworld: OverworldMap, layer: LayerBase):
 	var tile = Constants.DUNGEON_TILES.FORBIDDEN

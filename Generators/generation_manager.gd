@@ -47,7 +47,8 @@ func _GenerateOverworld() -> void:
 	$OverworldMapGenerator.GenerateMap(map.overworld)
 	var endOverworldGeneration = Time.get_ticks_msec()
 	var overworldGenerationTime = endOverworldGeneration - startOverworldGeneration
-	print("Overworld Map Generation Time: " + str(overworldGenerationTime)+ "ms")
+	map.overworld.overworldConstructionTime = overworldGenerationTime
+	print("Overworld Map Generation Time: " + str(overworldGenerationTime)+ "us")
 
 ## Generate the Underground Layers
 func _GenerateUnderground() -> void:
@@ -55,7 +56,8 @@ func _GenerateUnderground() -> void:
 	$UndergroundGenerator.GenerateUnderground(map)
 	var endUndergroundGeneration = Time.get_ticks_msec()
 	var undergroundGenerationTime = endUndergroundGeneration - startUndergroundGeneration
-	print("Underground Genration Time: " + str(undergroundGenerationTime) + "ms")
+	map.underground.totalUndergroundConstructionTime = undergroundGenerationTime
+	print("Underground Genration Time: " + str(undergroundGenerationTime) + "us")
 
 ## Generate the Dungeon Layers
 func _GenerateDungeon() -> void:
@@ -65,7 +67,8 @@ func _GenerateDungeon() -> void:
 	
 	var endDungeonGeneration = Time.get_ticks_msec()
 	var dungeonGenerationTime = endDungeonGeneration - startDungeonGeneration
-	print("Dungeon Map Generation Time: " + str(dungeonGenerationTime)+ "ms")
+	map.dungeon.totalDungeonConstructionTime = dungeonGenerationTime
+	print("Dungeon Map Generation Time: " + str(dungeonGenerationTime)+ "us")
 
 
 #region Parameter Update

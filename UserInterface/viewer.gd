@@ -54,13 +54,13 @@ func GenerateMap() -> void:
 	map = $GenerationManager.Generate()
 	var endMapGeneration = Time.get_ticks_msec()
 	var mapGenerationTime = endMapGeneration - startMapGeneration
-	print("Overall Map Generation Time: " + str(mapGenerationTime)+ "ms")
+	print("Overall Map Generation Time: " + str(mapGenerationTime)+ "us")
 	var startViewerUpdate = Time.get_ticks_msec()
 	
 	_UpdateViewers()
 	var endViewerUpdate = Time.get_ticks_msec()
 	var viewerUpdateTime = endViewerUpdate - startViewerUpdate
-	print("Viewer Update Time: " + str(viewerUpdateTime)+ "ms")
+	print("Viewer Update Time: " + str(viewerUpdateTime)+ "us")
 
 func RegenerateDungeon() -> void:
 	map = $GenerationManager.RegenerateDungeon()

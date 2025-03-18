@@ -6,6 +6,9 @@ var heightLayers: int
 var layers: Array[LayerBase]
 var pathfinder: AStar3D
 
+var layerConstructionTime: int
+var pathfinderInitialisationTime: int
+var totalUndergroundConstructionTime: int
 
 func _init() -> void:
 	layers = []
