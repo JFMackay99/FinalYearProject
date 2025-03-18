@@ -50,15 +50,15 @@ func UpdateLabels():
 # Generate the full overworld. This is also called when the "pressed" signal is emmitted when the 
 # regenerate overworld button is pressed.
 func GenerateMap() -> void:
-	var startMapGeneration = Time.get_ticks_msec()
+	var startMapGeneration = Time.get_ticks_usec()
 	map = $GenerationManager.Generate()
-	var endMapGeneration = Time.get_ticks_msec()
+	var endMapGeneration = Time.get_ticks_usec()
 	var mapGenerationTime = endMapGeneration - startMapGeneration
 	print("Overall Map Generation Time: " + str(mapGenerationTime)+ "us")
-	var startViewerUpdate = Time.get_ticks_msec()
+	var startViewerUpdate = Time.get_ticks_usec()
 	
 	_UpdateViewers()
-	var endViewerUpdate = Time.get_ticks_msec()
+	var endViewerUpdate = Time.get_ticks_usec()
 	var viewerUpdateTime = endViewerUpdate - startViewerUpdate
 	print("Viewer Update Time: " + str(viewerUpdateTime)+ "us")
 

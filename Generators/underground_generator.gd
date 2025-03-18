@@ -10,7 +10,7 @@ func GenerateUnderground(map: Map) -> void:
 	var layers:Array[LayerBase] = []
 	layers.resize(Constants.MAX_HEIGHT_LEVELS+1)
 
-	var startLayerConstrunction  = Time.get_ticks_msec()
+	var startLayerConstrunction  = Time.get_ticks_usec()
 	
 	# Create the first top dungeon layer layer
 	var startLayer = UndergroundLayer.new(Constants.MAX_HEIGHT_LEVELS, Constants.OVERWORLD_MAX_X * scale, Constants.OVERWORLD_MAX_Y*scale)
@@ -29,16 +29,16 @@ func GenerateUnderground(map: Map) -> void:
 		layers[z] = currentLayer
 		prevLayer = currentLayer
 	
-	var endLayerConstruction = Time.get_ticks_msec()
+	var endLayerConstruction = Time.get_ticks_usec()
 	var layerConstructionTime = endLayerConstruction-startLayerConstrunction
 	print("Layer Construction Time: " +  str(layerConstructionTime) +"us")
 	
 	
-	var startPathfindingInitialisation  = Time.get_ticks_msec()
+	var startPathfindingInitialisation  = Time.get_ticks_usec()
 	#Initialise pathfinder
 	InitialisePathfinderFromOverworld(map.overworld)
 	ConnectPathfinderFromOverworld()
-	var endPathfindingInitialisation  = Time.get_ticks_msec()
+	var endPathfindingInitialisation  = Time.get_ticks_usec()
 	var pathfindingInitialisationTime = endPathfindingInitialisation-startPathfindingInitialisation
 	map.underground.pathfinderInitialisationTime = pathfindingInitialisationTime
 	print("Pathfinder Initialisation time: "+str(pathfindingInitialisationTime)+"us")
