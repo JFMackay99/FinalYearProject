@@ -67,6 +67,7 @@ func RegisterUnderground(underground: Underground):
 	pass
 
 func RegisterDungeon(dungeon: Dungeon):
+	pathDistance = dungeon.pathLength
 	roomCount = 0
 	for layer: DungeonLayer in dungeon.getLayers():
 		roomCount += layer.rooms.size()
