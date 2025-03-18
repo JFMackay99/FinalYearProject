@@ -2,15 +2,22 @@ extends Node
 
 ## Overall Map
 var map: Map
+var mapDetails: MapDetails
+
 
 var scaleChanged = false
+
+
 
 ## Constructor
 func _ready() -> void:
 	map = Map.new()
+	mapDetails = MapDetails.new()
+	
 	var pathfinder = ModifiedAStar3D.new()
 	$UndergroundGenerator.pathfinder = pathfinder
 	$DungeonGenerator.pathfinder = pathfinder
+	
 
 ## Generate Map 
 func Generate() -> Map:
@@ -18,7 +25,8 @@ func Generate() -> Map:
 	_GenerateUnderground()
 	_GenerateDungeon()
 	
-	var foo = map.underground.layers
+	mapDetails.RegisterMapDetails(map)
+	print(mapDetails.ToJSON())
 	return map
 
 ## Regenerate Dungeon layer
@@ -28,6 +36,9 @@ func RegenerateDungeon() -> Map:
 		scaleChanged = false
 	
 	_GenerateDungeon()
+	
+	mapDetails.UpdateDungeonDetails(map)
+	print(mapDetails.ToJSON())
 	return map
 
 ## Generate the Overworld layer
