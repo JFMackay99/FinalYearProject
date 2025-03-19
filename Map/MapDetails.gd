@@ -57,7 +57,8 @@ func RegisterOverworld(overworld: OverworldMap) -> void:
 	biomeCounts.clear()
 	
 	overworldConstructionTime=overworld.overworldConstructionTime
-	
+	totalHeights = 0
+	aveHeight = 0
 	
 	for x in Constants.OVERWORLD_MAX_X:
 		for y in Constants.OVERWORLD_MAX_Y:
