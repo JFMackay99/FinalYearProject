@@ -47,6 +47,10 @@ func UpdateLabels():
 				roomCount += 1
 	$ViewControls/ViewControlsContainer/Entrances/RoomCount/RoomCount.text = str(roomCount)
 	
+	# Update MapDetails
+	var details = $GenerationManager.mapDetails.ToJSON()
+	$GenerationControlTabs/MapDetails/MapDetailsScroll/MapDetailsContainer/MapDetails.text = details
+	
 # Generate the full overworld. This is also called when the "pressed" signal is emmitted when the 
 # regenerate overworld button is pressed.
 func GenerateMap() -> void:
@@ -104,3 +108,9 @@ func UpdateMaxRoomCount(value):
 
 func UpdateMinRoomCount(value):
 	$GenerationControlTabs/DungeonControl/Controls/Rooms/MaxRoomCount/MaxRoomSelect.min_value = value +1
+
+
+func CopyMapDetails() -> void:
+	var details = $GenerationControlTabs/MapDetails/MapDetailsScroll/MapDetailsContainer/MapDetails.get_parsed_text()
+	
+	DisplayServer.clipboard_set(details)
