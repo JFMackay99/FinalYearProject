@@ -2,15 +2,22 @@ extends Node
 
 ## Overall Map
 var map: Map
+var mapDetails: MapDetails
+
 
 var scaleChanged = false
+
+
 
 ## Constructor
 func _ready() -> void:
 	map = Map.new()
+	mapDetails = MapDetails.new()
+	
 	var pathfinder = ModifiedAStar3D.new()
 	$UndergroundGenerator.pathfinder = pathfinder
 	$DungeonGenerator.pathfinder = pathfinder
+	
 
 ## Generate Map 
 func Generate() -> Map:
@@ -18,7 +25,8 @@ func Generate() -> Map:
 	_GenerateUnderground()
 	_GenerateDungeon()
 	
-	var foo = map.underground.layers
+	mapDetails.RegisterMapDetails(map)
+	print(mapDetails.ToJSON())
 	return map
 
 ## Regenerate Dungeon layer
@@ -28,33 +36,39 @@ func RegenerateDungeon() -> Map:
 		scaleChanged = false
 	
 	_GenerateDungeon()
+	
+	mapDetails.UpdateDungeonDetails(map)
+	print(mapDetails.ToJSON())
 	return map
 
 ## Generate the Overworld layer
 func _GenerateOverworld() -> void:
-	var startOverworldGeneration = Time.get_ticks_msec()
+	var startOverworldGeneration = Time.get_ticks_usec()
 	$OverworldMapGenerator.GenerateMap(map.overworld)
-	var endOverworldGeneration = Time.get_ticks_msec()
+	var endOverworldGeneration = Time.get_ticks_usec()
 	var overworldGenerationTime = endOverworldGeneration - startOverworldGeneration
-	print("Overworld Map Generation Time: " + str(overworldGenerationTime)+ "ms")
+	map.overworld.overworldConstructionTime = overworldGenerationTime
+	print("Overworld Map Generation Time: " + str(overworldGenerationTime)+ "us")
 
 ## Generate the Underground Layers
 func _GenerateUnderground() -> void:
-	var startUndergroundGeneration = Time.get_ticks_msec()
+	var startUndergroundGeneration = Time.get_ticks_usec()
 	$UndergroundGenerator.GenerateUnderground(map)
-	var endUndergroundGeneration = Time.get_ticks_msec()
+	var endUndergroundGeneration = Time.get_ticks_usec()
 	var undergroundGenerationTime = endUndergroundGeneration - startUndergroundGeneration
-	print("Underground Genration Time: " + str(undergroundGenerationTime) + "ms")
+	map.underground.totalUndergroundConstructionTime = undergroundGenerationTime
+	print("Underground Genration Time: " + str(undergroundGenerationTime) + "us")
 
 ## Generate the Dungeon Layers
 func _GenerateDungeon() -> void:
-	var startDungeonGeneration = Time.get_ticks_msec()
+	var startDungeonGeneration = Time.get_ticks_usec()
 	# Generate dungeon entrances
 	$DungeonGenerator.RegenerateDungeons(map)
 	
-	var endDungeonGeneration = Time.get_ticks_msec()
+	var endDungeonGeneration = Time.get_ticks_usec()
 	var dungeonGenerationTime = endDungeonGeneration - startDungeonGeneration
-	print("Dungeon Map Generation Time: " + str(dungeonGenerationTime)+ "ms")
+	map.dungeon.totalDungeonConstructionTime = dungeonGenerationTime
+	print("Dungeon Map Generation Time: " + str(dungeonGenerationTime)+ "us")
 
 
 #region Parameter Update

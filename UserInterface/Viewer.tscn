@@ -225,7 +225,7 @@ offset_left = 568.0
 offset_top = 14.0
 offset_right = 1145.0
 offset_bottom = 45.0
-current_tab = 1
+current_tab = 2
 all_tabs_in_front = true
 drag_to_rearrange_enabled = true
 tab_focus_mode = 1
@@ -239,8 +239,8 @@ metadata/_tab_index = 0
 [node name="ColorRect" type="ColorRect" parent="GenerationControlTabs/Overworld Noise"]
 layout_mode = 2
 offset_left = 10.0
-offset_right = 573.0
-offset_bottom = 231.0
+offset_right = 586.0
+offset_bottom = 221.0
 color = Color(0.783523, 0.783523, 0.783523, 1)
 
 [node name="NoiseControls" type="HSplitContainer" parent="GenerationControlTabs/Overworld Noise"]
@@ -387,6 +387,7 @@ step = 0.001
 value = -0.05
 
 [node name="DungeonControl" type="Control" parent="GenerationControlTabs"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -394,7 +395,7 @@ metadata/_tab_index = 1
 layout_mode = 0
 offset_left = 9.0
 offset_right = 586.0
-offset_bottom = 253.0
+offset_bottom = 221.0
 color = Color(0.783523, 0.783523, 0.783523, 1)
 
 [node name="Controls" type="HBoxContainer" parent="GenerationControlTabs/DungeonControl"]
@@ -525,15 +526,91 @@ min_value = 1.0
 max_value = 8.0
 value = 1.0
 
+[node name="MapDetails" type="Control" parent="GenerationControlTabs"]
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="ColorRect" type="ColorRect" parent="GenerationControlTabs/MapDetails"]
+offset_left = 9.0
+offset_right = 586.0
+offset_bottom = 221.0
+color = Color(0.783523, 0.783523, 0.783523, 1)
+
+[node name="MapDetailsScroll" type="ScrollContainer" parent="GenerationControlTabs/MapDetails"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 4.0
+offset_right = 471.0
+offset_bottom = 210.0
+
+[node name="MapDetailsContainer" type="VBoxContainer" parent="GenerationControlTabs/MapDetails/MapDetailsScroll"]
+layout_mode = 2
+
+[node name="MapDetails" type="RichTextLabel" parent="GenerationControlTabs/MapDetails/MapDetailsScroll/MapDetailsContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "{
+	\"availableDistance\": 0,
+	\"aveHeight\": 3,
+	\"biomeCounts\": {
+		\"FOREST\": 267,
+		\"GRASSLAND\": 1806,
+		\"ROCKY\": 225,
+		\"SAVANNAH\": 1798
+	},
+	\"entrances\": {
+		\"Entrance 0\": {
+			\"biome\": \"GRASSLAND\",
+			\"x\": 63,
+			\"y\": 27,
+			\"z\": 6
+		},
+		\"Entrance 1\": {
+			\"biome\": \"SAVANNAH\",
+			\"x\": 8,
+			\"y\": 30,
+			\"z\": 5
+		}
+	},
+	\"maxHeight\": 7,
+	\"minHeight\": 0,
+	\"pathDistance\": 68,
+	\"roomCount\": 10,
+	\"scale\": 3,
+	\"times\": {
+		\"dungeonLayerConstructionTime\": 68,
+		\"overworldConstructionTime\": 13608,
+		\"pathConstructionTime\": 962,
+		\"pathfinderInitialisationTime\": 241035,
+		\"pathfindingTime\": 58606,
+		\"roomConstructionTime\": 1,
+		\"stairwellConstructionTime\": 220,
+		\"totalDungeonConstructionTime\": 60174,
+		\"totalUndergroundConstructionTime\": 731841,
+		\"undergroundLayerConstructionTime\": 490699
+	},
+	\"totalHeights\": 14257
+}"
+fit_content = true
+autowrap_mode = 0
+
+[node name="CopyDetailsButton" type="Button" parent="GenerationControlTabs/MapDetails"]
+layout_mode = 0
+offset_left = 476.0
+offset_top = 12.0
+offset_right = 523.0
+offset_bottom = 43.0
+text = "Copy"
+
 [node name="ViewControls" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 576.0
-offset_top = 297.0
-offset_right = 576.0
-offset_bottom = 297.0
+offset_left = 577.0
+offset_top = 263.0
+offset_right = 577.0
+offset_bottom = 263.0
 grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_group_ = true
@@ -752,6 +829,7 @@ button_pressed = true
 [connection signal="value_changed" from="GenerationControlTabs/DungeonControl/Controls/Rooms/MaxRoomSize/MaxSizeSelector" to="GenerationManager" method="UpdateMaxRoomCells"]
 [connection signal="value_changed" from="GenerationControlTabs/DungeonControl/Controls/Rooms/MinRoomSize/MinSizeSelector" to="." method="UpdateMinRoomSize"]
 [connection signal="value_changed" from="GenerationControlTabs/DungeonControl/Controls/Rooms/MinRoomSize/MinSizeSelector" to="GenerationManager" method="UpdateMinRoomCells"]
+[connection signal="pressed" from="GenerationControlTabs/MapDetails/CopyDetailsButton" to="." method="CopyMapDetails"]
 [connection signal="pressed" from="ViewControls/ViewControlsContainer/RegenerateOverworldButton" to="." method="GenerateMap"]
 [connection signal="pressed" from="ViewControls/ViewControlsContainer/RegenerateDungeonButton" to="." method="RegenerateDungeon"]
 [connection signal="item_selected" from="ViewControls/ViewControlsContainer/Layer/LayerSelect" to="." method="ChangeView"]

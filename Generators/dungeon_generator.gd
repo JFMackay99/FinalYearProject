@@ -88,7 +88,7 @@ func GenerateDungeonLayers(map: Map):
 	map.dungeon.setLayers(layers)
 	layers.resize(Constants.MAX_HEIGHT_LEVELS+1)
 
-	var startLayerConstrunction  = Time.get_ticks_msec()
+	var startLayerConstrunction  = Time.get_ticks_usec()
 	
 	# Create the first top dungeon layer layer
 	var startLayer = DungeonLayer.new(Constants.MAX_HEIGHT_LEVELS, Constants.OVERWORLD_MAX_X * scale, Constants.OVERWORLD_MAX_Y*scale)
@@ -104,9 +104,10 @@ func GenerateDungeonLayers(map: Map):
 		layers[z] = currentLayer
 		prevLayer = currentLayer
 	
-	var endLayerConstruction = Time.get_ticks_msec()
+	var endLayerConstruction = Time.get_ticks_usec()
 	var layerConstructionTime = endLayerConstruction-startLayerConstrunction
-	print("Layer Construction Time: " +  str(layerConstructionTime) +"ms")
+	map.dungeon.dungeonLayerConstructionTime = layerConstructionTime
+	print("Layer Construction Time: " +  str(layerConstructionTime) +"us")
 	#Add entrances
 	var entrances = map.entrances
 	
@@ -118,31 +119,40 @@ func GenerateDungeonLayers(map: Map):
 
 	
 	#Generate legal route between entrances
-	var startPathFinding = Time.get_ticks_msec()
+	var startPathFinding = Time.get_ticks_usec()
 	var path = pathfinder.get_point_path(pathfinder.CellVectToAStarID(entrances[0]), pathfinder.CellVectToAStarID(entrances[1]))
-	var endPathFinding = Time.get_ticks_msec()
+	var endPathFinding = Time.get_ticks_usec()
 	var pathFindingTime = endPathFinding - startPathFinding
-	print("Pathfinding: " + str(pathFindingTime) + "ms")
+	map.dungeon.pathfindingTime = pathFindingTime
+	print("Pathfinding: " + str(pathFindingTime) + "us")
 
-	var startPathConstruction = Time.get_ticks_msec()
+	var startPathConstruction = Time.get_ticks_usec()
 	#Add generated path to layers
 	ConstructCellPathBetweenEntrancesInDungeon(path, layers)
-	var endPathConstruction  = Time.get_ticks_msec()
+	var endPathConstruction  = Time.get_ticks_usec()
 	var pathConstructionTime = endPathConstruction - startPathConstruction
-	print("Path Construction Time: " + str(pathConstructionTime) + "ms")
+	map.dungeon.pathConstructionTime = pathConstructionTime
+	print("Path Construction Time: " + str(pathConstructionTime) + "us")
 	
+	map.dungeon.pathLength = path.size()
 	
-	
-	var startStairwells = Time.get_ticks_msec()
+	var startStairwells = Time.get_ticks_usec()
 	#Stairwells
 	var sections = ProcessPathIntoHeightSections(path)
 	
 	SelectedRoomGenerator.AddConnectingStairwellsFromOverworldSections(map.dungeon.dungeonLayers, sections)
-	SelectedRoomGenerator.GenerateRooms(map, sections)
 	
-	var endStairwells = Time.get_ticks_msec()
+	var endStairwells = Time.get_ticks_usec()
 	var stairwellTime = endStairwells-startStairwells
-	print("Stairwell construction: " +str(stairwellTime) + "ms")
+	map.dungeon.stairwellConstructionTime = stairwellTime
+	print("Stairwell construction: " +str(stairwellTime) + "us")
+	
+	var startRooms = Time.get_ticks_usec()
+	SelectedRoomGenerator.GenerateRooms(map, sections)
+	var endRooms = Time.get_ticks_usec()
+	var roomsTime = endRooms-startRooms
+	map.dungeon.roomConstructionTime = roomsTime
+	print("Room construction: " +str(roomsTime) + "us")
 	
 	for layer in layers:
 		layer.ConstructRooms()

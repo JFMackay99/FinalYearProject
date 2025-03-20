@@ -5,6 +5,8 @@ class_name OverworldMap
 var heights: Array
 var biomes: Array
 
+var overworldConstructionTime: int
+
 func GetHeightAtCellCoordinate(x,y):
 	return heights[x][y]
 

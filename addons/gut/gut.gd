@@ -706,7 +706,7 @@ func _test_the_scripts(indexes=[]):
 		return
 
 	start_run.emit()
-	_start_time = Time.get_ticks_msec()
+	_start_time = Time.get_ticks_usec()
 	_last_paint_time = _start_time
 
 	var indexes_to_run = []
@@ -787,7 +787,7 @@ func _test_the_scripts(indexes=[]):
 				# After each test, check to see if we shoudl wait a frame to
 				# paint based on how much time has elapsed since we last 'painted'
 				if(paint_after > 0.0):
-					var now = Time.get_ticks_msec()
+					var now = Time.get_ticks_usec()
 					var time_since = (now - _last_paint_time) / 1000.0
 					if(time_since > paint_after):
 						_last_paint_time = now
@@ -947,7 +947,7 @@ func _get_files(path, prefix, suffix):
 func get_elapsed_time() -> float:
 	var to_return = 0.0
 	if(_start_time != 0.0):
-		to_return = Time.get_ticks_msec() - _start_time
+		to_return = Time.get_ticks_usec() - _start_time
 	to_return = to_return / 1000.0
 
 	return to_return
