@@ -110,9 +110,9 @@ func CalculateDoorPosition(boundaryCell, outOfBoundaryCell, scale) -> Vector2i:
 		Constants.DIRECTION.SOUTH:
 			doorVect = Vector2i(boundaryCellCenter.x, boundaryCellCenter.y-scale/2)
 		Constants.DIRECTION.EAST:
-			doorVect = Vector2i(boundaryCellCenter.x+scale/2, boundaryCellCenter.y)
-		Constants.DIRECTION.WEST:
 			doorVect = Vector2i(boundaryCellCenter.x-scale/2, boundaryCellCenter.y)
+		Constants.DIRECTION.WEST:
+			doorVect = Vector2i(boundaryCellCenter.x+scale/2, boundaryCellCenter.y)
 	
 	return doorVect
 
