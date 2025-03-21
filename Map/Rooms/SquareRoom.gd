@@ -62,5 +62,102 @@ func SeperateSection(section: Array, index: int):
 	
 	return [start, end]
 	
-			
+
+func AddDoors(section: Array, centerIndex: int, scale: int):
+		#
+	#
+	#
+	#					S	r	r	r	r
+	#					r	r	r	r	r
+	#	x	x	x	x	D	r	C	r	r
+	#					r	r	r	r	r
+	#					r	r	D	r	r
+	#							x
+	#							x
+	
+	# Recall the section is in overworld cells and the room is in dungeon 
+	
+	# Assume that there are no points where the path returns to the room
+	
+	var boundarySectionIndices = GetIndexOfPathSectionsPassingBoundary(section, centerIndex)
+	var startBoundaryIndex = boundarySectionIndices.x
+	var endBoundaryIndex = boundarySectionIndices.y
+	
+	var startBoundaryCell = section[startBoundaryIndex]
+	var endBoundaryCell = section[endBoundaryIndex]
+	
+	var startOutOfBoundaryCell = section[startBoundaryIndex-1]
+	var endOutOfBoundaryCell = section[endBoundaryIndex+1]
+	
+	var startDoor = CalculateDoorPosition(startBoundaryCell, startOutOfBoundaryCell, scale)
+	var endDoor = CalculateDoorPosition(endBoundaryCell, endOutOfBoundaryCell, scale)
+	
+	doors.append(startDoor)
+	doors.append(endDoor)
+	
+	
+	
+
+func CalculateDoorPosition(boundaryCell, outOfBoundaryCell, scale) -> Vector2i:
+	var direction = UtilityMethods.CalculateDirectionFromOrthogonalCoords(boundaryCell, outOfBoundaryCell)
+	
+	var boundaryCellCenter = UtilityMethods.GetCentralPointFromOverWorldVect(boundaryCell, scale)
+	
+	var doorVect
+	match direction:
+		Constants.DIRECTION.NORTH:
+			doorVect = Vector2i(boundaryCellCenter.x, boundaryCellCenter.y+scale/2)
+		Constants.DIRECTION.SOUTH:
+			doorVect = Vector2i(boundaryCellCenter.x, boundaryCellCenter.y-scale/2)
+		Constants.DIRECTION.EAST:
+			doorVect = Vector2i(boundaryCellCenter.x+scale/2, boundaryCellCenter.y)
+		Constants.DIRECTION.WEST:
+			doorVect = Vector2i(boundaryCellCenter.x-scale/2, boundaryCellCenter.y)
+	
+	return doorVect
+
+func GetIndexOfPathSectionsPassingBoundary(section: Array, centerIndex: int) -> Vector2i:
+	
+	var cursor = 0
+	var checked = false
+	var startBoundaryIndex = -1
+	var endBoundaryIndex = -1
+	
+	# The room takes up full cells
+	
+	# From center to start of section
+	while(not checked):
+		var checkedIndex = centerIndex - cursor
+		var checkedCell = section[checkedIndex]
 		
+		var xDistance = abs(center.x - checkedCell.x)
+		var yDistance = abs(center.y - checkedCell.y)
+		
+		var maxDistance = max(xDistance, yDistance)
+		
+		if maxDistance > width/2:
+			checked = true
+		else:
+			startBoundaryIndex = checkedIndex
+			cursor+=1
+		
+	# From center to end of section
+	checked = false
+	cursor = 0
+	while(not checked):
+		var checkedIndex = centerIndex + cursor
+		var checkedCell = section[checkedIndex]
+		
+		var xDistance = abs(center.x - checkedCell.x)
+		var yDistance = abs(center.y - checkedCell.y)
+		
+		var maxDistance = max(xDistance, yDistance)
+		
+		if maxDistance > width/2:
+			checked = true
+		else:
+			endBoundaryIndex = checkedIndex
+			cursor +=1
+	
+	
+	return Vector2i(startBoundaryIndex, endBoundaryIndex)

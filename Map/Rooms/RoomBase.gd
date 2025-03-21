@@ -7,21 +7,26 @@ var roomShape: Constants.ROOM_SHAPE
 
 var floor: Array[Vector2i]
 var boundary: Array[Vector2i]
+var doors: Array[Vector2i]
 
 var floorTile: Constants.DUNGEON_TILES
 var boundaryTile: Constants.DUNGEON_TILES
+var doorTile: Constants.DUNGEON_TILES
 
 func _init(type: Constants.ROOM_TYPE, 
 	shape: Constants.ROOM_SHAPE, 
 	floorTile: Constants.DUNGEON_TILES,
-	boundaryTile: Constants.DUNGEON_TILES):
+	boundaryTile: Constants.DUNGEON_TILES,
+	doorTile = Constants.DUNGEON_TILES.DOOR):
 		
 	self.roomType = type
 	self.roomShape = shape
 	self.floorTile = floorTile
 	self.boundaryTile = boundaryTile
+	self.doorTile = doorTile
 	self.floor = []
 	self.boundary = []
+	self.doors = []
 
 
 
@@ -30,8 +35,13 @@ func ConstructOnLayer(layer: LayerBase):
 		layer.SetTile(tile.x, tile.y, floorTile)
 	for tile in boundary:
 		layer.SetTile(tile.x, tile.y, boundaryTile)
+	for tile in doors:
+		layer.SetTile(tile.x, tile.y, doorTile)
 
 func SeperateSection(section: Array, index: int):
+	pass
+	
+func AddDoors(section: Array, centerIndex: int, scale: int):
 	pass
 
 func IsPointInRoom(point: Vector2i) -> bool:

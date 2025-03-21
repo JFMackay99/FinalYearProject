@@ -39,3 +39,22 @@ func GetTopLeftPointFrom3dCell(cell: Vector3, scale):
 # Gets the overworld coordinates corresponding to a given point in a dungeon layer
 func GetOverworldCellCoordsFromDungeonPoint(x,y, scale):
 	return Vector2i(x/scale, y/scale)
+
+func CalculateDirectionFromOrthogonalCoords(from, to):
+	if from.x != to.x:
+		if from.x < to.x:
+			return Constants.DIRECTION.WEST
+		else:
+			return Constants.DIRECTION.EAST
+	if from.y != to.y:
+		if from.y < to.y:
+			return Constants.DIRECTION.NORTH
+		else:
+			return Constants.DIRECTION.SOUTH
+	if from.z != to.z:
+		if from.z < to.y:
+			return Constants.DIRECTION.UP
+		else:
+			return Constants.DIRECTION.DOWN
+	
+	return Constants.DIRECTION.SAME
