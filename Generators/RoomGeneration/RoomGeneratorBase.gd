@@ -22,6 +22,7 @@ func AddConnectingStairwellsFromOverworldSections (layers, sections):
 		var section = sections[i]
 		var height =section[0].z
 		var layer =  layers[height]
+		var stairwell: SquareStairwell
 		#If single tile, so going staright down/up, add a dual stairwell
 		if section.size() == 1:
 			
@@ -31,26 +32,29 @@ func AddConnectingStairwellsFromOverworldSections (layers, sections):
 			#First Tile stairwell
 			#If first section, add up stairs for entrance
 			if i == 0:
-				GenerateUpStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[0], scale))
+				stairwell = GenerateUpStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[0], scale))
 			#Otherwise work out if prev layer is higher or lower for stairwell type
 			else:
 				var prevHeight = sections[i-1][0].z
 				if prevHeight < height:
-					GenerateDownStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[0], scale))
+					stairwell = GenerateDownStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[0], scale))
 				else:
-					GenerateUpStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[0], scale))
+					stairwell = GenerateUpStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[0], scale))
+			stairwell.AddDoors(section, 0, scale)
 			
 			#Last Tile stairwell
 			#If last section, add up stairwell for entrance
 			if i == sections.size()-1:
-				GenerateUpStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[-1], scale))
+				stairwell = GenerateUpStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[-1], scale))
 			#Otherwise work out if next section is higher or lower
 			else: 
 				var nextHeight = sections[i+1][0].z
 				if nextHeight < height:
-					GenerateDownStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[-1], scale))
+					stairwell = GenerateDownStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[-1], scale))
 				else:
-					GenerateUpStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[-1], scale))
+					stairwell = GenerateUpStairwell(layer, UtilityMethods.GetCentralPointFromOverWorldVect(section[-1], scale))
+				
+			stairwell.AddDoors(section, section.size()-1, scale)
 
 func GetSectionsLargeEnoughForARoom(sections: Array) -> Array:
 	var result = []
@@ -99,8 +103,8 @@ func GenerateDualStairwell(layer: DungeonLayer, center) -> RoomBase:
 	#pass
 			
 
-func GenerateSquareRoomFromCentre(layer: DungeonLayer, center: Vector2i, width: int) -> RoomBase:
-		var room = SquareRoom.new(Constants.ROOM_TYPE.NORMAL, width, center)
+func GenerateSquareRoomFromCentre(layer: DungeonLayer, center: Vector2i, width: int, cellWidth: int) -> RoomBase:
+		var room = SquareRoom.new(Constants.ROOM_TYPE.NORMAL, width, cellWidth, center)
 		layer.AddRoom(room)
 		return room
 

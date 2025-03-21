@@ -531,6 +531,7 @@ layout_mode = 2
 metadata/_tab_index = 2
 
 [node name="ColorRect" type="ColorRect" parent="GenerationControlTabs/MapDetails"]
+layout_mode = 0
 offset_left = 9.0
 offset_right = 586.0
 offset_bottom = 221.0

@@ -164,13 +164,13 @@ func ConstructCellPathBetweenEntrancesInDungeon(path: Array, layers: Array):
 	var startCell = path[0]
 	var nextCell = path[1]
 	# Work out direction of path, path routes are strictly orthogonal
-	var direction = CalculateDirectionFromOrthogonalCoords(startCell, nextCell)
+	var direction = UtilityMethods.CalculateDirectionFromOrthogonalCoords(startCell, nextCell)
 	ConstructDirectionalPathInCell(startCell, direction, layers[startCell.z])
 	
 	#Construct last Cell
 	var endCell = path[-1]
 	var prevCell = path[-2]
-	direction = CalculateDirectionFromOrthogonalCoords(endCell, prevCell)
+	direction = UtilityMethods.CalculateDirectionFromOrthogonalCoords(endCell, prevCell)
 	ConstructDirectionalPathInCell(endCell, direction, layers[endCell.z])
 	
 	#Construct other cells
@@ -178,30 +178,13 @@ func ConstructCellPathBetweenEntrancesInDungeon(path: Array, layers: Array):
 		var cell = path[i]
 		prevCell = path[i-1]
 		nextCell = path[i+1]
-		direction = CalculateDirectionFromOrthogonalCoords(cell, prevCell)
+		direction = UtilityMethods.CalculateDirectionFromOrthogonalCoords(cell, prevCell)
 		ConstructDirectionalPathInCell(cell, direction, layers[cell.z])
-		direction = CalculateDirectionFromOrthogonalCoords(cell, nextCell)
+		direction = UtilityMethods.CalculateDirectionFromOrthogonalCoords(cell, nextCell)
 		ConstructDirectionalPathInCell(cell, direction, layers[cell.z])
 		
 
-func CalculateDirectionFromOrthogonalCoords(from, to):
-	if from.x != to.x:
-		if from.x < to.x:
-			return Constants.DIRECTION.WEST
-		else:
-			return Constants.DIRECTION.EAST
-	if from.y != to.y:
-		if from.y < to.y:
-			return Constants.DIRECTION.NORTH
-		else:
-			return Constants.DIRECTION.SOUTH
-	if from.z != to.z:
-		if from.z < to.y:
-			return Constants.DIRECTION.UP
-		else:
-			return Constants.DIRECTION.DOWN
-	
-	return Constants.DIRECTION.SAME
+
 
 func ConstructDirectionalPathInCell(cell, direction, layer: LayerBase):
 	var centralPoint = UtilityMethods.GetCentralPointFromOverWorldCoords(cell.x, cell.y, scale)

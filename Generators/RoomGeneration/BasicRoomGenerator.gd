@@ -3,12 +3,7 @@ extends RoomGeneratorBase
 class_name BasicRoomGenerator
 
 func GenerateRooms(map: Map, sections: Array):
-	
-	var aaacheckMinRoom = minRooms
-	var aabcheckMaxRooms = maxRooms
-	var aafcheckMinSize = minRoomCells
-	var aaccheckMaxSize = maxRoomCells
-	
+
 	
 	var roomsToAdd = rng.randi_range(minRooms, maxRooms)
 	
@@ -30,13 +25,15 @@ func GenerateRooms(map: Map, sections: Array):
 		
 		var layer = map.dungeon.getLayers()[selectedCell.z]
 		
-		var cellCenter = UtilityMethods.GetCentralPointFromOverWorldVect(selectedCell, map.overworldToDungeonScale)
+		var cellCenterPoint = UtilityMethods.GetCentralPointFromOverWorldVect(selectedCell, map.overworldToDungeonScale)
 		
 		var maxSize = GenerateSquareCenteredRoomSize(map.underground.getLayer(selectedCell.z), selectedSection, selectedCell, selectedCellIndex)
 		#min(maxRoomCells, (selectedSection.size()-1) - selectedCellIndex)
 		var size = rng.randi_range(minRoomCells, maxSize)
 		
-		var room =super.GenerateSquareRoomFromCentre(layer, cellCenter, size * map.overworldToDungeonScale)
+		var room =super.GenerateSquareRoomFromCentre(layer, cellCenterPoint, size * map.overworldToDungeonScale, size)
+		
+		room.AddDoors(selectedSection, selectedCellIndex, scale)
 		
 		sections =ReprocessSections(sections, selectedSectionIndexInOverallSections, room, selectedCellIndex)
 		sectionsWithSpace = super.GetSectionsLargeEnoughForARoom(sections)
@@ -138,3 +135,5 @@ func ReprocessSections(sections: Array, changedSectionIndex: int, addedRoom: Roo
 		result.append(sections[i])
 		
 	return result
+
+	
