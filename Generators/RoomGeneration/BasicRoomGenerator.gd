@@ -136,7 +136,4 @@ func ReprocessSections(sections: Array, changedSectionIndex: int, addedRoom: Roo
 		
 	return result
 
-func AddDoorsToSquareRoom(section: Array, room: RoomBase, index: int):
-	room.AddDoors(section, index, scale)
-	
 	

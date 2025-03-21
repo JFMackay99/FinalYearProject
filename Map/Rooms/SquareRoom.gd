@@ -132,38 +132,41 @@ func GetIndexOfPathSectionsPassingBoundary(section: Array, centerIndex: int) -> 
 	# The room takes up full cells
 	
 	# From center to start of section
-	while(not checked):
-		var checkedIndex = centerIndex - cursor
-		var checkedCell = section[checkedIndex]
-		
-		var xDistance = abs(centerCell.x - checkedCell.x)
-		var yDistance = abs(centerCell.y - checkedCell.y)
-		
-		var maxDistance = max(xDistance, yDistance)
-		
-		if maxDistance > cellWidth/2:
-			checked = true
-		else:
-			startBoundaryIndex = checkedIndex
-			cursor+=1
-		
+	if centerIndex !=0:
+		while(not checked):
+			
+			var checkedIndex = centerIndex - cursor
+			var checkedCell = section[checkedIndex]
+			
+			var xDistance = abs(centerCell.x - checkedCell.x)
+			var yDistance = abs(centerCell.y - checkedCell.y)
+			
+			var maxDistance = max(xDistance, yDistance)
+			
+			if maxDistance > cellWidth/2:
+				checked = true
+			else:
+				startBoundaryIndex = checkedIndex
+				cursor+=1
+			
 	# From center to end of section
 	checked = false
 	cursor = 0
-	while(not checked):
-		var checkedIndex = centerIndex + cursor
-		var checkedCell = section[checkedIndex]
+	if centerIndex != section.size()-1:
+		while(not checked):
+			var checkedIndex = centerIndex + cursor
+			var checkedCell = section[checkedIndex]
+			
+			var xDistance = abs(centerCell.x - checkedCell.x)
+			var yDistance = abs(centerCell.y - checkedCell.y)
+			
+			var maxDistance = max(xDistance, yDistance)
+			
+			if maxDistance > cellWidth/2:
+				checked = true
+			else:
+				endBoundaryIndex = checkedIndex
+				cursor +=1
 		
-		var xDistance = abs(centerCell.x - checkedCell.x)
-		var yDistance = abs(centerCell.y - checkedCell.y)
-		
-		var maxDistance = max(xDistance, yDistance)
-		
-		if maxDistance > cellWidth/2:
-			checked = true
-		else:
-			endBoundaryIndex = checkedIndex
-			cursor +=1
-	
 	
 	return Vector2i(startBoundaryIndex, endBoundaryIndex)
