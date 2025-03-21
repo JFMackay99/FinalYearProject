@@ -31,7 +31,7 @@ func GenerateRooms(map: Map, sections: Array):
 		#min(maxRoomCells, (selectedSection.size()-1) - selectedCellIndex)
 		var size = rng.randi_range(minRoomCells, maxSize)
 		
-		var room =super.GenerateSquareRoomFromCentre(layer, cellCenterPoint, size * map.overworldToDungeonScale)
+		var room =super.GenerateSquareRoomFromCentre(layer, cellCenterPoint, size * map.overworldToDungeonScale, size)
 		
 		room.AddDoors(selectedSection, selectedCellIndex, scale)
 		

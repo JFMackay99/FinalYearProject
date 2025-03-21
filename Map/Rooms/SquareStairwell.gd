@@ -9,7 +9,7 @@ func _init(
 	center: Vector2i,
 	stairTile: Constants.DUNGEON_TILES
 	):
-	super(Constants.ROOM_TYPE.STAIRWELL, width, center)
+	super(Constants.ROOM_TYPE.STAIRWELL, width, 1, center)
 	stairType = stairTile
 	
 func ConstructOnLayer(layer: LayerBase):

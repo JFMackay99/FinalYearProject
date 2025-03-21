@@ -5,7 +5,7 @@ var room: SquareRoom
 
 
 func before_each():
-	room = SquareRoom.new(Constants.ROOM_TYPE.NORMAL, 3, Vector2i(3,3))
+	room = SquareRoom.new(Constants.ROOM_TYPE.NORMAL, 3, 3, Vector2i(3,3))
 	gut.p("ran setup", 2)
 
 var straightVSection = [Vector2i(3,0),Vector2i(3,1),Vector2i(3,2),Vector2i(3,3),Vector2i(3,4),Vector2i(3,5),Vector2i(3,6),Vector2i(3,7),]

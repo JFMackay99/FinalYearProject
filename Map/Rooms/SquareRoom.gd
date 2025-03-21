@@ -3,11 +3,14 @@ extends RoomBase
 class_name SquareRoom
 
 var width: int
+var cellWidth: int
 var topLeft: Vector2i
 var center: Vector2i
 
+
 func _init(type: Constants.ROOM_TYPE, 
 	width: int,
+	cellWidth: int,
 	center: Vector2i,
 	floorTiles =Constants.DUNGEON_TILES.ROOM,
 	boundaryTiles =Constants.DUNGEON_TILES.WALL
@@ -19,6 +22,7 @@ func _init(type: Constants.ROOM_TYPE,
 		floorTiles, 
 		boundaryTiles)
 	self.width = width
+	self.cellWidth = cellWidth
 	var startX = center.x - (width-1)/2
 	var startY = center.y - (width-1)/2
 	self.topLeft = Vector2i(startX, startY)
@@ -79,6 +83,7 @@ func AddDoors(section: Array, centerIndex: int, scale: int):
 	
 	# Assume that there are no points where the path returns to the room
 	
+	
 	var boundarySectionIndices = GetIndexOfPathSectionsPassingBoundary(section, centerIndex)
 	var startBoundaryIndex = boundarySectionIndices.x
 	var endBoundaryIndex = boundarySectionIndices.y
@@ -119,6 +124,7 @@ func CalculateDoorPosition(boundaryCell, outOfBoundaryCell, scale) -> Vector2i:
 func GetIndexOfPathSectionsPassingBoundary(section: Array, centerIndex: int) -> Vector2i:
 	
 	var cursor = 0
+	var centerCell = section[centerIndex]
 	var checked = false
 	var startBoundaryIndex = -1
 	var endBoundaryIndex = -1
@@ -130,12 +136,12 @@ func GetIndexOfPathSectionsPassingBoundary(section: Array, centerIndex: int) -> 
 		var checkedIndex = centerIndex - cursor
 		var checkedCell = section[checkedIndex]
 		
-		var xDistance = abs(center.x - checkedCell.x)
-		var yDistance = abs(center.y - checkedCell.y)
+		var xDistance = abs(centerCell.x - checkedCell.x)
+		var yDistance = abs(centerCell.y - checkedCell.y)
 		
 		var maxDistance = max(xDistance, yDistance)
 		
-		if maxDistance > width/2:
+		if maxDistance > cellWidth/2:
 			checked = true
 		else:
 			startBoundaryIndex = checkedIndex
@@ -148,12 +154,12 @@ func GetIndexOfPathSectionsPassingBoundary(section: Array, centerIndex: int) -> 
 		var checkedIndex = centerIndex + cursor
 		var checkedCell = section[checkedIndex]
 		
-		var xDistance = abs(center.x - checkedCell.x)
-		var yDistance = abs(center.y - checkedCell.y)
+		var xDistance = abs(centerCell.x - checkedCell.x)
+		var yDistance = abs(centerCell.y - checkedCell.y)
 		
 		var maxDistance = max(xDistance, yDistance)
 		
-		if maxDistance > width/2:
+		if maxDistance > cellWidth/2:
 			checked = true
 		else:
 			endBoundaryIndex = checkedIndex

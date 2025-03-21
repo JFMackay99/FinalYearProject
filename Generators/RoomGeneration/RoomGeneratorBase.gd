@@ -99,8 +99,8 @@ func GenerateDualStairwell(layer: DungeonLayer, center) -> RoomBase:
 	#pass
 			
 
-func GenerateSquareRoomFromCentre(layer: DungeonLayer, center: Vector2i, width: int) -> RoomBase:
-		var room = SquareRoom.new(Constants.ROOM_TYPE.NORMAL, width, center)
+func GenerateSquareRoomFromCentre(layer: DungeonLayer, center: Vector2i, width: int, cellWidth: int) -> RoomBase:
+		var room = SquareRoom.new(Constants.ROOM_TYPE.NORMAL, width, cellWidth, center)
 		layer.AddRoom(room)
 		return room
 
