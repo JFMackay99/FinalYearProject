@@ -37,7 +37,7 @@ var params_CalculateDoorPosition = [
 	[Vector2i(3,3), Vector2i(4,3), 3, Vector2i(11, 10)],
 	[Vector2i(2,3), Vector2i(1,3), 3, Vector2i(6, 10)],
 	[Vector2i(2,3), Vector2i(3,3), 3, Vector2i(8, 10)],
-	[Vector2i(2,3), Vector2i(2,2), 3, Vector2i(7, 10)],
+	[Vector2i(2,3), Vector2i(2,2), 3, Vector2i(7, 9)],
 	[Vector2i(2,3), Vector2i(2,4), 3, Vector2i(7, 11)],
 ]
 
