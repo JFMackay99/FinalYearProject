@@ -38,6 +38,7 @@ func _init(type: Constants.ROOM_TYPE,
 
 
 # Seperate the section into two pieces that do not pass through this room.
+# Returns an array containing [start,end] sections
 func SeperateSection(section: Array, index: int) -> Array:
 	var start = []
 	var end = []
@@ -108,6 +109,8 @@ func CalculateDoorPosition(boundaryCell, outOfBoundaryCell, scale) -> Vector2i:
 	
 	return doorVect
 
+# Gets the index of the section contents that represent the cells in the section
+# that pass the boundary of the room
 func GetIndexOfPathSectionsPassingBoundary(section: Array, centerIndex: int) -> Vector2i:
 	
 	var cursor = 0
@@ -116,7 +119,6 @@ func GetIndexOfPathSectionsPassingBoundary(section: Array, centerIndex: int) -> 
 	var startBoundaryIndex = -1
 	var endBoundaryIndex = -1
 	
-	# The room takes up full cells
 	
 	# From center to start of section
 	if centerIndex !=0:
