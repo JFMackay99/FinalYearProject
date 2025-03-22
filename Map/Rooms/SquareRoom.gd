@@ -36,39 +36,24 @@ func _init(type: Constants.ROOM_TYPE,
 			if x == 0 || x == width-1 || y == 0 || y == width-1:
 				self.boundary.append(point)
 
-func SeperateSection(section: Array, index: int):
+func SeperateSection(section: Array, index: int) -> Array:
 	var start = []
 	var end = []
 	
-	# Remove from start section
+	# Get indices of section
+	var boundaryIndices = GetIndexOfPathSectionsPassingBoundary(section,index)
+	var endOfStartSectionIndex = boundaryIndices.x
+	var startOfEndSectionIndex = boundaryIndices.y+1
 	
-	var checked = false
-	var cursor = index
-	
-	while not checked:
-		cursor-= 1
-		var point = Vector2i(section[cursor].x, section[cursor].y)
-		checked = not self.IsPointInRoom(point)
-	
-	for i in range(0, cursor +1):
-		start.append(section[i])
-		
-	checked = false
-	cursor = index
-	
-	while not checked:
-		cursor+= 1
-		var point = Vector2i(section[cursor].x, section[cursor].y)
-		checked = not self.IsPointInRoom(point)
-	
-	for i in range(cursor, section.size()):
-		end.append(section[i])
+	# Get start and end of section based on these indices
+	start = section.slice(0, endOfStartSectionIndex)
+	end = section.slice(startOfEndSectionIndex)
 	
 	return [start, end]
 	
 
 func AddDoors(section: Array, centerIndex: int, scale: int):
-		#
+	#
 	#
 	#
 	#					S	r	r	r	r
