@@ -35,7 +35,9 @@ func GenerateRooms(map: Map, sections: Array):
 		
 		room.AddDoors(selectedSection, selectedCellIndex, scale)
 		
-		sections =ReprocessSections(sections, selectedSectionIndexInOverallSections, room, selectedCellIndex)
+		var reprocessedSections =ReprocessSections(sections, selectedSectionIndexInOverallSections, room, selectedCellIndex)
+		
+		sections = reprocessedSections
 		sectionsWithSpace = super.GetSectionsLargeEnoughForARoom(sections)
 		roomsToAdd-=1
 	
@@ -124,16 +126,21 @@ func ReprocessSections(sections: Array, changedSectionIndex: int, addedRoom: Roo
 	
 	var result = []
 	
-	for i in changedSectionIndex:
-		result.append(sections[i])
-		
-	result.append_array(addedRoom.SeperateSection(sections[changedSectionIndex], roomSectionIndex))
+	# Get unchanged sections
+	var earlierSections = sections.slice(0, changedSectionIndex)
+	var laterSections = sections.slice(changedSectionIndex+1)
+	
+	# Split the changed section up
+	var changedSection = sections[changedSectionIndex]
+	var splitChangedSection = addedRoom.SeperateSection(changedSection, roomSectionIndex)
+	var startChangedSection = splitChangedSection[0]
+	var endChangedSection = splitChangedSection[1]
 	
 	
+	# Reassemble sections
+	result.append_array(earlierSections)
+	result.append(startChangedSection)
+	result.append(endChangedSection)
+	result.append_array(laterSections)
 	
-	for i in range(changedSectionIndex, sections.size()):
-		result.append(sections[i])
-		
 	return result
-
-	
