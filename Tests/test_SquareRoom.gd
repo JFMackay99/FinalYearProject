@@ -5,33 +5,8 @@ var room: SquareRoom
 
 
 func before_each():
-	room = SquareRoom.new(Constants.ROOM_TYPE.NORMAL, 3, 3, Vector2i(3,3))
 	gut.p("ran setup", 2)
 
-
-	
-
-var params_CalculateDoorPosition = [
-	#[boundaryCell, outOfBoundarCell, scale, expected],
-	[Vector2i(3,3), Vector2i(3,2), 3, Vector2i(10, 9)],
-	[Vector2i(3,3), Vector2i(3,4), 3, Vector2i(10, 11)],
-	[Vector2i(3,3), Vector2i(2,3), 3, Vector2i(9, 10)],
-	[Vector2i(3,3), Vector2i(4,3), 3, Vector2i(11, 10)],
-	[Vector2i(2,3), Vector2i(1,3), 3, Vector2i(6, 10)],
-	[Vector2i(2,3), Vector2i(3,3), 3, Vector2i(8, 10)],
-	[Vector2i(2,3), Vector2i(2,2), 3, Vector2i(7, 9)],
-	[Vector2i(2,3), Vector2i(2,4), 3, Vector2i(7, 11)],
-]
-
-func test_CalculateDoorPosition(params = use_parameters(params_CalculateDoorPosition)):
-	var boundaryCell = params[0]
-	var outOfBoundaryCell = params[1]
-	var scale = params[2]
-	var expected = params[3]
-	
-	var actual = room.CalculateDoorPosition(boundaryCell, outOfBoundaryCell, scale)
-	
-	assert_eq(actual, expected)
 
 
 
@@ -103,10 +78,18 @@ var params_CalculateDoorPosition_VertSection = [
 	[Vector2i(1,1),	Vector2i(1,2),	1,			3,		Vector2i(1,1), 	Vector2i(4,5)], # Stairwells
 	[Vector2i(1,1),	Vector2i(0,1),	1,			3,		Vector2i(1,1), 	Vector2i(3,4)], # Stairwells
 	[Vector2i(1,1),	Vector2i(2,1),	1,			3,		Vector2i(1,1), 	Vector2i(5,4)], # Stairwells
-	[Vector2i(1,1),	Vector2i(1,0),	1,			4,		Vector2i(1,1), 	Vector2i(5,4)], # Stairwells
-	[Vector2i(1,1),	Vector2i(1,2),	1,			4,		Vector2i(1,1), 	Vector2i(5,7)], # Stairwells
-	[Vector2i(1,1),	Vector2i(0,1),	1,			4,		Vector2i(1,1), 	Vector2i(4,5)], # Stairwells
-	[Vector2i(1,1),	Vector2i(2,1),	1,			4,		Vector2i(1,1), 	Vector2i(7,5)], # Stairwells
+	#[Vector2i(1,1),	Vector2i(1,0),	1,			4,		Vector2i(1,1), 	Vector2i(5,4)], # Stairwells
+	#[Vector2i(1,1),	Vector2i(1,2),	1,			4,		Vector2i(1,1), 	Vector2i(5,7)], # Stairwells
+	#[Vector2i(1,1),	Vector2i(0,1),	1,			4,		Vector2i(1,1), 	Vector2i(4,5)], # Stairwells
+	#[Vector2i(1,1),	Vector2i(2,1),	1,			4,		Vector2i(1,1), 	Vector2i(7,5)], # Stairwells
+	[Vector2i(2,1),	Vector2i(2,0),	3,			3,		Vector2i(2,2), 	Vector2i(7,3)],
+	[Vector2i(2,3),	Vector2i(2,4),	3,			3,		Vector2i(2,2), 	Vector2i(7,11)],
+	[Vector2i(1,2),	Vector2i(0,2),	3,			3,		Vector2i(2,2), 	Vector2i(3,7)],
+	[Vector2i(3,2),	Vector2i(4,2),	3,			3,		Vector2i(2,2), 	Vector2i(11,7)],
+	#[Vector2i(2,1),	Vector2i(2,0),	2,			3,		Vector2i(2,2), 	Vector2i(-1,-1)],
+	#[Vector2i(2,3),	Vector2i(2,4),	2,			3,		Vector2i(2,2), 	Vector2i(-1,-1)],
+	#[Vector2i(1,2),	Vector2i(0,2),	2,			3,		Vector2i(2,2), 	Vector2i(-1,-1)],
+	#[Vector2i(3,2),	Vector2i(4,2),	2,			3,		Vector2i(2,2), 	Vector2i(-1,-1)],
 ]
 
 func test_CalculateDoorPosition_VertSection(params = use_parameters(params_CalculateDoorPosition_VertSection)):

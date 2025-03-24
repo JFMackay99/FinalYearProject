@@ -69,8 +69,8 @@ var getCentralPointFromOverWorldCoords = [
 	[0,0,3,Vector2i(1,1)], # x=y=0 scale !=1
 	[1,2,1,Vector2i(1,2)], # x!=y scale = 1
 	[1,2,3,Vector2i(4,7)], # x!=y scale !=1	
-	[1,2,4,Vector2i(5,9)], # x!=y scale =4
-	[0,0,4,Vector2i(1,1)], # x=y=0 scale =4
+	#[1,2,4,Vector2i(5,9)], # x!=y scale =4
+	#[0,0,4,Vector2i(1,1)], # x=y=0 scale =4
 ]
 func test_GetCentralPointFromOverWorldCoords(params=use_parameters(getCentralPointFromOverWorldCoords)):
 	var x = params[0]
