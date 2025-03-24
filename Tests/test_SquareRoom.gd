@@ -8,25 +8,7 @@ func before_each():
 	room = SquareRoom.new(Constants.ROOM_TYPE.NORMAL, 3, 3, Vector2i(3,3))
 	gut.p("ran setup", 2)
 
-var straightVSection = [Vector2i(3,0),Vector2i(3,1),Vector2i(3,2),Vector2i(3,3),Vector2i(3,4),Vector2i(3,5),Vector2i(3,6),Vector2i(3,7),]
-var straightHSection = [Vector2i(0,3),Vector2i(1,3),Vector2i(2,3),Vector2i(3,3),Vector2i(4,3),Vector2i(5,3),Vector2i(6,3),Vector2i(7,3),]
-var cornerSection = [Vector2i(3,0),Vector2i(3,1),Vector2i(3,2),Vector2i(3,3),Vector2i(4,3),Vector2i(5,3),Vector2i(6,3),Vector2i(7,3),]
 
-
-var params_GetIndexOfPathSectionsPassingBoundary =[
-	#[section,expected],
-	[straightVSection, Vector2i(2,4)],
-	[straightVSection, Vector2i(2,4)],
-	[cornerSection, Vector2i(2,4)],
-]
-
-func test_GetIndexOfPathSectionsPassingBoundary(params=use_parameters(params_GetIndexOfPathSectionsPassingBoundary)):
-	var section = params[0]
-	var centerIndex = 3
-	var expected = params[1]
-	
-	var actual = room.GetIndexOfPathSectionsPassingBoundary(section, centerIndex)
-	assert_eq(actual, expected)
 	
 
 var params_CalculateDoorPosition = [
@@ -49,4 +31,67 @@ func test_CalculateDoorPosition(params = use_parameters(params_CalculateDoorPosi
 	
 	var actual = room.CalculateDoorPosition(boundaryCell, outOfBoundaryCell, scale)
 	
+	assert_eq(actual, expected)
+
+
+
+
+var params_vertSection = [
+	#[scale, index, cellWidth, expected]
+	[3,5,3,Vector2i(4,6)],
+	[4,5,3,Vector2i(4,6)],
+	[3,5,4,Vector2i(3,6)],
+	[4,5,4,Vector2i(3,6)],
+	[3,5,5,Vector2i(3,7)],
+	[3,15,3,Vector2i(14,16)],
+	[3,15,13,Vector2i(9,21)],
+	[3,15,13,Vector2i(9,21)],
+]
+
+func test_GetIndexOfPathSectionsPassingBoundary_Vert(params = use_parameters(params_vertSection)):
+	var scale = params[0]
+	var verticalSection = []
+	for i in 30:
+		verticalSection.append(Vector2i(3,i))
+	
+	var index = params[1]
+	var centerCell = verticalSection[index]
+	var centerPoint = UtilityMethods.GetCentralPointFromOverWorldVect(centerCell, scale)
+	var cellWidth = params[2]
+	var width = cellWidth*scale
+	
+	var room = SquareRoom.new(Constants.ROOM_TYPE.NORMAL, width, cellWidth, centerCell)
+	var expected = params[3]
+	
+	var actual = room.GetIndexOfPathSectionsPassingBoundary(verticalSection, index)
+	assert_eq(actual, expected)
+	
+
+var params_horzSection = [
+	#[scale, index, cellWidth, expected]
+	[3,5,3,Vector2i(4,6)],
+	[4,5,3,Vector2i(4,6)],
+	[3,5,4,Vector2i(3,6)],
+	[4,5,4,Vector2i(3,6)],
+	[3,5,5,Vector2i(3,7)],
+	[3,15,3,Vector2i(14,16)],
+	[3,15,13,Vector2i(9,21)],
+]
+
+func test_GetIndexOfPathSectionsPassingBoundary_Horz(params = use_parameters(params_horzSection)):
+	var scale = params[0]
+	var horizontalSection = []
+	for i in 30:
+		horizontalSection.append(Vector2i(3,i))
+	
+	var index = params[1]
+	var centerCell = horizontalSection[index]
+	var centerPoint = UtilityMethods.GetCentralPointFromOverWorldVect(centerCell, scale)
+	var cellWidth = params[2]
+	var width = cellWidth*scale
+	
+	var room = SquareRoom.new(Constants.ROOM_TYPE.NORMAL, width, cellWidth, centerCell)
+	var expected = params[3]
+	
+	var actual = room.GetIndexOfPathSectionsPassingBoundary(horizontalSection, index)
 	assert_eq(actual, expected)
