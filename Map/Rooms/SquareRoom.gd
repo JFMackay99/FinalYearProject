@@ -23,9 +23,25 @@ func _init(type: Constants.ROOM_TYPE,
 		boundaryTiles)
 	self.width = width
 	self.cellWidth = cellWidth
-	var startX = center.x - (width-1)/2
-	var startY = center.y - (width-1)/2
-	self.topLeft = Vector2i(startX, startY)
+	
+	var startX
+	var startY
+	
+	#Odd sized rooms is simple enough
+	if cellWidth %2 !=0:
+		startX = center.x - (width-1)/2
+		startY = center.y - (width-1)/2
+		self.topLeft = Vector2i(startX, startY)
+	else:
+		# Assume odd scale for now
+		var scale = width/cellWidth
+		
+		var delta = ((width-2)/2) - ((scale)/2)
+		
+		startX = center.x - delta
+		startY = center.y - delta
+		self.topLeft = Vector2i(startX, startY)
+	
 	self.center = center
 	
 	# Floor

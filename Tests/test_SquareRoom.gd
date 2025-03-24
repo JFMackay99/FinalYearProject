@@ -10,12 +10,20 @@ func before_each():
 
 var params_construct_OddScale = [
 	#[	cellWidth,	scale,	centralPoint, 	expectedTLCorner]
-	[	3,			3,		Vector2i(4,4),	Vector2i(0,0)],
-	[	3,			3,		Vector2i(7,10),	Vector2i(3,6)],
-	[	3,			5,		Vector2i(7,12),	Vector2i(0,5)],
-	[	1,			3,		Vector2i(4,7),	Vector2i(3,6)],
-	[	2,			3,		Vector2i(10,13),	Vector2i(0,0)],
-	[	4,			3,		Vector2i(10,13),	Vector2i(0,0)],
+	[	3,			3,		Vector2i(4,4),		Vector2i(0,0)],
+	[	3,			3,		Vector2i(7,10),		Vector2i(3,6)],
+	[	5,			3,		Vector2i(7,10),		Vector2i(0,3)],
+	[	3,			5,		Vector2i(7,12),		Vector2i(0,5)],
+	[	5,			5,		Vector2i(12,17),	Vector2i(0,5)],
+	[	1,			3,		Vector2i(4,7),		Vector2i(3,6)],
+	[	2,			3,		Vector2i(10,13),	Vector2i(9,12)],
+	[	4,			3,		Vector2i(10,13),	Vector2i(6,9)],
+	[	2,			5,		Vector2i(7,12),		Vector2i(5,10)],
+	[	2,			7,		Vector2i(10,17),	Vector2i(7,14)],
+	[	3,			2,		Vector2i(2,4),		Vector2i(0,2)],
+	[	3,			4,		Vector2i(5,13),		Vector2i(0,8)],
+	[	4,			4,		Vector2i(5,13),		Vector2i(0,8)],
+	[	5,			4,		Vector2i(9,21),		Vector2i(0,12)],
 	
 ]
 
