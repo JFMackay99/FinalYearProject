@@ -95,3 +95,35 @@ func test_GetIndexOfPathSectionsPassingBoundary_Horz(params = use_parameters(par
 	
 	var actual = room.GetIndexOfPathSectionsPassingBoundary(horizontalSection, index)
 	assert_eq(actual, expected)
+
+
+var params_CalculateDoorPosition_VertSection = [
+	#[boundaryCell,	oobCell,		cellWidth,	scale, 	centereCell, 	expected]
+	[Vector2i(1,1),	Vector2i(1,0),	1,			3,		Vector2i(1,1), 	Vector2i(4,3)], # Stairwells
+	[Vector2i(1,1),	Vector2i(1,2),	1,			3,		Vector2i(1,1), 	Vector2i(4,5)], # Stairwells
+	[Vector2i(1,1),	Vector2i(0,1),	1,			3,		Vector2i(1,1), 	Vector2i(3,4)], # Stairwells
+	[Vector2i(1,1),	Vector2i(2,1),	1,			3,		Vector2i(1,1), 	Vector2i(5,4)], # Stairwells
+	[Vector2i(1,1),	Vector2i(1,0),	1,			4,		Vector2i(1,1), 	Vector2i(5,4)], # Stairwells
+	[Vector2i(1,1),	Vector2i(1,2),	1,			4,		Vector2i(1,1), 	Vector2i(5,7)], # Stairwells
+	[Vector2i(1,1),	Vector2i(0,1),	1,			4,		Vector2i(1,1), 	Vector2i(4,5)], # Stairwells
+	[Vector2i(1,1),	Vector2i(2,1),	1,			4,		Vector2i(1,1), 	Vector2i(7,5)], # Stairwells
+]
+
+func test_CalculateDoorPosition_VertSection(params = use_parameters(params_CalculateDoorPosition_VertSection)):
+	var boundaryCell = params[0]
+	var oobCell = params[1]
+	
+	var cellWidth = params[2]
+	var scale = params[3]
+	var width= cellWidth * scale
+	var centerCell = params[4]
+	var centerPoint = UtilityMethods.GetCentralPointFromOverWorldVect(centerCell, scale)
+	
+	var expected = params[5]
+	
+	var room = SquareRoom.new(Constants.ROOM_TYPE.NORMAL, width, cellWidth, centerPoint)
+	
+	var actual = room.CalculateDoorPosition(boundaryCell, oobCell, scale)
+	
+	assert_eq(actual, expected)
+	
