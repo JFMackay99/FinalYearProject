@@ -8,8 +8,30 @@ func before_each():
 	gut.p("ran setup", 2)
 
 
+var params_construct_OddScale = [
+	#[	cellWidth,	scale,	centralPoint, 	expectedTLCorner]
+	[	3,			3,		Vector2i(4,4),	Vector2i(0,0)],
+	[	3,			3,		Vector2i(7,10),	Vector2i(3,6)],
+	[	3,			5,		Vector2i(7,12),	Vector2i(0,5)],
+	[	1,			3,		Vector2i(4,7),	Vector2i(3,6)],
+	[	2,			3,		Vector2i(10,13),	Vector2i(0,0)],
+	[	4,			3,		Vector2i(10,13),	Vector2i(0,0)],
+	
+]
 
-
+func test_SquareRoomConstruction_OddScale(params = use_parameters(params_construct_OddScale)):
+	var cellWidth=params[0]
+	var scale = params[1]
+	var width = cellWidth * scale
+	var centralPoint = params[2]
+	
+	var expectedTLCorner = params[3]
+	
+	var room = SquareRoom.new(Constants.ROOM_TYPE.NORMAL, width, cellWidth, centralPoint)
+	
+	var actualCorner = room.topLeft
+	assert_eq(actualCorner, expectedTLCorner)
+	
 
 var params_vertSection = [
 	#[scale, index, cellWidth, expected]
