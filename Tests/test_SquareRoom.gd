@@ -40,8 +40,8 @@ var params_vertSection = [
 	#[scale, index, cellWidth, expected]
 	[3,5,3,Vector2i(4,6)],
 	[4,5,3,Vector2i(4,6)],
-	[3,5,4,Vector2i(3,6)],
-	[4,5,4,Vector2i(3,6)],
+	[3,5,4,Vector2i(4,7)],
+	[4,5,4,Vector2i(4,7)],
 	[3,5,5,Vector2i(3,7)],
 	[3,15,3,Vector2i(14,16)],
 	[3,15,13,Vector2i(9,21)],
@@ -71,8 +71,8 @@ var params_horzSection = [
 	#[scale, index, cellWidth, expected]
 	[3,5,3,Vector2i(4,6)],
 	[4,5,3,Vector2i(4,6)],
-	[3,5,4,Vector2i(3,6)],
-	[4,5,4,Vector2i(3,6)],
+	[3,5,4,Vector2i(4,7)],
+	[4,5,4,Vector2i(4,7)],
 	[3,5,5,Vector2i(3,7)],
 	[3,15,3,Vector2i(14,16)],
 	[3,15,13,Vector2i(9,21)],
@@ -90,7 +90,7 @@ func test_GetIndexOfPathSectionsPassingBoundary_Horz(params = use_parameters(par
 	var cellWidth = params[2]
 	var width = cellWidth*scale
 	
-	var room = SquareRoom.new(Constants.ROOM_TYPE.NORMAL, width, cellWidth, centerCell)
+	var room = SquareRoom.new(Constants.ROOM_TYPE.NORMAL, width, cellWidth, centerPoint)
 	var expected = params[3]
 	
 	var actual = room.GetIndexOfPathSectionsPassingBoundary(horizontalSection, index)
