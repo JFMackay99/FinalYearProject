@@ -120,42 +120,104 @@ func GetIndexOfPathSectionsPassingBoundary(section: Array, centerIndex: int) -> 
 	var endBoundaryIndex = -1
 	
 	
-	# From center to start of section
-	if centerIndex !=0:
-		while(not checked):
+	# Odd sized rooms are simpler, just check equally in each direction
+	if cellWidth %2 == 1:
+		# From center to start of section
+		if centerIndex !=0:
+			while(not checked):
+				
+				var checkedIndex = centerIndex - cursor
+				var checkedCell = section[checkedIndex]
+				
+				var xDistance = abs(centerCell.x - checkedCell.x)
+				var yDistance = abs(centerCell.y - checkedCell.y)
+				
+				var maxDistance = max(xDistance, yDistance)
+				
+				if maxDistance > cellWidth/2:
+					checked = true
+				else:
+					startBoundaryIndex = checkedIndex
+					cursor+=1
+				
+		# From center to end of section
+		checked = false
+		cursor = 0
+		if centerIndex != section.size()-1:
+			while(not checked):
+				var checkedIndex = centerIndex + cursor
+				var checkedCell = section[checkedIndex]
+				
+				var xDistance = abs(centerCell.x - checkedCell.x)
+				var yDistance = abs(centerCell.y - checkedCell.y)
+				
+				var maxDistance = max(xDistance, yDistance)
+				
+				if maxDistance > cellWidth/2:
+					checked = true
+				else:
+					endBoundaryIndex = checkedIndex
+					cursor +=1
 			
-			var checkedIndex = centerIndex - cursor
-			var checkedCell = section[checkedIndex]
-			
-			var xDistance = abs(centerCell.x - checkedCell.x)
-			var yDistance = abs(centerCell.y - checkedCell.y)
-			
-			var maxDistance = max(xDistance, yDistance)
-			
-			if maxDistance > cellWidth/2:
-				checked = true
-			else:
-				startBoundaryIndex = checkedIndex
-				cursor+=1
-			
-	# From center to end of section
-	checked = false
-	cursor = 0
-	if centerIndex != section.size()-1:
-		while(not checked):
-			var checkedIndex = centerIndex + cursor
-			var checkedCell = section[checkedIndex]
-			
-			var xDistance = abs(centerCell.x - checkedCell.x)
-			var yDistance = abs(centerCell.y - checkedCell.y)
-			
-			var maxDistance = max(xDistance, yDistance)
-			
-			if maxDistance > cellWidth/2:
-				checked = true
-			else:
-				endBoundaryIndex = checkedIndex
-				cursor +=1
 		
-	
-	return Vector2i(startBoundaryIndex, endBoundaryIndex)
+		return Vector2i(startBoundaryIndex, endBoundaryIndex)
+		
+	# Even sized rooms
+	else:
+		# Rooms are one bigger to the east and south
+		var maxEastDistance = -((cellWidth)/2)
+		var maxSouthDistance = -((cellWidth)/2)
+		var maxNorthDistance = ((cellWidth-1)/2)
+		var maxWestDistance = ((cellWidth-1)/2)
+		# (0,0) is top left
+		
+		# To Start
+		if centerIndex !=0:
+			while(not checked):
+				
+				var checkedIndex = centerIndex - cursor
+				var checkedCell = section[checkedIndex]
+				
+				var xDistance = centerCell.x - checkedCell.x
+				var yDistance = centerCell.y - checkedCell.y
+				
+				# positive yDistance is north
+				
+				if (
+				xDistance > maxWestDistance or
+				xDistance < maxEastDistance or 
+				yDistance > maxNorthDistance or 
+				yDistance < maxSouthDistance	
+				):
+					checked = true
+				else:
+					startBoundaryIndex = checkedIndex
+					cursor+=1
+		
+		checked = false
+		cursor = 0
+		# To end# To Start
+		if centerIndex !=0:
+			while(not checked):
+				
+				var checkedIndex = centerIndex + cursor
+				var checkedCell = section[checkedIndex]
+				
+				var xDistance = centerCell.x - checkedCell.x
+				var yDistance = centerCell.y - checkedCell.y
+				
+				# positive xDistance is west, positive yDistance is north?
+				
+				if (
+				xDistance > maxWestDistance or
+				xDistance < maxEastDistance or 
+				yDistance > maxNorthDistance or 
+				yDistance < maxSouthDistance	
+				):
+					checked = true
+				else:
+					endBoundaryIndex = checkedIndex
+					cursor+=1
+		
+		
+		return Vector2i(startBoundaryIndex,endBoundaryIndex)
