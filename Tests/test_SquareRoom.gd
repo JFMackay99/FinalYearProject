@@ -60,7 +60,7 @@ func test_GetIndexOfPathSectionsPassingBoundary_Vert(params = use_parameters(par
 	var cellWidth = params[2]
 	var width = cellWidth*scale
 	
-	var room = SquareRoom.new(Constants.ROOM_TYPE.NORMAL, width, cellWidth, centerCell)
+	var room = SquareRoom.new(Constants.ROOM_TYPE.NORMAL, width, cellWidth, centerPoint)
 	var expected = params[3]
 	
 	var actual = room.GetIndexOfPathSectionsPassingBoundary(verticalSection, index)
