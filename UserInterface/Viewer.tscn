@@ -241,7 +241,7 @@ layout_mode = 2
 offset_left = 10.0
 offset_right = 586.0
 offset_bottom = 221.0
-color = Color(0.783523, 0.783523, 0.783523, 1)
+color = Color(0.377919, 0.377919, 0.377919, 1)
 
 [node name="NoiseControls" type="HSplitContainer" parent="GenerationControlTabs/Overworld Noise"]
 layout_mode = 0
@@ -396,7 +396,7 @@ layout_mode = 0
 offset_left = 9.0
 offset_right = 586.0
 offset_bottom = 221.0
-color = Color(0.783523, 0.783523, 0.783523, 1)
+color = Color(0.377919, 0.377919, 0.377919, 1)
 
 [node name="Controls" type="HBoxContainer" parent="GenerationControlTabs/DungeonControl"]
 layout_mode = 0
@@ -535,7 +535,7 @@ layout_mode = 0
 offset_left = 9.0
 offset_right = 586.0
 offset_bottom = 221.0
-color = Color(0.783523, 0.783523, 0.783523, 1)
+color = Color(0.377919, 0.377919, 0.377919, 1)
 
 [node name="MapDetailsScroll" type="ScrollContainer" parent="GenerationControlTabs/MapDetails"]
 layout_mode = 0
@@ -620,7 +620,7 @@ metadata/_edit_group_ = true
 layout_mode = 0
 offset_right = 577.0
 offset_bottom = 269.0
-color = Color(0.783523, 0.783523, 0.783523, 1)
+color = Color(0.377919, 0.377919, 0.377919, 1)
 
 [node name="ViewControlsContainer" type="VFlowContainer" parent="ViewControls"]
 layout_mode = 0
