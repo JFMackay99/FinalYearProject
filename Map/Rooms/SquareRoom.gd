@@ -113,16 +113,28 @@ func CalculateDoorPosition(boundaryCell, outOfBoundaryCell, scale) -> Vector2i:
 	var boundaryCellCenter = UtilityMethods.GetCentralPointFromOverWorldVect(boundaryCell, scale)
 	
 	var doorVect
-	match direction:
-		Constants.DIRECTION.NORTH:
-			doorVect = Vector2i(boundaryCellCenter.x, boundaryCellCenter.y+scale/2)
-		Constants.DIRECTION.SOUTH:
-			doorVect = Vector2i(boundaryCellCenter.x, boundaryCellCenter.y-scale/2)
-		Constants.DIRECTION.EAST:
-			doorVect = Vector2i(boundaryCellCenter.x-scale/2, boundaryCellCenter.y)
-		Constants.DIRECTION.WEST:
-			doorVect = Vector2i(boundaryCellCenter.x+scale/2, boundaryCellCenter.y)
-	
+	if scale%2==1:
+		match direction:
+			Constants.DIRECTION.NORTH:
+				doorVect = Vector2i(boundaryCellCenter.x, boundaryCellCenter.y+scale/2)
+			Constants.DIRECTION.SOUTH:
+				doorVect = Vector2i(boundaryCellCenter.x, boundaryCellCenter.y-scale/2)
+			Constants.DIRECTION.EAST:
+				doorVect = Vector2i(boundaryCellCenter.x-scale/2, boundaryCellCenter.y)
+			Constants.DIRECTION.WEST:
+				doorVect = Vector2i(boundaryCellCenter.x+scale/2, boundaryCellCenter.y)
+	else:
+		print(direction)
+		match direction:
+			Constants.DIRECTION.NORTH:
+				doorVect = Vector2i(boundaryCellCenter.x, boundaryCellCenter.y+scale/2)
+			Constants.DIRECTION.SOUTH:
+				doorVect = Vector2i(boundaryCellCenter.x, boundaryCellCenter.y+1-scale/2)
+			Constants.DIRECTION.EAST:
+				doorVect = Vector2i(boundaryCellCenter.x+1-scale/2, boundaryCellCenter.y)
+			Constants.DIRECTION.WEST:
+				doorVect = Vector2i(boundaryCellCenter.x+scale/2, boundaryCellCenter.y)
+		
 	return doorVect
 
 # Gets the index of the section contents that represent the cells in the section
