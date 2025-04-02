@@ -21,15 +21,20 @@ func DecorateRoom(room: RoomBase, map: Map, cell):
 		decorationOptions = defaultDecorations
 	
 	var freeSpaceCopy = room.floor.duplicate()
+	var freeSpaceSize = freeSpaceCopy.size()
 	
 	var numberOfDecorations = CalculateNumberOfDecorations(freeSpaceCopy)
 	
 	for i in numberOfDecorations:
-		var pointIndex = rng.randi_range(0, freeSpaceCopy.size())
+		var pointIndex = rng.randi_range(0, freeSpaceCopy.size()-1)
 		var point = freeSpaceCopy.pop_at(pointIndex)
 		
 		var decoration = decorationOptions.pick_random()
 		
+		if point == null:
+			print("Error adding decoration " + str(i) + "to room. There is room for " + str(freeSpaceSize) + " but " + str(numberOfDecorations) + " was calculated to be added")
+			break
+			
 		room.AddDecoration(point, decoration)
 
 func CalculateNumberOfDecorations(freeSpace: Array) -> int:
