@@ -257,7 +257,7 @@ metadata/_tab_index = 0
 layout_mode = 2
 offset_left = 10.0
 offset_right = 586.0
-offset_bottom = 221.0
+offset_bottom = 246.0
 color = Color(0.377919, 0.377919, 0.377919, 1)
 
 [node name="NoiseControls" type="HSplitContainer" parent="GenerationControlTabs/Overworld Noise"]
@@ -412,7 +412,7 @@ metadata/_tab_index = 1
 layout_mode = 0
 offset_left = 9.0
 offset_right = 586.0
-offset_bottom = 221.0
+offset_bottom = 240.0
 color = Color(0.377919, 0.377919, 0.377919, 1)
 
 [node name="Controls" type="HBoxContainer" parent="GenerationControlTabs/DungeonControl"]
@@ -543,6 +543,32 @@ min_value = 1.0
 max_value = 8.0
 value = 1.0
 
+[node name="DecorationMean" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/Controls/Rooms"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GenerationControlTabs/DungeonControl/Controls/Rooms/DecorationMean"]
+layout_mode = 2
+text = "Decoration Number Mean"
+
+[node name="DecorationMeanSpin" type="SpinBox" parent="GenerationControlTabs/DungeonControl/Controls/Rooms/DecorationMean"]
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="DecorationSD" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/Controls/Rooms"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GenerationControlTabs/DungeonControl/Controls/Rooms/DecorationSD"]
+layout_mode = 2
+text = "Decoration Number SD"
+
+[node name="DecorationSDSpin" type="SpinBox" parent="GenerationControlTabs/DungeonControl/Controls/Rooms/DecorationSD"]
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 0.1
+
 [node name="MapDetails" type="Control" parent="GenerationControlTabs"]
 layout_mode = 2
 metadata/_tab_index = 2
@@ -551,7 +577,7 @@ metadata/_tab_index = 2
 layout_mode = 0
 offset_left = 9.0
 offset_right = 586.0
-offset_bottom = 221.0
+offset_bottom = 248.0
 color = Color(0.377919, 0.377919, 0.377919, 1)
 
 [node name="MapDetailsScroll" type="ScrollContainer" parent="GenerationControlTabs/MapDetails"]
@@ -625,10 +651,10 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 577.0
-offset_top = 263.0
-offset_right = 577.0
-offset_bottom = 263.0
+offset_left = 574.0
+offset_top = 287.0
+offset_right = 574.0
+offset_bottom = 287.0
 grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_group_ = true
@@ -847,6 +873,8 @@ button_pressed = true
 [connection signal="value_changed" from="GenerationControlTabs/DungeonControl/Controls/Rooms/MaxRoomSize/MaxSizeSelector" to="GenerationManager" method="UpdateMaxRoomCells"]
 [connection signal="value_changed" from="GenerationControlTabs/DungeonControl/Controls/Rooms/MinRoomSize/MinSizeSelector" to="." method="UpdateMinRoomSize"]
 [connection signal="value_changed" from="GenerationControlTabs/DungeonControl/Controls/Rooms/MinRoomSize/MinSizeSelector" to="GenerationManager" method="UpdateMinRoomCells"]
+[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/Controls/Rooms/DecorationMean/DecorationMeanSpin" to="." method="UpdateDecorationMean"]
+[connection signal="value_changed" from="GenerationControlTabs/DungeonControl/Controls/Rooms/DecorationSD/DecorationSDSpin" to="." method="UpdateDecorationSD"]
 [connection signal="pressed" from="GenerationControlTabs/MapDetails/CopyDetailsButton" to="." method="CopyMapDetails"]
 [connection signal="pressed" from="ViewControls/ViewControlsContainer/RegenerateOverworldButton" to="." method="GenerateMap"]
 [connection signal="pressed" from="ViewControls/ViewControlsContainer/RegenerateDungeonButton" to="." method="RegenerateDungeon"]
