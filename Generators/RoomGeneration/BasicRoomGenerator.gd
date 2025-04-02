@@ -2,6 +2,9 @@ extends RoomGeneratorBase
 
 class_name BasicRoomGenerator
 
+func _init(decorator: DecoratorBase = null) -> void:
+	super(decorator)
+
 func GenerateRooms(map: Map, sections: Array):
 
 	
@@ -34,6 +37,8 @@ func GenerateRooms(map: Map, sections: Array):
 		var room =super.GenerateSquareRoomFromCentre(layer, cellCenterPoint, size * map.overworldToDungeonScale, size)
 		
 		room.AddDoors(selectedSection, selectedCellIndex, scale)
+		
+		
 		
 		var reprocessedSections =ReprocessSections(sections, selectedSectionIndexInOverallSections, room, selectedCellIndex)
 		
@@ -144,3 +149,4 @@ func ReprocessSections(sections: Array, changedSectionIndex: int, addedRoom: Roo
 	result.append_array(laterSections)
 	
 	return result
+	
