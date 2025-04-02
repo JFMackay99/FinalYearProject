@@ -2,9 +2,6 @@ extends DecoratorBase
 
 class_name BasicDecorator
 
-static var decorationCountMeanNormal =0.5
-static var decorationCountDeviation = 0.1
-
 var decorationsPerBiome = {}
 
 var defaultDecorations = [Constants.ROOM_DECORATION.TORCH, Constants.ROOM_DECORATION.DESK, Constants.ROOM_DECORATION.CHAIR, Constants.ROOM_DECORATION.CHEST]

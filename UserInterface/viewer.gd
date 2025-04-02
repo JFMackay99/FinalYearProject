@@ -115,3 +115,11 @@ func CopyMapDetails() -> void:
 	var details = $GenerationControlTabs/MapDetails/MapDetailsScroll/MapDetailsContainer/MapDetails.get_parsed_text()
 	
 	DisplayServer.clipboard_set(details)
+
+
+func UpdateDecorationMean(value: float) -> void:
+	DecoratorBase.decorationCountMeanNormal = value
+
+
+func UpdateDecorationSD(value: float) -> void:
+	DecoratorBase.decorationCountDeviation = value
