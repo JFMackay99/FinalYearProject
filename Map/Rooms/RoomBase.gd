@@ -8,6 +8,7 @@ var roomShape: Constants.ROOM_SHAPE
 var floor: Array[Vector2i]
 var boundary: Array[Vector2i]
 var doors: Array[Vector2i]
+var decorations: Array
 
 var floorTile: Constants.DUNGEON_TILES
 var boundaryTile: Constants.DUNGEON_TILES
@@ -51,3 +52,9 @@ func IsPointInRoom(point: Vector2i) -> bool:
 		return true
 	
 	return false
+
+func CalculateAvailableSpace():
+	pass
+
+func AddDecoration(point, decoration: Constants.ROOM_DECORATION):
+	decorations.append([point, decoration])

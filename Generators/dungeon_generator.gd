@@ -36,10 +36,11 @@ func _ready() -> void:
 	# 0: No Rooms
 	RoomGenerators.append(RoomGeneratorBase.new())
 	# 1: Basic
-	RoomGenerators.append(BasicRoomGenerator.new())
+	RoomGenerators.append(BasicRoomGenerator.new(BasicDecorator.new()))
 	
 	rng = RandomNumberGenerator.new()
 	RoomGeneratorBase.rng = rng
+	DecoratorBase.rng = rng
 	
 	SelectedRoomGenerator = RoomGenerators[0]
 

@@ -127,6 +127,6 @@ func UpdateMinRooms(value: float) -> void:
 func UpdateMaxRooms(value: float) -> void:
 	maxRooms = value
 	
-func DecorateRoom(room: RoomBase, map: Map, cell: Vector2i):
+func DecorateRoom(room: RoomBase, map: Map, cell):
 	if decorator!= null:
 		decorator.DecorateRoom(room, map, cell)

@@ -2,5 +2,7 @@ extends RefCounted
 
 class_name DecoratorBase
 
-func DecorateRoom(room: RoomBase, map: Map, cell: Vector2i):
+static var rng: RandomNumberGenerator
+
+func DecorateRoom(room: RoomBase, map: Map, cell):
 	pass
