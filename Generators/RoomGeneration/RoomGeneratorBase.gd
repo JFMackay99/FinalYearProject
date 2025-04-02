@@ -2,7 +2,10 @@ extends Node
 
 class_name RoomGeneratorBase
 
+var decorator: DecoratorBase 
+
 var scale = 3
+
 static var rng: RandomNumberGenerator
 
 # Room numbers
@@ -12,6 +15,9 @@ static var maxRooms = 3
 # Room Size parameters
 static var maxRoomCells = 3
 static var minRoomCells = 1
+
+func _init(decorator: DecoratorBase = null) -> void:
+	self.decorator=decorator
 
 func GenerateRooms(map: Map, sections: Array):
 	pass
@@ -120,3 +126,7 @@ func UpdateMinRooms(value: float) -> void:
 # Update the maximum number of rooms
 func UpdateMaxRooms(value: float) -> void:
 	maxRooms = value
+	
+func DecorateRoom(room: RoomBase, map: Map, cell: Vector2i):
+	if decorator!= null:
+		decorator.DecorateRoom(room, map, cell)
