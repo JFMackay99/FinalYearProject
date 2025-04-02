@@ -38,13 +38,16 @@ func GenerateRooms(map: Map, sections: Array):
 		
 		room.AddDoors(selectedSection, selectedCellIndex, scale)
 		
-		
+		super.DecorateRoom(room, map, selectedCell)
 		
 		var reprocessedSections =ReprocessSections(sections, selectedSectionIndexInOverallSections, room, selectedCellIndex)
 		
 		sections = reprocessedSections
 		sectionsWithSpace = super.GetSectionsLargeEnoughForARoom(sections)
 		roomsToAdd-=1
+	
+	
+	
 	
 func GenerateSquareCenteredRoomSize(undergroundLayer: UndergroundLayer, section: Array, cell, cellIndex) -> int:
 	

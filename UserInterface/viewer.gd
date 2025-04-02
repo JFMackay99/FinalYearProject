@@ -89,6 +89,7 @@ func ChangeView(value):
 	#$MapViewContainer/MapSubViewport/DungeonViewer/DungeonTileMapLayer.updateDungeonLayer(dungeonLayer)
 	
 	$MapViewContainer/MapSubViewport/DungeonViewer/DungeonTileMapLayer.UpdateViewer(map, value-1)
+	$MapViewContainer/MapSubViewport/DungeonViewer/RoomDecorationsTileMapLayer.UpdateViewer(map, value-1)
 	ActiveView .set_visible(true)
 
 

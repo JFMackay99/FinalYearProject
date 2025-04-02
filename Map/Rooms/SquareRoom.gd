@@ -48,9 +48,10 @@ func _init(type: Constants.ROOM_TYPE,
 	for x in width:
 		for y in width:
 			var point = Vector2i(startX + x, startY + y)
-			self.floor.append(point)
 			if x == 0 || x == width-1 || y == 0 || y == width-1:
 				self.boundary.append(point)
+			else:
+				self.floor.append(point)
 
 
 # Seperate the section into two pieces that do not pass through this room.
@@ -249,3 +250,6 @@ func GetIndexOfPathSectionsPassingBoundary(section: Array, centerIndex: int) -> 
 		
 		
 		return Vector2i(startBoundaryIndex,endBoundaryIndex)
+
+func CalculateAvailableSpace():
+	return self.floor.size()
