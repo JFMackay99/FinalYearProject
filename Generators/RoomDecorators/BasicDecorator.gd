@@ -4,7 +4,12 @@ class_name BasicDecorator
 
 var decorationsPerBiome = {}
 
-var defaultDecorations = [Constants.ROOM_DECORATION.TORCH, Constants.ROOM_DECORATION.DESK, Constants.ROOM_DECORATION.CHAIR, Constants.ROOM_DECORATION.CHEST]
+var defaultDecorations = [Constants.ROOM_DECORATION.TORCH,
+	Constants.ROOM_DECORATION.DESK, 
+	Constants.ROOM_DECORATION.CHAIR, 
+	Constants.ROOM_DECORATION.CHEST,
+	Constants.ROOM_DECORATION.GOLD,
+	]
 
 func DecorateRoom(room: RoomBase, map: Map, cell):
 	
@@ -12,10 +17,7 @@ func DecorateRoom(room: RoomBase, map: Map, cell):
 	
 	var decorationOptions: Array
 	
-	if decorationsPerBiome.has(cellBiome):
-		decorationOptions = decorationsPerBiome[cellBiome]
-	else:
-		decorationOptions = defaultDecorations
+	decorationOptions = SelectDecorationOptionsFromBiome(cellBiome)
 	
 	var freeSpaceCopy = room.floor.duplicate()
 	var freeSpaceSize = freeSpaceCopy.size()
@@ -46,3 +48,11 @@ func CalculateNumberOfDecorations(freeSpace: Array) -> int:
 	
 	return result
 	
+func SelectDecorationOptionsFromBiome(cellBiome: Constants.BIOMES):
+	var decorationOptions
+	if decorationsPerBiome.has(cellBiome):
+		decorationOptions = decorationsPerBiome[cellBiome]
+	else:
+		decorationOptions = defaultDecorations
+		
+	return decorationOptions

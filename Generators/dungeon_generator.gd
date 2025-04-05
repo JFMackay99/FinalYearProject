@@ -35,8 +35,12 @@ func _ready() -> void:
 	
 	# 0: No Rooms
 	RoomGenerators.append(RoomGeneratorBase.new())
-	# 1: Basic
+	# 1: Basic - No Decorations
+	RoomGenerators.append(BasicRoomGenerator.new(DecoratorBase.new()))
+	#2 Basic - Basic Decorations
 	RoomGenerators.append(BasicRoomGenerator.new(BasicDecorator.new()))
+	#3 Basic - Biome-dependant Decorations
+	RoomGenerators.append(BasicRoomGenerator.new(BasicBiomeDecorator.new()))
 	
 	rng = RandomNumberGenerator.new()
 	RoomGeneratorBase.rng = rng
