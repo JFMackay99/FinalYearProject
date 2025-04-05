@@ -4,7 +4,12 @@ class_name BasicDecorator
 
 var decorationsPerBiome = {}
 
-var defaultDecorations = [Constants.ROOM_DECORATION.TORCH, Constants.ROOM_DECORATION.DESK, Constants.ROOM_DECORATION.CHAIR, Constants.ROOM_DECORATION.CHEST]
+var defaultDecorations = [Constants.ROOM_DECORATION.TORCH,
+	Constants.ROOM_DECORATION.DESK, 
+	Constants.ROOM_DECORATION.CHAIR, 
+	Constants.ROOM_DECORATION.CHEST,
+	Constants.ROOM_DECORATION.GOLD,
+	]
 
 func DecorateRoom(room: RoomBase, map: Map, cell):
 	
