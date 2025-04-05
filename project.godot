@@ -20,6 +20,11 @@ config/icon="res://icon.svg"
 Constants="*res://Utilities/Constants.gd"
 UtilityMethods="*res://Utilities/UtilityMethods.gd"
 
+[display]
+
+window/size/viewport_width=1296
+window/size/viewport_height=810
+
 [dotnet]
 
 project/assembly_name="Final Year Poject Prototype"
