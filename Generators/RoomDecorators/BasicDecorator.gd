@@ -17,10 +17,7 @@ func DecorateRoom(room: RoomBase, map: Map, cell):
 	
 	var decorationOptions: Array
 	
-	if decorationsPerBiome.has(cellBiome):
-		decorationOptions = decorationsPerBiome[cellBiome]
-	else:
-		decorationOptions = defaultDecorations
+	decorationOptions = SelectDecorationOptionsFromBiome(cellBiome)
 	
 	var freeSpaceCopy = room.floor.duplicate()
 	var freeSpaceSize = freeSpaceCopy.size()
@@ -51,3 +48,11 @@ func CalculateNumberOfDecorations(freeSpace: Array) -> int:
 	
 	return result
 	
+func SelectDecorationOptionsFromBiome(cellBiome: Constants.BIOMES):
+	var decorationOptions
+	if decorationsPerBiome.has(cellBiome):
+		decorationOptions = decorationsPerBiome[cellBiome]
+	else:
+		decorationOptions = defaultDecorations
+		
+	return decorationOptions
