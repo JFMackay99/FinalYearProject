@@ -465,6 +465,7 @@ text = "Height Layer Weight"
 
 [node name="HeightLayerWeightSelector" type="SpinBox" parent="GenerationControlTabs/DungeonControl/Controls/Underground/HeightLayerWright"]
 layout_mode = 2
+max_value = 1000.0
 value = 10.0
 
 [node name="HeightChangeCost" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/Controls/Underground"]
@@ -478,6 +479,7 @@ text = "Height Change Cost
 [node name="HeightChangeWeightSelector" type="SpinBox" parent="GenerationControlTabs/DungeonControl/Controls/Underground/HeightChangeCost"]
 layout_mode = 2
 min_value = 1.0
+max_value = 1000.0
 value = 10.0
 
 [node name="Rooms" type="VBoxContainer" parent="GenerationControlTabs/DungeonControl/Controls"]
@@ -537,7 +539,7 @@ text = "Maximum Room Size"
 [node name="MaxSizeSelector" type="SpinBox" parent="GenerationControlTabs/DungeonControl/Controls/Rooms/MaxRoomSize"]
 layout_mode = 2
 min_value = 2.0
-max_value = 8.0
+max_value = 5.0
 value = 3.0
 
 [node name="MinRoomSize" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/Controls/Rooms"]
