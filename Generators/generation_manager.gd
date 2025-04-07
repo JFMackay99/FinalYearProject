@@ -5,7 +5,7 @@ var map: Map
 var mapDetails: MapDetails
 
 
-var scaleChanged = false
+var updateNeeded = false
 
 
 
@@ -31,9 +31,9 @@ func Generate() -> Map:
 
 ## Regenerate Dungeon layer
 func RegenerateDungeon() -> Map:
-	if scaleChanged:
+	if updateNeeded:
 		_GenerateUnderground()
-		scaleChanged = false
+		updateNeeded = false
 	
 	_GenerateDungeon()
 	
@@ -74,9 +74,11 @@ func _GenerateDungeon() -> void:
 #region Parameter Update
 
 func UpdateHeightChangeWeightSelector(value: float) -> void:
+	updateNeeded = true
 	$DungeonGenerator.UpdateHeightChangeCostFactor(value)
 
 func UpdateHeightLayerWeightSelector(value: float) -> void:
+	updateNeeded = true
 	$DungeonGenerator.UpdateHeightLayerWeightFactor(value)
 
 func UpdateMaxRooms(value: float) -> void:
@@ -92,7 +94,7 @@ func UpdateMinRoomCells(value: float):
 	$DungeonGenerator.UpdateMinRoomCells(value)
 
 func UpdateScale(value: float) -> void:
-	scaleChanged = true
+	updateNeeded = true
 	$DungeonGenerator.UpdateScale(value)
 	$UndergroundGenerator.UpdateScale(value)
 	map.overworldToDungeonScale= value

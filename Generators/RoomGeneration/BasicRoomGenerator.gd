@@ -41,7 +41,6 @@ func GenerateRooms(map: Map, sections: Array):
 		room.AddDoors(selectedSection, selectedCellIndex, scale)
 		
 		roomsAndCells.append([room, selectedCell])
-		#super.DecorateRoom(room, map, selectedCell)
 		
 		var reprocessedSections =ReprocessSections(sections, selectedSectionIndexInOverallSections, room, selectedCellIndex)
 		
