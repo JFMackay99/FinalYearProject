@@ -15,6 +15,8 @@ func GenerateRooms(map: Map, sections: Array):
 	if sectionsWithSpace.size() == 0:
 		return
 	
+	var roomsAndCells = [];
+	
 	while roomsToAdd >0 and sectionsWithSpace.size() != 0:
 		# Random section
 		
@@ -38,7 +40,8 @@ func GenerateRooms(map: Map, sections: Array):
 		
 		room.AddDoors(selectedSection, selectedCellIndex, scale)
 		
-		super.DecorateRoom(room, map, selectedCell)
+		roomsAndCells.append([room, selectedCell])
+		#super.DecorateRoom(room, map, selectedCell)
 		
 		var reprocessedSections =ReprocessSections(sections, selectedSectionIndexInOverallSections, room, selectedCellIndex)
 		
@@ -46,7 +49,10 @@ func GenerateRooms(map: Map, sections: Array):
 		sectionsWithSpace = super.GetSectionsLargeEnoughForARoom(sections)
 		roomsToAdd-=1
 	
-	
+	for roomAndCell in roomsAndCells:
+		var room = roomAndCell[0]
+		var cell = roomAndCell[1]
+		super.DecorateRoom(room, map, cell)
 	
 	
 func GenerateSquareCenteredRoomSize(undergroundLayer: UndergroundLayer, section: Array, cell, cellIndex) -> int:
