@@ -95,7 +95,9 @@ func RegisterDungeon(dungeon: Dungeon):
 	pathDistance = dungeon.pathLength
 	roomCount = 0
 	for layer: DungeonLayer in dungeon.getLayers():
-		roomCount += layer.rooms.size()
+		for room in layer.rooms:
+			if room.roomType != Constants.ROOM_TYPE.STAIRWELL:
+				roomCount +=1
 		
 
 
