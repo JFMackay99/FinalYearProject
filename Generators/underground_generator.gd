@@ -21,13 +21,11 @@ func GenerateUnderground(map: Map) -> void:
 	MarkLayerHeights(map.overworld, startLayer)
 	
 	var currentLayer :LayerBase
-	var prevLayer = startLayer
 	#Add layers for levels down to 0
 	for z in range (Constants.MAX_HEIGHT_LEVELS-1,-1,-1):
-		currentLayer = UndergroundLayer.new(z, Constants.OVERWORLD_MAX_X * scale, Constants.OVERWORLD_MAX_Y * scale, prevLayer)
+		currentLayer = UndergroundLayer.new(z, Constants.OVERWORLD_MAX_X * scale, Constants.OVERWORLD_MAX_Y * scale)
 		MarkLayerHeights(map.overworld, currentLayer)
 		layers[z] = currentLayer
-		prevLayer = currentLayer
 	
 	var endLayerConstruction = Time.get_ticks_usec()
 	var layerConstructionTime = endLayerConstruction-startLayerConstrunction

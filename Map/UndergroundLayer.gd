@@ -4,8 +4,8 @@ class_name UndergroundLayer
 
 var map: Array
 
-func _init(layerHeight: int, maxWidth, maxHeight, higherLevel: LayerBase = null) -> void:
-	super._init(layerHeight, maxWidth, maxHeight, higherLevel)
+func _init(layerHeight: int, maxWidth, maxHeight) -> void:
+	super._init(layerHeight, maxWidth, maxHeight)
 		
 	#initialise map
 	map = Array()

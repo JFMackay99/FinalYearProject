@@ -101,13 +101,11 @@ func GenerateDungeonLayers(map: Map):
 	
 	
 	var currentLayer :LayerBase
-	var prevLayer = startLayer
 	#Add layers for levels down to 0
 	for z in range (Constants.MAX_HEIGHT_LEVELS-1,-1,-1):
-		currentLayer = DungeonLayer.new(z, Constants.OVERWORLD_MAX_X * scale, Constants.OVERWORLD_MAX_Y * scale, prevLayer)
+		currentLayer = DungeonLayer.new(z, Constants.OVERWORLD_MAX_X * scale, Constants.OVERWORLD_MAX_Y * scale)
 	
 		layers[z] = currentLayer
-		prevLayer = currentLayer
 	
 	var endLayerConstruction = Time.get_ticks_usec()
 	var layerConstructionTime = endLayerConstruction-startLayerConstrunction
