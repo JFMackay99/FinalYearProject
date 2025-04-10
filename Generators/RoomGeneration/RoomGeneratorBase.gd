@@ -100,15 +100,6 @@ func GenerateDualStairwell(layer: DungeonLayer, center) -> RoomBase:
 	layer.AddRoom(room)
 	return room
 
-# Generates a square room
-#func GenerateSquareRoomFromCorner(layer: DungeonLayerrBase, xStart: int, yStart: int, width: int) -> RoomBase:
-	#return GenerateRectangleRoom(layer, xStart, yStart, width, width)
-
-# Generates a rectangle room
-#func GenerateRectangleRoomFromCorner(layer: DungeonLayer, xStart: int, yStart: int, width: int, height: int) -> RoomBase:
-	#pass
-			
-
 func GenerateSquareRoomFromCentre(layer: DungeonLayer, center: Vector2i, width: int, cellWidth: int) -> RoomBase:
 		var room = SquareRoom.new(Constants.ROOM_TYPE.NORMAL, width, cellWidth, center)
 		layer.AddRoom(room)
@@ -128,5 +119,12 @@ func UpdateMaxRooms(value: float) -> void:
 	maxRooms = value
 	
 func DecorateRoom(room: RoomBase, map: Map, cell):
+	
+	var startDecorate = Time.get_ticks_usec()
 	if decorator!= null:
 		decorator.DecorateRoom(room, map, cell)
+		
+	var endDecorate = Time.get_ticks_usec()
+	var decorateTime = endDecorate-startDecorate
+	map.dungeon.roomDecorationTime = decorateTime
+	print("Room Decoration: " +str(decorateTime) + "us")

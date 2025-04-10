@@ -21,6 +21,7 @@ var pathfindingTime: int
 var pathConstructionTime: int
 var stairwellConstructionTime: int
 var roomConstructionTime: int
+var roomDecorationTime: int
 var totalDungeonConstructionTime: int
 var overworldConstructionTime: int
 var undergroundLayerConstructionTime: int
@@ -86,6 +87,7 @@ func RegisterDungeon(dungeon: Dungeon):
 	pathConstructionTime = dungeon.pathConstructionTime
 	stairwellConstructionTime = dungeon.stairwellConstructionTime
 	roomConstructionTime = dungeon.roomConstructionTime
+	roomDecorationTime = dungeon.roomDecorationTime
 	totalDungeonConstructionTime = dungeon.totalDungeonConstructionTime
 	dungeonLayerConstructionTime = dungeon.dungeonLayerConstructionTime
 	
@@ -114,6 +116,7 @@ func ToJSON()-> String:
 			"pathConstructionTime": pathConstructionTime,
 			"stairwellConstructionTime": stairwellConstructionTime,
 			"roomConstructionTime": roomConstructionTime,
+			"roomDecorationTime": roomDecorationTime,
 			"totalDungeonConstructionTime": totalDungeonConstructionTime,
 			"overworldConstructionTime": overworldConstructionTime,
 			"undergroundLayerConstructionTime": undergroundLayerConstructionTime,
