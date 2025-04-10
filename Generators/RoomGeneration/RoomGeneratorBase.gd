@@ -120,11 +120,6 @@ func UpdateMaxRooms(value: float) -> void:
 	
 func DecorateRoom(room: RoomBase, map: Map, cell):
 	
-	var startDecorate = Time.get_ticks_usec()
 	if decorator!= null:
 		decorator.DecorateRoom(room, map, cell)
 		
-	var endDecorate = Time.get_ticks_usec()
-	var decorateTime = endDecorate-startDecorate
-	map.dungeon.roomDecorationTime = decorateTime
-	print("Room Decoration: " +str(decorateTime) + "us")

@@ -48,10 +48,17 @@ func GenerateRooms(map: Map, sections: Array):
 		sectionsWithSpace = super.GetSectionsLargeEnoughForARoom(sections)
 		roomsToAdd-=1
 	
+	var startDecorate = Time.get_ticks_usec()
 	for roomAndCell in roomsAndCells:
 		var room = roomAndCell[0]
 		var cell = roomAndCell[1]
 		super.DecorateRoom(room, map, cell)
+	
+	var endDecorate = Time.get_ticks_usec()
+	var decorateTime = endDecorate-startDecorate
+	map.dungeon.roomDecorationTime = decorateTime
+	print("FOO")
+	print("Room Decoration: " +str(decorateTime) + "us")
 	
 	
 func GenerateSquareCenteredRoomSize(undergroundLayer: UndergroundLayer, section: Array, cell, cellIndex) -> int:
