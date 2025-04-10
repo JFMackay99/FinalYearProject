@@ -5,8 +5,8 @@ class_name DungeonLayer
 var tiles: Dictionary
 var rooms: Array[RoomBase]
 
-func _init(layerHeight: int, maxWidth, maxHeight, higherLevel: LayerBase = null):
-	super._init(layerHeight, maxWidth, maxHeight, higherLevel)
+func _init(layerHeight: int, maxWidth, maxHeight):
+	super._init(layerHeight, maxWidth, maxHeight)
 	
 	tiles = Dictionary()
 	rooms = []
