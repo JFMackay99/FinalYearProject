@@ -93,18 +93,16 @@ func AddDoors(section: Array, centerIndex: int, scale: int):
 	var startBoundaryIndex = boundarySectionIndices.x
 	var endBoundaryIndex = boundarySectionIndices.y
 	
-	var startBoundaryCell = section[startBoundaryIndex]
-	var endBoundaryCell = section[endBoundaryIndex]
-	
-	var startOutOfBoundaryCell = section[startBoundaryIndex-1]
-	var endOutOfBoundaryCell = section[endBoundaryIndex+1]
-	
-	var startDoor = CalculateDoorPosition(startBoundaryCell, startOutOfBoundaryCell, scale)
-	var endDoor = CalculateDoorPosition(endBoundaryCell, endOutOfBoundaryCell, scale)
-	
-	doors.append(startDoor)
-	doors.append(endDoor)
-	
+	if startBoundaryIndex != -1:
+		var startOutOfBoundaryCell = section[startBoundaryIndex-1]
+		var startBoundaryCell = section[startBoundaryIndex]
+		var startDoor = CalculateDoorPosition(startBoundaryCell, startOutOfBoundaryCell, scale)
+		doors.append(startDoor)
+	if endBoundaryIndex != -1:
+		var endBoundaryCell = section[endBoundaryIndex]
+		var endOutOfBoundaryCell = section[endBoundaryIndex+1]
+		var endDoor = CalculateDoorPosition(endBoundaryCell, endOutOfBoundaryCell, scale)
+		doors.append(endDoor)
 	
 	
 
