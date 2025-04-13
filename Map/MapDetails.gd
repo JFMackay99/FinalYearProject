@@ -24,7 +24,7 @@ var roomConstructionTime: int
 var roomDecorationTime: int
 var totalDungeonConstructionTime: int
 var overworldConstructionTime: int
-var undergroundLayerConstructionTime: int
+var undergroundConstructionTime: int
 var dungeonLayerConstructionTime: int
 var pathfinderInitialisationTime: int
 var totalUndergroundConstructionTime: int
@@ -78,7 +78,7 @@ func RegisterOverworld(overworld: OverworldMap) -> void:
 	aveHeight = totalHeights/(Constants.OVERWORLD_MAX_X*Constants.OVERWORLD_MAX_Y)
 
 func RegisterUnderground(underground: Underground):
-	undergroundLayerConstructionTime = underground.layerConstructionTime
+	undergroundConstructionTime = underground.undergroundConstructionTime
 	pathfinderInitialisationTime = underground.pathfinderInitialisationTime
 	totalUndergroundConstructionTime = underground.totalUndergroundConstructionTime
 
@@ -121,7 +121,7 @@ func ToJSON()-> String:
 			"roomDecorationTime": roomDecorationTime,
 			"totalDungeonConstructionTime": totalDungeonConstructionTime,
 			"overworldConstructionTime": overworldConstructionTime,
-			"undergroundLayerConstructionTime": undergroundLayerConstructionTime,
+			"undergroundConstructionTime": undergroundConstructionTime,
 			"dungeonLayerConstructionTime": dungeonLayerConstructionTime,
 			"pathfinderInitialisationTime": pathfinderInitialisationTime,
 			"totalUndergroundConstructionTime": totalUndergroundConstructionTime,
