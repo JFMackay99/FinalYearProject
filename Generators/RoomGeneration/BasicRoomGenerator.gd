@@ -32,20 +32,24 @@ func GenerateRooms(map: Map, sections: Array):
 		
 		var cellCenterPoint = UtilityMethods.GetCentralPointFromOverWorldVect(selectedCell, map.overworldToDungeonScale)
 		
-		var maxSize = GenerateSquareCenteredRoomSize(map.underground.getLayer(selectedCell.z), selectedSection, selectedCell, selectedCellIndex)
+		var size = GenerateSquareCenteredRoomSize(map.underground.getLayer(selectedCell.z), selectedSection, selectedCell, selectedCellIndex)
 		#min(maxRoomCells, (selectedSection.size()-1) - selectedCellIndex)
-		var size = rng.randi_range(minRoomCells, maxSize)
+		#var size = rng.randi_range(minRoomCells, maxSize)
 		
-		var room =super.GenerateSquareRoomFromCentre(layer, cellCenterPoint, size * map.overworldToDungeonScale, size)
-		
-		room.AddDoors(selectedSection, selectedCellIndex, scale)
-		
-		roomsAndCells.append([room, selectedCell])
-		
-		var reprocessedSections =ReprocessSections(sections, selectedSectionIndexInOverallSections, room, selectedCellIndex)
-		
-		sections = reprocessedSections
-		sectionsWithSpace = super.GetSectionsLargeEnoughForARoom(sections)
+		if size != -1:
+			var room =super.GenerateSquareRoomFromCentre(layer, cellCenterPoint, size * map.overworldToDungeonScale, size)
+			
+			room.AddDoors(selectedSection, selectedCellIndex, scale)
+			
+			roomsAndCells.append([room, selectedCell])
+			
+			var reprocessedSections =ReprocessSections(sections, selectedSectionIndexInOverallSections, room, selectedCellIndex)
+			
+			sections = reprocessedSections
+			
+			sectionsWithSpace = super.GetSectionsLargeEnoughForARoom(sections)
+			
+			
 		roomsToAdd-=1
 	
 	var startDecorate = Time.get_ticks_usec()
@@ -72,6 +76,9 @@ func GenerateSquareCenteredRoomSize(undergroundLayer: UndergroundLayer, section:
 	
 	
 	var maxSize = min(maxSectionDistance, maxStructureDistance)
+	
+	if minRoomCells>maxSize:
+		return -1
 	
 	var generatedSize = rng.randi_range(minRoomCells, maxSize)
 	
@@ -110,7 +117,8 @@ func CalculateMaxSizeSquareFromUndergroundStructure(undergroundLayer: Undergroun
 			|| undergroundLayer.GetTileFromVect(UtilityMethods.GetCentralPointFromOverWorldCoords(checkTLCornerX, checkTLCornerY+i, self.scale)) == Constants.DUNGEON_TILES.FORBIDDEN 
 			|| undergroundLayer.GetTileFromVect(UtilityMethods.GetCentralPointFromOverWorldCoords(checkBRCornerX -i, checkBRCornerY, self.scale)) == Constants.DUNGEON_TILES.FORBIDDEN 
 			||  undergroundLayer.GetTileFromVect(UtilityMethods.GetCentralPointFromOverWorldCoords(checkBRCornerX, checkBRCornerY - i, self.scale)) == Constants.DUNGEON_TILES.FORBIDDEN):
-				return checkSize -2
+				var maxSize = min(maxRoomCells, checkSize-2)
+				return maxSize
 				#maxStructureDistance = checkSize - 2
 				checked = true
 				break
@@ -120,6 +128,12 @@ func CalculateMaxSizeSquareFromUndergroundStructure(undergroundLayer: Undergroun
 			return checkSize
 			checked = true
 			break
+	
+	# Should have already returned if the check size reaches the maxRoomCells size
+	# But for safety:
+	if maxStructureDistance > maxRoomCells:
+		return maxRoomCells
+		
 	return maxStructureDistance
 
 func CalculateMaxSizeSquareFromSections(section, cell):
