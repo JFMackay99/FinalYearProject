@@ -4,6 +4,8 @@ class_name Dungeon
 
 var pathLengthCells: int
 var pathLengthPoints: int
+var nonRoomPathLengthCells: int
+var nonRoomPathLengthPoints: int
 var dungeonLayers: Array[LayerBase]
 
 var pathfindingTime: int

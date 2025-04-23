@@ -145,6 +145,8 @@ func GenerateDungeonLayers(map: Map):
 	var sections = ProcessPathIntoHeightSections(path)
 	
 	SelectedRoomGenerator.AddConnectingStairwellsFromOverworldSections(map.dungeon.dungeonLayers, sections)
+	CountNonRoomPathLengthsForStairwells(map.dungeon, scale, sections)
+	
 	
 	var endStairwells = Time.get_ticks_usec()
 	var stairwellTime = endStairwells-startStairwells
@@ -237,6 +239,19 @@ func ReconnectPathHeightSectionsIntoPath(pathHeightSections):
 			path.append_array(section)
 			
 	return path
+
+
+func CountNonRoomPathLengthsForStairwells(dungeon : Dungeon, scale : int, sections : Array):
+	dungeon.nonRoomPathLengthCells = 0
+	dungeon.nonRoomPathLengthPoints = 0
+	for section in sections:
+		CountNonRoomPathLengthsForSingleStairwell(dungeon,scale,section)
+		
+func CountNonRoomPathLengthsForSingleStairwell(dungeon : Dungeon, scale : int, section : Array):
+		var nonRoomLengthCells = max(0, section.size() - 2)
+		var nonRoomLengthPoints = nonRoomLengthCells * scale
+		dungeon.nonRoomPathLengthCells += nonRoomLengthCells
+		dungeon.nonRoomPathLengthPoints += nonRoomLengthPoints 
 
 
 # Updates the seed buffer

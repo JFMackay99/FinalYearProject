@@ -23,6 +23,7 @@ func GenerateRooms(map: Map, sections: Array):
 	pass
 
 func AddConnectingStairwellsFromOverworldSections (layers, sections):
+	
 	# For each section
 	for i in sections.size():
 		var section = sections[i]
