@@ -105,6 +105,7 @@ func RegisterDungeon(dungeon: Dungeon):
 	nonRoomPathLengthCells = dungeon.nonRoomPathLengthCells
 	nonRoomPathLengthPoints = dungeon.nonRoomPathLengthPoints
 	
+	
 	for layer: DungeonLayer in dungeon.getLayers():
 		for room in layer.rooms:
 			totalRoomSizePoints += room.floorSizePoints
@@ -113,6 +114,7 @@ func RegisterDungeon(dungeon: Dungeon):
 				roomCount +=1
 				nonStairwellRoomSizePoints += room.floorSizePoints
 		
+	availableDistance = nonRoomPathLengthPoints + totalRoomSizePoints
 
 
 func ToJSON()-> String:
