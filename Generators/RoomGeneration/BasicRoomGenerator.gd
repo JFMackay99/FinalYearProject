@@ -49,8 +49,13 @@ func GenerateRooms(map: Map, sections: Array):
 			
 			sectionsWithSpace = super.GetSectionsLargeEnoughForARoom(sections)
 			
+			UpdatePathLengths(selectedSection, sections[selectedSectionIndexInOverallSections], sections[selectedSectionIndexInOverallSections], map.dungeon)
 			
 		roomsToAdd-=1
+	
+	
+	
+	
 	
 	var startDecorate = Time.get_ticks_usec()
 	for roomAndCell in roomsAndCells:
@@ -61,7 +66,6 @@ func GenerateRooms(map: Map, sections: Array):
 	var endDecorate = Time.get_ticks_usec()
 	var decorateTime = endDecorate-startDecorate
 	map.dungeon.roomDecorationTime = decorateTime
-	print("FOO")
 	print("Room Decoration: " +str(decorateTime) + "us")
 	
 	
@@ -176,6 +180,17 @@ func ReprocessSections(sections: Array, changedSectionIndex: int, addedRoom: Roo
 	result.append(startChangedSection)
 	result.append(endChangedSection)
 	result.append_array(laterSections)
+
 	
 	return result
+	
+func UpdatePathLengths(originalSection: Array, startSection: Array, endSection: Array, dungeon:  Dungeon):
+	var originalLength = originalSection.size()
+	
+	var newLength = startSection.size() + endSection.size()
+	
+	var lengthDelta = originalLength-newLength
+	
+	dungeon.nonRoomPathLengthCells -= lengthDelta
+	dungeon.nonRoomPathLengthPoints -= lengthDelta* scale
 	

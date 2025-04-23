@@ -13,8 +13,13 @@ var biomeCounts: Dictionary
 var entrances: Dictionary
 
 var roomCount: int
-var pathDistance: int
+var pathDistanceCells: int
+var pathDistancePoints: int
 var availableDistance: int
+var totalRoomSizePoints: int
+var nonStairwellRoomSizePoints: int
+var nonRoomPathLengthCells: int
+var nonRoomPathLengthPoints: int
 
 
 var pathfindingTime: int
@@ -92,13 +97,24 @@ func RegisterDungeon(dungeon: Dungeon):
 	dungeonLayerConstructionTime = dungeon.dungeonLayerConstructionTime
 	
 	
-	pathDistance = dungeon.pathLength
+	pathDistanceCells = dungeon.pathLengthCells
+	pathDistancePoints = dungeon.pathLengthPoints
 	roomCount = 0
+	totalRoomSizePoints = 0
+	nonStairwellRoomSizePoints = 0
+	nonRoomPathLengthCells = dungeon.nonRoomPathLengthCells
+	nonRoomPathLengthPoints = dungeon.nonRoomPathLengthPoints
+	
+	
 	for layer: DungeonLayer in dungeon.getLayers():
 		for room in layer.rooms:
+			totalRoomSizePoints += room.floorSizePoints
+			
 			if room.roomType != Constants.ROOM_TYPE.STAIRWELL:
 				roomCount +=1
+				nonStairwellRoomSizePoints += room.floorSizePoints
 		
+	availableDistance = nonRoomPathLengthPoints + totalRoomSizePoints
 
 
 func ToJSON()-> String:
@@ -110,7 +126,12 @@ func ToJSON()-> String:
 		"totalHeights": totalHeights,
 		"biomeCounts": biomeCounts,
 		"roomCount": roomCount,
-		"pathDistance": pathDistance,
+		"nonStairwellRoomSizePoints": nonStairwellRoomSizePoints,
+		"nonRoomPathLengthCells": nonRoomPathLengthCells,
+		"nonRoomPathLengthPoints": nonRoomPathLengthPoints,
+		"totalRoomSizePoints": totalRoomSizePoints,
+		"pathDistanceCells": pathDistanceCells,
+		"pathDistancePoints": pathDistancePoints,
 		"availableDistance": availableDistance,
 		"entrances": entrances,
 		"times": {

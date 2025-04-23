@@ -71,3 +71,24 @@ func test_ProcessSectionsIntoPath(params = use_parameters(processSectionParams))
 	var actual = generator.ReconnectPathHeightSectionsIntoPath(sections)
 	
 	assert_eq_deep(actual, expected)
+
+
+var params_CountNonRoomPathLengthCellsSingle = [
+	#[section, expected]
+	[[Vector2i(0,0)], 0],
+	[[Vector2i(0,0), Vector2i(0,1)], 0],
+	[[Vector2i(0,0), Vector2i(0,1), Vector2i(0,2), Vector2i(0,3), Vector2i(0,4)], 3],
+]
+
+func test_CountNonRoomPathLengthCellsSingle(params = use_parameters(params_CountNonRoomPathLengthCellsSingle)):
+	var dungeon = Dungeon.new()
+	var scale = 3
+	var sections = params[0]
+	
+	var expected = params[1]
+	
+	generator.CountNonRoomPathLengthsForSingleStairwell(dungeon, scale, sections)
+	
+	var actualCells = dungeon.nonRoomPathLengthCells
+	
+	assert_eq(actualCells, expected)
