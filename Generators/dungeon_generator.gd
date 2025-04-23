@@ -137,7 +137,8 @@ func GenerateDungeonLayers(map: Map):
 	map.dungeon.pathConstructionTime = pathConstructionTime
 	print("Path Construction Time: " + str(pathConstructionTime) + "us")
 	
-	map.dungeon.pathLength = path.size()
+	map.dungeon.pathLengthCells = path.size()
+	map.dungeon.pathLengthPoints = path.size() * scale
 	
 	var startStairwells = Time.get_ticks_usec()
 	#Stairwells

@@ -13,7 +13,8 @@ var biomeCounts: Dictionary
 var entrances: Dictionary
 
 var roomCount: int
-var pathDistance: int
+var pathDistanceCells: int
+var pathDistancePoints: int
 var availableDistance: int
 
 
@@ -92,7 +93,8 @@ func RegisterDungeon(dungeon: Dungeon):
 	dungeonLayerConstructionTime = dungeon.dungeonLayerConstructionTime
 	
 	
-	pathDistance = dungeon.pathLength
+	pathDistanceCells = dungeon.pathLengthCells
+	pathDistancePoints = dungeon.pathLengthPoints
 	roomCount = 0
 	for layer: DungeonLayer in dungeon.getLayers():
 		for room in layer.rooms:
@@ -110,7 +112,8 @@ func ToJSON()-> String:
 		"totalHeights": totalHeights,
 		"biomeCounts": biomeCounts,
 		"roomCount": roomCount,
-		"pathDistance": pathDistance,
+		"pathDistanceCells": pathDistanceCells,
+		"pathDistancePoints": pathDistancePoints,
 		"availableDistance": availableDistance,
 		"entrances": entrances,
 		"times": {
