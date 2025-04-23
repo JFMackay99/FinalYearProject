@@ -27,14 +27,14 @@ func _init(type: Constants.ROOM_TYPE,
 	var startX
 	var startY
 	
+	var scale = width/cellWidth
+	
 	#Odd sized rooms is simple enough
 	if cellWidth %2 !=0:
 		startX = center.x - (width-1)/2
 		startY = center.y - (width-1)/2
 		self.topLeft = Vector2i(startX, startY)
 	else:
-		# Assume odd scale for now
-		var scale = width/cellWidth
 		
 		var delta = ((width-2)/2) - ((scale)/2)
 		
@@ -52,6 +52,9 @@ func _init(type: Constants.ROOM_TYPE,
 				self.boundary.append(point)
 			else:
 				self.floor.append(point)
+	
+	self.floorSizePoints = self.floor.size()
+	
 
 
 # Seperate the section into two pieces that do not pass through this room.

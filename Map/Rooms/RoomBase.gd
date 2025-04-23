@@ -9,6 +9,7 @@ var floor: Array[Vector2i]
 var boundary: Array[Vector2i]
 var doors: Array[Vector2i]
 var decorations: Array
+var floorSizePoints: int
 
 var floorTile: Constants.DUNGEON_TILES
 var boundaryTile: Constants.DUNGEON_TILES
