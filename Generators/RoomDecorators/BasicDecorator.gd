@@ -11,9 +11,9 @@ var defaultDecorations = [Constants.ROOM_DECORATION.TORCH,
 	Constants.ROOM_DECORATION.GOLD,
 	]
 
-func DecorateRoom(room: RoomBase, map: Map, cell):
+func DecorateRoom(room: RoomBase, map: Map, centerCell):
 	
-	var cellBiome = map.overworld.GetBiomeAtCellCoordinate(cell.x, cell.y)
+	var cellBiome = map.overworld.GetBiomeAtCellCoordinate(centerCell.x, centerCell.y)
 	
 	var decorationOptions: Array
 	
