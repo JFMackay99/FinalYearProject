@@ -145,7 +145,7 @@ func GenerateDungeonLayers(map: Map):
 	var sections = ProcessPathIntoHeightSections(path)
 	
 	SelectedRoomGenerator.AddConnectingStairwellsFromOverworldSections(map.dungeon.dungeonLayers, sections)
-	CountNonRoomPathLengthsForStairwells(map.dungeon, scale, sections)
+	CountNonStairwellPathLengths(map.dungeon, scale, sections)
 	
 	
 	var endStairwells = Time.get_ticks_usec()
@@ -240,14 +240,16 @@ func ReconnectPathHeightSectionsIntoPath(pathHeightSections):
 			
 	return path
 
-
-func CountNonRoomPathLengthsForStairwells(dungeon : Dungeon, scale : int, sections : Array):
+# Counts the length of the generated path outside of stairwells. This should
+# be done before other room generation.
+func CountNonStairwellPathLengths(dungeon : Dungeon, scale : int, sections : Array):
 	dungeon.nonRoomPathLengthCells = 0
 	dungeon.nonRoomPathLengthPoints = 0
 	for section in sections:
-		CountNonRoomPathLengthsForSingleStairwell(dungeon,scale,section)
-		
-func CountNonRoomPathLengthsForSingleStairwell(dungeon : Dungeon, scale : int, section : Array):
+		CountNonStairwellSingleSectionLength(dungeon,scale,section)
+# Counts the length of a single path section, outside of stairwells. This should
+# be done before other room generation. 
+func CountNonStairwellSingleSectionLength(dungeon : Dungeon, scale : int, section : Array):
 		var nonRoomLengthCells = max(0, section.size() - 2)
 		var nonRoomLengthPoints = nonRoomLengthCells * scale
 		dungeon.nonRoomPathLengthCells += nonRoomLengthCells

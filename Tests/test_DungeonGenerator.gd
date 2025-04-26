@@ -73,22 +73,44 @@ func test_ProcessSectionsIntoPath(params = use_parameters(processSectionParams))
 	assert_eq_deep(actual, expected)
 
 
-var params_CountNonRoomPathLengthCellsSingle = [
+var params_CountNonStairwellSingleSectionLength = [
 	#[section, expected]
 	[[Vector2i(0,0)], 0],
 	[[Vector2i(0,0), Vector2i(0,1)], 0],
+	[[Vector2i(0,0), Vector2i(0,1), Vector2i(0,2)], 1],
 	[[Vector2i(0,0), Vector2i(0,1), Vector2i(0,2), Vector2i(0,3), Vector2i(0,4)], 3],
 ]
 
-func test_CountNonRoomPathLengthCellsSingle(params = use_parameters(params_CountNonRoomPathLengthCellsSingle)):
+func test_CountNonStairwellSingleSectionLength(params = use_parameters(params_CountNonStairwellSingleSectionLength)):
+	var dungeon = Dungeon.new()
+	var scale = 3
+	var section = params[0]
+	
+	var expected = params[1]
+	
+	generator.CountNonStairwellSingleSectionLength(dungeon, scale, section)
+	
+	var actualCells = dungeon.nonRoomPathLengthCells
+	
+	assert_eq(actualCells, expected)
+
+
+var params_CountNonStairwellPathLengths = [
+	[[[Vector2i(0,0), Vector2i(0,1)]], 0],
+	[[[Vector2i(0,0), Vector2i(0,1), Vector2i(0,2), Vector2i(0,3), Vector2i(0,4)]], 3],
+	[[[Vector2i(0,0), Vector2i(0,1), Vector2i(0,2)],[Vector2i(0,0), Vector2i(0,1), Vector2i(0,2), Vector2i(0,3), Vector2i(0,4)]], 4]
+]
+
+func test_CountNonStairwellPathLengths(params = use_parameters(params_CountNonStairwellPathLengths)):
 	var dungeon = Dungeon.new()
 	var scale = 3
 	var sections = params[0]
 	
 	var expected = params[1]
 	
-	generator.CountNonRoomPathLengthsForSingleStairwell(dungeon, scale, sections)
+	generator.CountNonStairwellPathLengths(dungeon, 3, sections)
 	
 	var actualCells = dungeon.nonRoomPathLengthCells
 	
 	assert_eq(actualCells, expected)
+	
