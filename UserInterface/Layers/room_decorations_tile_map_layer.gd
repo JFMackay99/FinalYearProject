@@ -10,7 +10,7 @@ var tileIndex ={
 	Constants.ROOM_DECORATION.PUDDLE: Vector2i(6,0),
 	Constants.ROOM_DECORATION.LEAVES: Vector2i(7,0),
 	Constants.ROOM_DECORATION.GOLD: Vector2i(0,1),
-	Constants.ROOM_DECORATION.GEM: Vector2i(1,0),
+	Constants.ROOM_DECORATION.GEM: Vector2i(1,1),
 }
 
 
