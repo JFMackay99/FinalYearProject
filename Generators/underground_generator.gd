@@ -3,6 +3,13 @@ extends Node
 var scale = 3
 var pathfinder: AStar3D
 
+var undergroundConstructors: Array[BasicUndergroundConstructor]
+var selectedUndergroundConstructor: BasicUndergroundConstructor
+
+func _ready() -> void:
+	undergroundConstructors.append(BasicUndergroundConstructor.new())
+	
+	selectedUndergroundConstructor = undergroundConstructors[0]
 
 func GenerateUnderground(map: Map) -> void:
 	
@@ -16,16 +23,8 @@ func GenerateUnderground(map: Map) -> void:
 	var startLayer = UndergroundLayer.new(Constants.MAX_HEIGHT_LEVELS, Constants.OVERWORLD_MAX_X * scale, Constants.OVERWORLD_MAX_Y*scale)
 	layers[Constants.MAX_HEIGHT_LEVELS] =startLayer
 	
-	# Mark the areas of the layer that represents areas of the overworld map that have lower
-	# heights than the start layers height
-	MarkLayerHeights(map.overworld, startLayer)
-	
-	var currentLayer :LayerBase
-	#Add layers for levels down to 0
-	for z in range (Constants.MAX_HEIGHT_LEVELS-1,-1,-1):
-		currentLayer = UndergroundLayer.new(z, Constants.OVERWORLD_MAX_X * scale, Constants.OVERWORLD_MAX_Y * scale)
-		MarkLayerHeights(map.overworld, currentLayer)
-		layers[z] = currentLayer
+	selectedUndergroundConstructor.MarkAllLayerHeights(map.overworld, layers )
+
 	
 	var endUndergroundConstruction = Time.get_ticks_usec()
 	var undergroundConstructionTime = endUndergroundConstruction-startUndergroundConstrunction
@@ -43,19 +42,6 @@ func GenerateUnderground(map: Map) -> void:
 	print("Pathfinder Initialisation time: "+str(pathfindingInitialisationTime)+"us")
 	
 	map.underground.setLayers(layers)
-	
-
-func MarkLayerHeights(overworld: OverworldMap, layer: LayerBase):
-	var tile = Constants.DUNGEON_TILES.FORBIDDEN
-	for overX in Constants.OVERWORLD_MAX_X:
-		for overY in Constants.OVERWORLD_MAX_Y:
-			for dX in scale:
-				for dY in scale:
-					var xCoord = overX * scale + dX
-					var yCoord = overY * scale + dY
-					if layer.height > overworld.GetHeightAtCellCoordinate(overX, overY):
-						
-						layer.SetTile(xCoord,yCoord, tile)
 
 
 # Intialise the pathfinder
@@ -92,3 +78,4 @@ func ConnectPathfinderFromOverworld():
 #region Parameter Updates
 func UpdateScale(value):
 	scale = value
+	BasicUndergroundConstructor.scale = value;

@@ -481,6 +481,25 @@ min_value = 1.0
 max_value = 1000.0
 value = 10.0
 
+[node name="HSplitContainer" type="HSplitContainer" parent="GenerationControlTabs/DungeonControl/Controls/Underground"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GenerationControlTabs/DungeonControl/Controls/Underground/HSplitContainer"]
+layout_mode = 2
+text = "Underground Construction"
+
+[node name="OptionButton" type="OptionButton" parent="GenerationControlTabs/DungeonControl/Controls/Underground/HSplitContainer"]
+layout_mode = 2
+selected = 0
+item_count = 3
+popup/item_0/text = "Basic"
+popup/item_1/text = "Overworld"
+popup/item_1/id = 1
+popup/item_1/disabled = true
+popup/item_2/text = "Threaded"
+popup/item_2/id = 2
+popup/item_2/disabled = true
+
 [node name="Rooms" type="VBoxContainer" parent="GenerationControlTabs/DungeonControl/Controls"]
 layout_mode = 2
 
