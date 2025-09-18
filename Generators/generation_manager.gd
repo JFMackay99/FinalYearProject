@@ -129,3 +129,7 @@ func UpdateBiomeNoiseType(index: int) -> void:
 
 func UpdateSelectedRoomGenerator(index: int) -> void:
 	$DungeonGenerator.UpdateSelectedRoomGenerator(index)
+
+
+func UpdateSelectedUndergroundConstructor(index: int) -> void:
+	$UndergroundGenerator.UpdateSelectedRoomGenerator(index)

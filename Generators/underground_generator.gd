@@ -8,6 +8,7 @@ var selectedUndergroundConstructor: BasicUndergroundConstructor
 
 func _ready() -> void:
 	undergroundConstructors.append(BasicUndergroundConstructor.new())
+	undergroundConstructors.append(OverworldBasedUndergroundConstructor.new())
 	
 	selectedUndergroundConstructor = undergroundConstructors[0]
 
@@ -79,3 +80,7 @@ func ConnectPathfinderFromOverworld():
 func UpdateScale(value):
 	scale = value
 	BasicUndergroundConstructor.scale = value;
+
+
+func UpdateSelectedRoomGenerator(index: int):
+	selectedUndergroundConstructor = undergroundConstructors[index]
