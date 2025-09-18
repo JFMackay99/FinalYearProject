@@ -495,7 +495,6 @@ item_count = 3
 popup/item_0/text = "Basic"
 popup/item_1/text = "Overworld"
 popup/item_1/id = 1
-popup/item_1/disabled = true
 popup/item_2/text = "Threaded"
 popup/item_2/id = 2
 popup/item_2/disabled = true
@@ -895,6 +894,7 @@ button_pressed = true
 [connection signal="value_changed" from="GenerationControlTabs/DungeonControl/Controls/Underground/Scale/OverworldToDungeonScaleBox" to="GenerationManager" method="UpdateScale"]
 [connection signal="value_changed" from="GenerationControlTabs/DungeonControl/Controls/Underground/HeightLayerWright/HeightLayerWeightSelector" to="GenerationManager" method="UpdateHeightLayerWeightSelector"]
 [connection signal="value_changed" from="GenerationControlTabs/DungeonControl/Controls/Underground/HeightChangeCost/HeightChangeWeightSelector" to="GenerationManager" method="UpdateHeightChangeWeightSelector"]
+[connection signal="item_selected" from="GenerationControlTabs/DungeonControl/Controls/Underground/HSplitContainer/OptionButton" to="GenerationManager" method="UpdateSelectedUndergroundConstructor"]
 [connection signal="item_selected" from="GenerationControlTabs/DungeonControl/Controls/Rooms/RoomGenerationTechniqu/MenuBar" to="GenerationManager" method="UpdateSelectedRoomGenerator"]
 [connection signal="value_changed" from="GenerationControlTabs/DungeonControl/Controls/Rooms/MinRoomCount/MinRoomSelect" to="." method="UpdateMinRoomCount"]
 [connection signal="value_changed" from="GenerationControlTabs/DungeonControl/Controls/Rooms/MinRoomCount/MinRoomSelect" to="GenerationManager" method="UpdateMinRooms"]
