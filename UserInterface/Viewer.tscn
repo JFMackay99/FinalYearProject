@@ -497,7 +497,6 @@ popup/item_1/text = "Overworld"
 popup/item_1/id = 1
 popup/item_2/text = "Threaded"
 popup/item_2/id = 2
-popup/item_2/disabled = true
 
 [node name="Rooms" type="VBoxContainer" parent="GenerationControlTabs/DungeonControl/Controls"]
 layout_mode = 2

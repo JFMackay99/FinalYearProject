@@ -9,6 +9,7 @@ var selectedUndergroundConstructor: BasicUndergroundConstructor
 func _ready() -> void:
 	undergroundConstructors.append(BasicUndergroundConstructor.new())
 	undergroundConstructors.append(OverworldBasedUndergroundConstructor.new())
+	undergroundConstructors.append(ThreadedUndergroundConstructor.new())
 	
 	selectedUndergroundConstructor = undergroundConstructors[0]
 
