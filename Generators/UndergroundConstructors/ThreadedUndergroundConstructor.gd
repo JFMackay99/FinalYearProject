@@ -12,6 +12,7 @@ func MarkAllLayerHeights(overworld : OverworldMap, layers : Array[LayerBase]):
 	
 	for i in threads.size():
 		var thread = threads[i]
+		layers[i] = UndergroundLayer.new(i, Constants.OVERWORLD_MAX_X * scale, Constants.OVERWORLD_MAX_Y * scale)
 		var layer = layers[i]
 		thread.start(MarkLayerHeights.bind(overworld, layer))
 	
